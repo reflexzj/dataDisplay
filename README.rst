@@ -23,8 +23,8 @@ environment variables ::
 
 Then run the following commands to bootstrap your environment ::
 
-    git clone https://github.com/xuxian94/dataDiaplay
-    cd dataDiaplay
+    git clone https://github.com/xuxian94/dataDisplay
+    cd dataDisplay
     pip install -r requirements/dev.txt
     bower install
     flask run

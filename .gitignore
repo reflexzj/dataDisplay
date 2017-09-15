@@ -44,3 +44,5 @@ docs/_build
 
 # Virtualenvs
 env/
+settings.py
+migrations/versions

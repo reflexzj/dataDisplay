@@ -3,10 +3,6 @@
 # @Time    :2017/9/7 下午3:23
 # @Author  :Xuxian
 """
-from collections import deque
-import numpy as np
-import sys
-
 
 def get_chart_datas(chart_id):
     pass

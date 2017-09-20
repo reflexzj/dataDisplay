@@ -110,8 +110,8 @@ result_23
 序号,姓名,所在企业,所在区域,奖励经费,认定年份,备注
 id,name,com,town,re_fund,re_year,remark
 result_24
-序号,项目名称,获奖单位,所在区域,经费下达,认定年度,备注,联系人,联系方式
-id,p_name,win_com,area,fund,re_year,remark
+序号,项目名称,获奖单位,所在区域,经费下达,认定年度,备注
+id,p_name,win_com,area,fund,re_year,remark,
 result_25
 序号,奖项类别,完成单位,区域,认定年份,联系人,联系方式,备注
 id,re_cat,com,area,re_year,contact,phone,remark
@@ -515,7 +515,7 @@ cop_ex_5
 序号,项目编号,项目名称,承担单位,立项时间,起止时间,所在地,合作国家,下达经费,联系人,联系电话,备注
 id,p_num,p_name,c_com,sp_time,ss_time,town,co_country,fund,contact,tel,remark
 cop_ex_6
-序号,项目名称,是否联合项目,奖励经费,上报数据统计时间,执行企业,企业性质,合作单位,高校区域,是否确认联合体(不做参照),所属行业,联系人,联系方式,区域,备注
+序号,项目名称,是否联合项目,奖励经费,上报数据统计时间,执行企业,企业性质,合作单位,高校区域,是否确认联合体(不做参照),所属行业,联系人,联系方式
 id,p_name,if_jp,reward,sta_time,exe_com,com_nat,co_com,uni_area,if_joint,industry,contact,phone
 cop_ex_7
 序号,执行企业,企业性质,合作单位,高校区域,是否确认校企联盟,上报数据统计时间,认定时间,奖励经费(万元),所属行业,联系人,联系方式,区域
@@ -608,7 +608,7 @@ result_23
 序号,姓名,所在企业,所在区域,奖励经费,认定年份,备注
 id,name,com,town,re_fund,re_year,remark
 result_24
-序号,项目名称,获奖单位,所在区域,经费下达,认定年度,备注,联系人,联系方式
+序号,项目名称,获奖单位,所在区域,经费下达,认定年度,备注
 id,p_name,win_com,area,fund,re_year,remark
 result_25
 序号,奖项类别,完成单位,区域,认定年份,联系人,联系方式,备注

@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
+from dataDisplay.flaskapp.calculation.talent_work_data import cal
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
@@ -15,6 +16,8 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 @login_required
 @minister_required
 def display():
+    print cal()
+
     return '你妹啊'
 
 

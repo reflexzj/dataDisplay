@@ -13,7 +13,7 @@ def show_columns(table_id):
     读取存储好的文件中所有栏目表
     :return: columsn_table字典，返回原始栏目名和对应的数据库中映射表名
     """
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/flaskapp/all_tables.txt', 'r').readlines()
+    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/txt/all_tables.txt', 'r').readlines()
     columns_table = {}
     for index in range(0, len(data), 3):
         try:
@@ -34,7 +34,8 @@ def get_table_name(name):
     :param name:
     :return: string 表名
     """
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/flaskapp/page_table.txt', 'r').readlines()
+
+    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/txt/page_table.txt', 'r').readlines()
     for lis in data:
         tmp = lis.split(',')
         if tmp[1].strip() == name:
@@ -57,18 +58,18 @@ def is_allowed(department, table_id):
     return False
 
 
-def myfunc():
-    n, k = [int(x) for x in raw_input().strip().split()]
-    raw = [1] * k
+# def myfunc():
+#     n, k = [int(x) for x in raw_input().strip().split()]
+#     raw = [1] * k
+#
+#     for _ in range(n - 1):
+#         tmp = [sum(raw)] * k
+#         for i in range(0, k/2):
+#             list = raw[i * 2 + 1::i + 1]
+#             tmp[i] -= sum(list)
+#         raw = tmp
+#     print sum(tmp) % 1000000007
 
-    for _ in range(n - 1):
-        tmp = [sum(raw)] * k
-        for i in range(0, k/2):
-            list = raw[i * 2 + 1::i + 1]
-            tmp[i] -= sum(list)
-        raw = tmp
-    print sum(tmp) % 1000000007
 
-
-if __name__ == '__main__':
-    myfunc()
+# if __name__ == '__main__':
+    # myfunc()

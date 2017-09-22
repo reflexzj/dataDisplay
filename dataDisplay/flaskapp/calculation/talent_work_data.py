@@ -37,7 +37,7 @@ def cal():
             and_(law_1.province_team.like('省人才团队'), law_1.identify_year == str(year),
                  law_1.pro_name.like('%条线'))).all()  # 省创新团队(其他条线)
         result7_num = len(result7)
-        result6_num = result6_num - result7_num  # 省创新团队(科技条线)
+        result6_num = result6_num - result7_num     # 省创新团队(科技条线)
         # ----------------------------------------------------------------------------------
         result8 = law_1.query.filter(
             and_(law_1.province_kind.like('省人才'), law_1.identify_year == str(year))).all()  # 省双创人才(全部)

@@ -46,3 +46,4 @@ docs/_build
 env/
 settings.py
 migrations/versions
+.idea/

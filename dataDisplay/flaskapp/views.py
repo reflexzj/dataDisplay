@@ -20,6 +20,9 @@ def display():
 
     return '你妹啊'
 
+@blueprint.route('/table1')
+def table_test():
+    return render_template('flaskapp/tables1.html')
 
 @blueprint.route('/index')
 @login_required

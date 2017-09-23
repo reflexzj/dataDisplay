@@ -3,7 +3,7 @@ from .update import *
 
 def update_sums(table_name, sums, columns):
     '''
-    sums对应table_name表所需要的汇总数据集合
+    更新数据汇总表
     :param table_name:
     :param sums:
     :param columns:

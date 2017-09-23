@@ -22,7 +22,7 @@ class ProdConfig(Config):
 
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost:3306/text1?charset=utf8'  # TODO: Change me
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost:3306/models?charset=utf8'  # TODO: Change me
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
 
@@ -35,7 +35,7 @@ class DevConfig(Config):
     # # Put the db file in project root
     # DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(DB_PATH)
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost:3306/text1?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost:3306/models?charset=utf8'
     DEBUG_TB_ENABLED = True
     ASSETS_DEBUG = True  # Don't bundle/minify static assets
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.

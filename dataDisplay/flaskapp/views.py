@@ -7,6 +7,8 @@ from dataDisplay.flaskapp.calculation.talent_work_data import cal
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.model_sums import *
+from dataDisplay.flaskapp.sums.create_sums import *
 from dataDisplay.user.models import Role, User
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
@@ -16,8 +18,10 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 @login_required
 @minister_required
 def display():
-    print cal()
-
+    sums = cal()
+    print sums
+    columns = show_columns('sums_8')[1].split(',')
+    update_sums('sums_8', sums, columns)
     return '你妹啊'
 
 

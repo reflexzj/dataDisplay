@@ -11,6 +11,7 @@ from dataDisplay.flaskapp.models import *
 
 def cal():
     nums = []
+    id = 2
     for year in range(2005, 2018):
         num = []
         result0 = result_15.query.filter(
@@ -20,6 +21,7 @@ def cal():
         result2 = result_37.query.filter(result_37.re_year == str(year)).all()  # 研究生工作站
         result3 = law_1.query.filter(
             and_(law_1.nation_kind.like('千人计划'), law_1.identify_year == str(year))).all()  # 千人计划
+        result3_1 = 0  #千人计划的自主认定人数
         result4 = law_1.query.filter(
             and_(law_1.nation_kind.like('万人计划'), law_1.identify_year == str(year))).all()  # 万人计划
         result5 = law_1.query.filter(
@@ -38,6 +40,7 @@ def cal():
                  law_1.pro_name.like('%条线'))).all()  # 省创新团队(其他条线)
         result7_num = len(result7)
         result6_num = result6_num - result7_num  # 省创新团队(科技条线)
+        result6_1 = 0 # 全省认定数量
         # ----------------------------------------------------------------------------------
         result8 = law_1.query.filter(
             and_(law_1.province_kind.like('省人才'), law_1.identify_year == str(year))).all()  # 省双创人才(全部)
@@ -72,13 +75,18 @@ def cal():
         result15 = cop_ex_6.query.filter(cop_ex_6.sta_time == str(year)).all()  # 产学研联合项目
         result16 = cop_ex_7.query.filter(cop_ex_7.re_time == str(year)).all()  # 产学研联合体
 
+        num.append(id)
+        id += 1
+        num.append(year)
         num.append(len(result0))
         num.append(len(result1))
         num.append(len(result2))
         num.append(len(result3))
+        num.append(result3_1)
         num.append(len(result4))
         num.append(len(result5))
         num.append(result6_num)
+        num.append(result6_1)
         num.append(len(result7))
         num.append(result8_num)
         num.append(len(result9))

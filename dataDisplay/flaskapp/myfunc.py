@@ -13,7 +13,7 @@ def show_columns(table_id):
     读取存储好的文件中所有栏目表
     :return: columsn_table字典，返回原始栏目名和对应的数据库中映射表名
     """
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/flaskapp/all_tables.txt', 'r').readlines()
+    data = open('datadisplay/flaskapp/all_tables.txt', 'r').readlines()
     columns_table = {}
     for index in range(0, len(data), 3):
         try:
@@ -34,7 +34,7 @@ def get_table_name(name):
     :param name:
     :return: string 表名
     """
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/flaskapp/page_table.txt', 'r').readlines()
+    data = open('datadisplay/flaskapp/page_table.txt', 'r').readlines()
     for lis in data:
         tmp = lis.split(',')
         if tmp[1].strip() == name:

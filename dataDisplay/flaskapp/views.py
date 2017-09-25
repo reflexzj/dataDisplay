@@ -7,6 +7,8 @@ from dataDisplay.flaskapp.calculation.talent_work_data import cal
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.model_sums import *
+from dataDisplay.flaskapp.sums.create_sums import *
 from dataDisplay.user.models import Role, User
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
@@ -16,13 +18,23 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 @login_required
 @minister_required
 def display():
-    print cal()
-
+    sums = cal()
+    print sums
+    columns = show_columns('sums_8')[1].split(',')
+    update_sums('sums_8', sums, columns)
     return '你妹啊'
+
 
 @blueprint.route('/table1')
 def table_test():
-    return render_template('flaskapp/tables1.html')
+    info = sums_8.query.all()
+    columns = show_columns('sums_8')
+    column_0 = columns[0].split(',')[1:]
+    column_1 = columns[1].split(',')[1:]
+    columns = [column_0, column_1]
+
+    return render_template('flaskapp/tables1.html', info=info, columns=columns)
+
 
 @blueprint.route('/index')
 @login_required
@@ -39,7 +51,7 @@ def show_charts(department):
         datas = [385, 656.5, 150, 100]
         # 获取数据
         return render_template('flaskapp/charts_2.html', datas=datas)
-    if department == 'department3'or 'department1':
+    if department == 'department3' or 'department1':
         datas = [16880, 38210, 34450]
         # 获取数据
         return render_template('flaskapp/charts_3.html', datas=datas)

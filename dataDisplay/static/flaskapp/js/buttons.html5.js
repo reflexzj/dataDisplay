@@ -1,6 +1,3 @@
-/**
- * Created by xuxian on 2017/9/21.
- */
 /*!
  * HTML5 export buttons for Buttons and DataTables.
  * 2016 SpryMedia Ltd - datatables.net/license
@@ -1003,6 +1000,7 @@
             return dt.i18n('buttons.excel', 'Excel');
         },
 
+
         action: function (e, dt, button, config) {
             this.processing(true);
 
@@ -1161,16 +1159,17 @@
             }
 
             // Table itself
+
             if (config.header) {
-                addRow(data.header, rowPos);
+                for (i = 0; i < data.header.length; i++){
+        addRow( data.header[i] );
+    }
+                // addRow(data.header, rowPos);
                 $('row:last c', rels).attr('s', '2'); // bold
             }
 
-            // for ( var n=0, ie=data.body.length ; n<ie ; n++ ) {
-            // 	addRow( data.body[n], rowPos );
-            // }
-            for (i = 0; i < data.header.length; i++) {
-                addRow(data.header[i]);
+            for (var n = 0, ie = data.body.length; n < ie; n++) {
+                addRow(data.body[n], rowPos);
             }
 
             if (config.footer && data.footer) {
@@ -1231,6 +1230,8 @@
                 this.processing(false);
             }
         },
+
+
 
         filename: '*',
 

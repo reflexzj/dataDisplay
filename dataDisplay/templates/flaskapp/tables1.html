@@ -24,28 +24,49 @@
                                 <th rowspan="2">年份</th>
                                 <th colspan="2">院士工作站(家)</th>
                                 <th rowspan="2">研究生工作站(家)</th>
-                                <th colspan="3">国家千人计划(位)</th>
+                                <th colspan="2">国家千人计划(位)</th>
                                 <th rowspan="2">国家万人计划(位)</th>
+                                <th rowspan="2">科技部推进人才计划</th>
+                                <th colspan="3">省创新团队(个)</th>
+                                <th colspan="2">省双创人才(位)</th>
+                                <th colspan="2">姑苏人才(位)</th>
+                                <th rowspan="2">姑苏团队(个)</th>
+                                <th rowspan="2">昆山创业团队(个)</th>
+                                <th rowspan="2">昆山双创人才(位)</th>
+                                <th rowspan="2">产学研联合项目</th>
+                                <th rowspan="2">产学研联合体</th>
+                                <th rowspan="2">人才贡献率</th>
+                                <th rowspan="2">人才资源总量(万人)</th>
+                                <th rowspan="2">每万劳动力中研发人员数</th>
+                                <th rowspan="2">科技进步贡献率(%)</th>
+                                <th rowspan="2">居民科学素质达标率(2年1次)</th>
                             </tr>
                             <tr>
                                 <th>省级</th>
                                 <th>苏州</th>
                                 <th>全部</th>
                                 <th>自主认定</th>
-                                <th>自主认定</th>
+                                <th>科技条线</th>
+                                <th>全省认定数量</th>
+                                <th>其他</th>
+                                <th>科技条线</th>
+                                <th>其他</th>
+                                <th>科技条线</th>
+                                <th>其他</th>
                             </tr>
                             </thead>
                             <tbody style="white-space:nowrap;">
-                            <tr>
-                                <td>2014</td>
-                                <td>1</td>
-                                <td></td>
-                                <td>24</td>
-                                <td>10</td>
-                                <td>3</td>
-                                <td></td>
-                                <td>2</td>
-                            </tr>
+                            {% for tmp in info %}
+                                <tr>
+                                    {% for column in columns[1] %}
+                                        {% if tmp[column.strip()] !='0' %}
+                                            <td>{{ tmp[column.strip()] }}</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
                             </tbody>
 
                         </table>

@@ -4,6 +4,7 @@
 # @Author  :Xuxian
 """
 
+
 def get_chart_datas(chart_id):
     pass
 
@@ -13,7 +14,7 @@ def show_columns(table_id):
     读取存储好的文件中所有栏目表
     :return: columsn_table字典，返回原始栏目名和对应的数据库中映射表名
     """
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/txt/all_tables.txt', 'r').readlines()
+    data = open('dataDisplay/static/flaskapp/txt/all_tables.txt', 'r').readlines()
     columns_table = {}
     for index in range(0, len(data), 3):
         try:
@@ -35,7 +36,7 @@ def get_table_name(name):
     :return: string 表名
     """
 
-    data = open('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/txt/page_table.txt', 'r').readlines()
+    data = open('dataDisplay/static/flaskapp/txt/page_table.txt', 'r').readlines()
     for lis in data:
         tmp = lis.split(',')
         if tmp[1].strip() == name:
@@ -59,17 +60,20 @@ def is_allowed(department, table_id):
 
 
 # def myfunc():
-#     n, k = [int(x) for x in raw_input().strip().split()]
-#     raw = [1] * k
+#     n = raw_input().strip().split()
+#     k = map(int, raw_input().strip().split())
+#     result = 10000000
+#     for i in range(1, int(n[0]) - 1):
 #
-#     for _ in range(n - 1):
-#         tmp = [sum(raw)] * k
-#         for i in range(0, k/2):
-#             list = raw[i * 2 + 1::i + 1]
-#             tmp[i] -= sum(list)
-#         raw = tmp
-#     print sum(tmp) % 1000000007
-
-
+#         a = k.pop(i)
+#         sum = 0
+#
+#         for j in range(int(n[0]) - 2):
+#             sum += abs(k[j + 1] - k[j])
+#         result = min(sum, result)
+#         k.insert(i, a)
+#     print result
+#
+#
 # if __name__ == '__main__':
-    # myfunc()
+#     myfunc()

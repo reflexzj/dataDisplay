@@ -59,21 +59,33 @@ def is_allowed(department, table_id):
     return False
 
 
-# def myfunc():
-#     n = raw_input().strip().split()
-#     k = map(int, raw_input().strip().split())
-#     result = 10000000
-#     for i in range(1, int(n[0]) - 1):
-#
-#         a = k.pop(i)
-#         sum = 0
-#
-#         for j in range(int(n[0]) - 2):
-#             sum += abs(k[j + 1] - k[j])
-#         result = min(sum, result)
-#         k.insert(i, a)
-#     print result
-#
-#
-# if __name__ == '__main__':
-#     myfunc()
+def myfunc(a, n, k):
+    global sum
+
+    if n == 1:
+        b = 0
+
+        for j in range(len(a) - 1):
+            if a[j] < a[j + 1]:
+                b += 1
+
+        if b == k:
+            sum += 1
+    else:
+        for i in range(n):
+            # print i
+            a[i], a[n - 1] = a[n - 1], a[i]
+            myfunc(a, n - 1, k)
+            a[n - 1], a[i] = a[i], a[n - 1]
+
+
+if __name__ == '__main__':
+    input = raw_input().strip().split()
+    n = int(input[0])
+    k = int(input[1])
+    list = []
+    for i in range(n):
+        list.append(i + 1)
+    sum = 0
+    myfunc(list, n, k)
+    print sum

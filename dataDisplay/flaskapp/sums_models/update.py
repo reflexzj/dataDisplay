@@ -1,6 +1,5 @@
 # coding=utf-8
-import re
-from dataDisplay.flaskapp.model_sums import *
+from dataDisplay.flaskapp.sums_models.model_sums import *
 
 def delet_data(table_name, id):
     '''

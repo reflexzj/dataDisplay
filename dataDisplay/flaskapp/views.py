@@ -3,13 +3,14 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
+from dataDisplay.flaskapp.calculation.auto_cal import select_table
 from dataDisplay.flaskapp.calculation.talent_work_data import cal
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.myfunc import *
-from dataDisplay.flaskapp.models import *
-from dataDisplay.flaskapp.model_sums import *
-from dataDisplay.flaskapp.sums.create_sums import *
+from dataDisplay.flaskapp.readxls import methods, convert
 from dataDisplay.user.models import Role, User
+from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.source_models.update_db import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -20,8 +21,20 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 def display():
     sums = cal()
     print sums
-    columns = show_columns('sums_8')[1].split(',')
-    update_sums('sums_8', sums, columns)
+    # columns = show_columns('sums_8')[1].split(',')
+    # update_sums('sums_8', sums, columns)
+
+    # 测试：根据表格中规则，自动查询统计所需要数据
+    all_rules = methods.get_sums_rule('datadisplay/flaskapp/sums_models/sums.xlsx')
+    conditions = all_rules['sums_8']
+    result = select_table(conditions, year=2014)
+    print result
+
+    table_name, year_ref, condition_ref, flag_ref = convert.convert_table_name('成果科,省设施', '认定时间', '类别')
+
+    print table_name, year_ref, condition_ref
+    # 测试更新
+
     return '你妹啊'
 
 

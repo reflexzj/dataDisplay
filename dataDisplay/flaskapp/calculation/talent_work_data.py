@@ -5,7 +5,6 @@
 """
 
 from sqlalchemy import and_
-import pandas
 from dataDisplay.flaskapp.models import *
 
 

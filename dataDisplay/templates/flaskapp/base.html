@@ -76,9 +76,11 @@
                 <ul class="nav" id="side-menu">
                     <li class="sidebar-search">
                         <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <form id="search" action="/search_result">
+                                <input name="keyword" id="keyword1" type="text" class="form-control" placeholder="Search...">
+                            </form>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
+                                <button class="btn btn-default" type="button" onclick="document.getElementById('search').submit();">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -188,7 +190,6 @@
                                     <ul class="nav nav-third-level">
                                         <li>
                                             {% for tmp in [
-['清单','high_new_tec_1'],
 ['2016重大科技项目引导扶持专项','high_new_tec_2'],
 ['2013年度科技部创新型产业集群试点','high_new_tec_3'],
 ['昆山市文化科技发展计划科技专项','high_new_tec_4'],
@@ -284,7 +285,7 @@
                                     <a>成果科<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            {% for tmp in [['清单','result_1'],
+                                            {% for tmp in [
 ['奖励','result_2'],
 ['大中型研发机构建设比例','result_3'],
 ['企业研发机构建设情况调查统计完成进度2014','result_4'],
@@ -346,6 +347,18 @@
                                     </ul>
                                 {% endif %}
                             </li>
+                            <li>
+                                {% if current_user.roles[0].permissions>=7 %}
+                                    <a>汇总表<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+
+                                                <a href='table1'>{{ "人才" }}</a>
+
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                            </li>
 
                         </ul>
                     </li>
@@ -398,7 +411,7 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function () {
-        $('#example').DataTable({
+        $('table.table').DataTable({
             dom: '<<"col-sm-4"l><"col-sm-5"B><"col-sm-3"f>>r<t><<"col-sm-6"i><"col-sm-6"p>>',
             "buttons": [
                 {
@@ -415,7 +428,7 @@
 
             {#            responsive: true,#}
             "scrollX": true,
-            "aLengthMenu": [[20, 50, -1],[20,50,'ALL']],
+            "aLengthMenu": [[50, -1], [50, 'ALL']],
             "order": [[0, "desc"]]
         });
     });

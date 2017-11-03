@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """main view"""
 from flask import Blueprint, render_template
+from flask import request
 from flask_login import login_required
 
 from dataDisplay.flaskapp.calculation.talent_work_data import cal
 from dataDisplay.flaskapp.decorators import *
+from dataDisplay.flaskapp.elasticsearch.my_elasticsearch import fulltext_search
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.model_sums import *
@@ -18,14 +20,21 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 @login_required
 @minister_required
 def display():
-    sums = cal()
-    print sums
-    columns = show_columns('sums_8')[1].split(',')
-    update_sums('sums_8', sums, columns)
+    keyword = request.args.get('keyword')
+    # print keyword
+    result = fulltext_search(keyword)
+    # print type(result)
+    lenth = result['hits']['total']
+    hits = result['hits']['hits']
+    print hits
+    # for _ in range(lenth):
+
     return '你妹啊'
 
 
 @blueprint.route('/table1')
+@login_required
+@minister_required
 def table_test():
     info = sums_8.query.all()
     columns = show_columns('sums_8')
@@ -77,7 +86,35 @@ def show_tables(table_id):
     # return render_template('flaskapp/tables1.html', info=info, columns=columns, table_name=table_name)
 
     columns = [column_0, column_1]
+    # print columns
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
+
+
+@blueprint.route('/search_result')
+@login_required
+@minister_required
+def search_result():
+    keyword = request.args.get('keyword')
+    result = fulltext_search(keyword)
+    hits = result['hits']['hits']
+    tmp = []
+
+    for hit in hits:
+        # print hit['_index']
+        tmp.append(hit['_index'])
+    tables_id = set(tmp)
+    columns_all = []
+
+    # 获取表格名与表头
+    for table_id in tables_id:
+        # print table_id
+        table_name = get_table_name(table_id)
+
+        columns = show_columns(table_id)
+        column_0 = columns[0].split(',')[1:]
+        column_1 = columns[1].split(',')[1:]
+        columns_all.append([table_id,table_name,column_0, column_1])
+    return render_template('flaskapp/search_result.html', info=hits, columns_all=columns_all)
 
 
 @blueprint.route('/addrole')

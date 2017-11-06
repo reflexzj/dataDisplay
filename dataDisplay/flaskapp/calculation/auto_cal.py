@@ -1,5 +1,5 @@
 # coding=utf-8
-from dataDisplay.flaskapp.readxls import methods
+from dataDisplay.flaskapp.rules import methods,column_convert
 from dataDisplay.flaskapp.models import *
 
 def select_table(conditions, year):
@@ -11,13 +11,15 @@ def select_table(conditions, year):
     :return:
     '''
 
-    # 读取对应sums中的规则
+    # 读取对应sums中的规则, 每个变量都是一个list
     re_tab_names = conditions[0]
     re_year_names = conditions[1]
     condition_names = conditions[2]
     condition_vals = conditions[3]
     do_set = conditions[4]
     relationships = conditions[5]
+
+
 
     result_nums = []
     for index in range(len(re_tab_names)):
@@ -42,7 +44,7 @@ def select_table(conditions, year):
             else:
                 cmd += ').all()'
 
-            print cmd
+            # print cmd
             exec(cmd)
 
             if set_flag:
@@ -61,9 +63,20 @@ def select_table(conditions, year):
     for index in range(len(relationships)):
         rel = relationships[index]
         if rel:
-            print rel
             sign = rel[0]
-            column_id = int(rel[1:])
+
+            # 将excle中的字母序号，转化成所对应的数字序号(‘AA’ = 27)
+            ignore = 2
+            column_id = 0
+            rev_column = rel[:0:-1]
+            # print rev_column
+            for c_index in range(len(rev_column)):
+                ch = ord(rev_column[c_index].upper())- 64
+                print ch
+                column_id += ch * pow(26, c_index)
+            column_id -= ignore
+            # print 'column_id ', column_id
+
             if sign == 'm':
                 result_nums[index] -= result_nums[column_id]
             elif sign == 'a':

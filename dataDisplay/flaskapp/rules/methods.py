@@ -1,49 +1,8 @@
 # coding=utf-8
 import xlrd
-import re
 import os
 from dataDisplay.flaskapp.myfunc import *
 
-def get_sums_rule(filepath):
-    '''
-    获取每张总结表中的表头，其属性对应其他基础表中的哪些属性
-    包括对应基础的表名，在该表中的年份英文名，判断条件（conditons）
-    以及总结表中自身属性之间的联系
-    :param filepath:
-    :return:
-    '''
-    sums_rule = {}
-
-    data = xlrd.open_workbook(filepath)
-    table = data.sheets()[0]
-    nrows = table.nrows
-
-    for index in range(1, nrows, 8):
-        re_tab_names = []
-        re_year_names = []
-        condition_names = []
-        condition_val = []
-        do_set = []
-        relationships = []
-
-        # 对应的excle的sheet表名字，以及对应的数据库table名
-        names = table.row_values(index)[0].split('.')
-        sheet_name = names[1]
-        table_name = 'sums' + '_' + re.findall(r'\d+', names[0])[0]
-
-        for i in range(len(table.row_values(0))):
-            re_tab_names.append(table.row_values(index+2)[i])
-            re_year_names.append(table.row_values(index+3)[i])
-            condition_names.append(table.row_values(index+4)[i])
-            condition_val.append(table.row_values(index+5)[i])
-            do_set.append(table.row_values(index+6)[i])
-            relationships.append(table.row_values(index+7)[i])
-
-        # print ','.join(re_tab_names)
-
-        sums_rule.update({table_name:[re_tab_names, re_year_names, condition_names, condition_val, do_set, relationships]})
-
-    return sums_rule
 
 def page_tables():
     '''
@@ -54,6 +13,7 @@ def page_tables():
     ref_names = {}
 
     for data in open(filepath , 'r'):
+        data = unicode(data, 'utf-8')
         data = data.split(',')
         ref_names.update({data[0]: data[1]})
 
@@ -68,7 +28,7 @@ def show_columns():
     columns_table = {}
     for index in range(0, len(data), 3):
         try:
-            table_name = data[index].strip()
+            table_name = unicode(data[index].strip(), 'utf-8')
             org_columns = data[index + 1].strip().split(',')
             ref_columns = data[index + 2].strip().split(',')
             columns_table.update({table_name: [org_columns, ref_columns]})
@@ -112,7 +72,6 @@ def read_sheet(table, begin, end):
     :param columns: 表格对应的栏目（属性）
     :return:
     '''
-
     all_datas = []
 
     for i in range(begin, end):
@@ -128,5 +87,3 @@ def read_sheet(table, begin, end):
     return all_datas
 
 
-if __name__ == '__main__':
-    get_sums_rule('../sums/sums.xlsx')

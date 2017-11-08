@@ -1,8 +1,9 @@
 # coding=utf-8
 from dataDisplay.flaskapp.rules import methods,column_convert
 from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.sums_models import methods
 
-def select_table(conditions, year):
+def select_table(table_name, conditions, year):
     '''
     根据excle表格中给定的规则来更新汇中表数据
     :param table_name:
@@ -20,9 +21,14 @@ def select_table(conditions, year):
     relationships = conditions[5]
 
 
-
+    # 设定sums中的id与year
+    id = methods.find_id(table_name, year)
     result_nums = []
-    for index in range(len(re_tab_names)):
+    result_nums.append(id)
+    result_nums.append(year)
+
+    # 获取后续的不同属性的统计结果
+    for index in range(2, len(re_tab_names)):
 
         re_name = re_tab_names[index]
         re_year = re_year_names[index]
@@ -84,11 +90,3 @@ def select_table(conditions, year):
 
     return result_nums
 
-
-
-if __name__ == "__main__":
-    all_rules = methods.get_sums_rule('../sums/sums.xlsx')
-
-    conditions = all_rules['sums_8']
-    result = select_table('sms_8', conditions, year=2005)
-    print result

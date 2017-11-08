@@ -35,6 +35,7 @@ def update_db(path, xls_name):
             try:
                 insert(ref_name, data, column)
             except:
+                # 原来表
                 id = data[0]
                 try:
                     update_data(ref_name, id, data, column)

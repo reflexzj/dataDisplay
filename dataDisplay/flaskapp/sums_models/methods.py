@@ -11,6 +11,19 @@ def delet_data(table_name, id):
     exec(table_name+ '.query.filter_by(id = id).delete()')
     db.session.commit()
 
+def find_id(table_name, year):
+    '''
+    根据年份信息寻找总结表中，对应年份数据对应的id
+    :param table_name:
+    :param year:
+    :return:
+    '''
+    result = None
+    exec ('result=' + table_name + '.query.filter_by(year = year).first()')
+    id = result.id
+    return id
+
+
 def update_data(tale_name, id, new_data, columns):
     '''
     更新表中的某行数据, 以id（主键）为索引目标

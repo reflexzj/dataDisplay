@@ -3,9 +3,8 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
-from dataDisplay.flaskapp.calculation.auto_cal import select_table
+from dataDisplay.flaskapp import update
 from dataDisplay.flaskapp.decorators import *
-from dataDisplay.flaskapp.rules import sums_rules
 from dataDisplay.flaskapp.sums_models.update import *
 from dataDisplay.user.models import Role, User
 
@@ -16,22 +15,14 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 @login_required
 @minister_required
 def display():
-
-    # 对应最原始的talent_work_data.py中的方法
-    # sums = cal()
-    # print sums
-    # columns = show_columns('sums_8')[1].split(',')
-    # update_sums('sums_8', sums, columns)
-
-    # 测试：根据表格中规则，自动查询统计所需要数据
-    all_rules = sums_rules.get_sums_rule('datadisplay/flaskapp/data/newsums.xlsx')
-    conditions = all_rules['sums_8']
-    result = select_table(conditions, year=2014)
+    '''
+    模块的更新测试
+    :return:
+    '''
+    result = update.sums_update('sums_8', 2014, 2015)
     print result
 
-    # 测试更新
-
-    return '----------模块测试页面------------'
+    return '----------模块测试页面------------\n'
 
 
 @blueprint.route('/index')

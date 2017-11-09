@@ -18,7 +18,8 @@ def select_table(table_name, conditions, year):
     condition_names = conditions[2]
     condition_vals = conditions[3]
     do_set = conditions[4]
-    relationships = conditions[5]
+    operations = conditions[5]
+    relationships = conditions[6]
 
 
     # 设定sums中的id与year
@@ -35,10 +36,12 @@ def select_table(table_name, conditions, year):
         condition_name =condition_names[index].split(',')
         condition_val = condition_vals[index].split(',')
         set_flag = do_set[index]
+        operation = operations[index]
 
-        # 判断对应属性值是否要更新
-        cmd = ''
+
+        # 根据sheet名，进行总结表进行更新
         if re_name:
+            # 按照年份查询，年份是总结表的主要属性
             result = None
             cmd = 'result =' + re_name + '.query.filter(' + re_name + '.' + re_year + '== str(year)'
 
@@ -49,17 +52,33 @@ def select_table(table_name, conditions, year):
                 cmd += ').all()'
             else:
                 cmd += ').all()'
-
-            # print cmd
             exec(cmd)
 
+
+            # 判断查询结果中是否要去重
             if set_flag:
+                print set_flag
                 tmp = set()
                 for i in range(len(result)):
                     exec('tmp.add(result[i].'+ set_flag + ')')
-                    result_num = len(tmp)
+
+            result = list(tmp)
+
+
+            # 选择何种统计方式，默认计算条目数，给出属性名时，计算该属性名下数值总和
+            if operation:
+                result_num = 0
+                val = ''
+                for data in result:
+                    exec('val = data.' + operation)
+                    try:
+                        result_num += int(val)
+                    except:
+                        print table_name, '中，对应', operation, '属性值，存在', val, '不合法！'
+
             else:
                 result_num = len(result)
+
         else:
             result_num = 0
 
@@ -78,7 +97,7 @@ def select_table(table_name, conditions, year):
             # print rev_column
             for c_index in range(len(rev_column)):
                 ch = ord(rev_column[c_index].upper())- 64
-                print ch
+                # print ch
                 column_id += ch * pow(26, c_index)
             column_id -= ignore
             # print 'column_id ', column_id

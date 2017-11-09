@@ -17,12 +17,13 @@ def get_sums_rule(filepath):
     table = data.sheets()[0]
     nrows = table.nrows
 
-    for index in range(1, nrows, 8):
+    for index in range(1, nrows, 9):
         re_tab_names = []
         re_year_names = []
         condition_names = []
         condition_vals = []
         do_set = []
+        operations = []
         relationships = []
 
         # 对应的excle的sheet表名字，以及对应的数据库table名
@@ -37,21 +38,23 @@ def get_sums_rule(filepath):
             condition_name = table.row_values(index+4)[i]
             condition_val = table.row_values(index + 5)[i]
             set_flag = table.row_values(index+6)[i]
-            relationship = table.row_values(index+7)[i]
+            operation = table.row_values(index+7)[i]
+            relationship = table.row_values(index+8)[i]
 
             # 将规则中的各类数据中文名映射成对应的英文
             if re_tab_name.strip():
-                re_tab_name, re_year_name, condition_name, set_flag = convert_table_name(re_tab_name, re_year_name, condition_name, set_flag)
+                re_tab_name, re_year_name, condition_name, set_flag, operation = convert_table_name(re_tab_name, re_year_name, condition_name, set_flag, operation)
 
             re_tab_names.append(re_tab_name)
             re_year_names.append(re_year_name)
             condition_names.append(condition_name)
             condition_vals.append(condition_val)
             do_set.append(set_flag)
+            operations.append(operation)
             relationships.append(relationship)
 
         # print ','.join(re_tab_names)
 
-        sums_rule.update({table_name:[re_tab_names, re_year_names, condition_names, condition_vals, do_set, relationships]})
+        sums_rule.update({table_name:[re_tab_names, re_year_names, condition_names, condition_vals, do_set, operations, relationships]})
 
     return sums_rule

@@ -24,6 +24,7 @@ def find_id(table_name, year):
     return id
 
 
+
 def update_data(tale_name, id, new_data, columns):
     '''
     更新表中的某行数据, 以id（主键）为索引目标

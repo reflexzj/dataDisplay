@@ -5,7 +5,8 @@ from dataDisplay.flaskapp.rules.methods import page_tables, show_columns
 log_path = 'datadisplay/flaskapp/data/logs.txt'
 
 
-def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= ''):
+
+def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= '', operation= ''):
     '''
     获取对应sheet表,所对应的mysql数据库中的表名
     :param xls_sheet:
@@ -64,10 +65,16 @@ def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= ''):
     else:
         flag_ref = ''
 
-    return table_name, year_ref, condition_ref, flag_ref
+    # 带统计数据对应的属性名
+    if operation:
+        operation = column_ref[operation]
+    else:
+        operation = ''
+
+    return table_name, year_ref, condition_ref, flag_ref, operation
 
 
 if __name__ == '__main__':
-    table_name, year_ref, condition_ref = convert_table_name('成果科,省设施', '认定时间', '类别')
+    table_name, year_ref, condition_ref , operation = convert_table_name('成果科,省设施', '认定时间', '类别', '总经费')
 
-    print table_name, year_ref, condition_ref
+    print table_name, year_ref, condition_ref, operation

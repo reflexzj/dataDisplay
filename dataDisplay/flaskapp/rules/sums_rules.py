@@ -17,7 +17,7 @@ def get_sums_rule(filepath):
     table = data.sheets()[0]
     nrows = table.nrows
 
-    for index in range(1, nrows, 9):
+    for index in range(1, nrows, 10):
         re_tab_names = []
         re_year_names = []
         condition_names = []
@@ -31,7 +31,8 @@ def get_sums_rule(filepath):
         sheet_name = names[1]
         table_name = 'sums' + '_' + re.findall(r'\d+', names[0])[0]
 
-        for i in range(1, len(table.row_values(0))):
+        # print len(table.row_values(index+1)), table.row_values(index+1)
+        for i in range(1, len(table.row_values(index+1))):
 
             re_tab_name = table.row_values(index+2)[i]
             re_year_name = table.row_values(index+3)[i]
@@ -43,6 +44,7 @@ def get_sums_rule(filepath):
 
             # 将规则中的各类数据中文名映射成对应的英文
             if re_tab_name.strip():
+                # print re_tab_name
                 re_tab_name, re_year_name, condition_name, set_flag, operation = convert_table_name(re_tab_name, re_year_name, condition_name, set_flag, operation)
 
             re_tab_names.append(re_tab_name)

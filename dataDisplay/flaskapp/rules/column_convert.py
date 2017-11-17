@@ -15,20 +15,23 @@ def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= '', opera
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     logs = open(log_path, 'a')
 
-    # 获取英文表名
+    # （1）对应科室，sheet表转化
+    # 读取pagetable.txt文件，建立中英文名的对照字典
     table_names = page_tables()
 
+
+    xls_name = xls_sheet.split(',')[0].strip()
+    sheet_name = xls_sheet.split(',')[1].strip()
+
     try:
-        xls_name = xls_sheet.split(',')[0].strip()
-        sheet_name = xls_sheet.split(',')[1].strip()
         table_name = table_names[sheet_name].strip('\n')
     except Exception,e:
-        error =  '规则中定义了不存在的sheet：' + unicode(sheet_name, 'utf-8')
+        # error =  '规则中定义了不存在的sheet：' + xls_sheet
         table_name = ''
-        logs.write(time + 'error:' +e+'('+error + ')\n')
+        print sheet_name
+        # logs.write(time + ' error:' +'('+ error + ')\n')
 
-
-    # 获取对应属性名:year,conditions
+    # （2）决定年份的属性，以及要查询的条件属性（year,condition_names）
     columns = show_columns()
 
     column = columns[table_name]
@@ -59,13 +62,13 @@ def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= '', opera
 
     condition_ref = ','.join(condition_ref)
 
-    # 要求数据去重时的变量名
+    # （3）要求数据去重时的变量名set_flag
     if re_flag:
         flag_ref = column_ref[re_flag]
     else:
         flag_ref = ''
 
-    # 带统计数据对应的属性名
+    # （5）采用何种方式统计，计算查询到的条目数，还是计算对应属性下值
     if operation:
         operation = column_ref[operation]
     else:

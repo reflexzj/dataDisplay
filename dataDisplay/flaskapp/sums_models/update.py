@@ -49,6 +49,8 @@ def update_db(path, xls_name):
         else:
             logs.write('所有数据更新完成！\n')
 
+        logs.close()
+
 def update_sums(table_name, sums, columns):
     '''
     更新数据汇总表

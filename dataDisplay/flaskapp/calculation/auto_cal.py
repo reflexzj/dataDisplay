@@ -57,12 +57,12 @@ def select_table(table_name, conditions, year):
 
             # 判断查询结果中是否要去重
             if set_flag:
-                print set_flag
+                # print set_flag
                 tmp = set()
                 for i in range(len(result)):
                     exec('tmp.add(result[i].'+ set_flag + ')')
 
-            result = list(tmp)
+                result = list(tmp)
 
 
             # 选择何种统计方式，默认计算条目数，给出属性名时，计算该属性名下数值总和

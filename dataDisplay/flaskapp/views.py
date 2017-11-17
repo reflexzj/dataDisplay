@@ -19,8 +19,8 @@ def display():
     模块的更新测试
     :return:
     '''
-    result = update.sums_update('sums_8', 2014, 2015)
-    print result
+
+    update.update_all(2014, 2015)
 
     return '----------模块测试页面------------\n'
 

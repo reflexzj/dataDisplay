@@ -20,7 +20,7 @@ def cal():
         result2 = result_37.query.filter(result_37.re_year == str(year)).all()  # 研究生工作站
         result3 = law_1.query.filter(
             and_(law_1.nation_kind.like('千人计划'), law_1.identify_year == str(year))).all()  # 千人计划
-        result3_1 = 0  #千人计划的自主认定人数
+        result3_1 = 0  # 千人计划的自主认定人数
         result4 = law_1.query.filter(
             and_(law_1.nation_kind.like('万人计划'), law_1.identify_year == str(year))).all()  # 万人计划
         result5 = law_1.query.filter(
@@ -39,7 +39,7 @@ def cal():
                  law_1.pro_name.like('%条线'))).all()  # 省创新团队(其他条线)
         result7_num = len(result7)
         result6_num = result6_num - result7_num  # 省创新团队(科技条线)
-        result6_1 = 0 # 全省认定数量
+        result6_1 = 0  # 全省认定数量
         # ----------------------------------------------------------------------------------
         result8 = law_1.query.filter(
             and_(law_1.province_kind.like('省人才'), law_1.identify_year == str(year))).all()  # 省双创人才(全部)

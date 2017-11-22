@@ -1,6 +1,9 @@
 sums_8
 序号,年份,院士工作站（家）：省级,院士工作站（家）：苏州,研究生工作站（家）,国家“千人计划”（位）：全部,国家“千人计划”（位）：自主认定,国家万人计划,科技部人才推进计划,省创新团队（个）：科技条线,省创新团队（个）：全省认定数量,省创新团队（个）：其他,省双创人才（位）：科技条线,省双创人才（位）：其他,姑苏人才（位）：科技条线,姑苏人才（位）：其他,姑苏团队,昆山双创团队（个）,昆山双创人才（位）,产学研联合项目,产学研联合体,人才贡献率,人才资源总量（万人）,每万劳动力中研发人员数,科技进步贡献率（%）,居民科学素质达标率（2年1次）
 id,year,ac_workstation_gov,ac_workstation_sz,master_ws,qianren_all,qianren_coustom,wanren,tec_plan,gov_in_team_tec,gov_in_team_all,gov_in_team_other,gov_in_person_tec,gov_in_person,gs_person_tec,gs_person_other,gs_team,ks_team,ks_person,union_project,union_base,rate_con_person,sum_person,person_research,rate_con_tec,rate_sta_civ
+sums_3
+序号,年份,国家火炬计划高新技术企业（家）,国家级创新型试点企业,高新技术企业（2008年以来新标准）- 认定（年度）,高新技术企业（2008年以来新标准） -有效（累计）,技术先进型服务企业（家）,省创新型企业（家）,民营科技企业（家）,科技型中小企业,国家重点新产品（个）,国家自主创新产品（个）,省高品（个）,省自主创新产品（个）,省重点新产品（个）,苏州高品（个）,软件企业（家）,软件产品（个）
+id,year,torch_com,creation_com,gxjs_identity,gxjs_effictive,advance_com,gov_creation_com,folk_com,tech_mic_com,con_imp_product,con_creation_product,gov_eff_product,gov_creation_product,gov_imp_product,sz_eff_product,soft_com,soft_product
 patent_1
 序号,年份,级别,计划类别（请填写全称）,项目名称,承担单位,所属区镇,经费总额（万元）,文件文号
 id,year,classer,plan_kind,pro_name,undertake_company,area,all_fund,doc_num

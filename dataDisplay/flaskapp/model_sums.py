@@ -53,3 +53,30 @@ class sums_8(db.Model):
 
     def __init__(self, columns, data):
         init_databse(self, columns, data)
+
+
+class sums_3(db.Model):
+    id = db.Column(db.INTEGER, primary_key=True)
+    year = db.Column(db.TEXT)
+    torch_com = db.Column(db.TEXT)
+    creation_com = db.Column(db.TEXT)
+    gxjs_identity = db.Column(db.TEXT)
+    gxjs_effictive = db.Column(db.TEXT)
+    advance_com = db.Column(db.TEXT)
+    gov_creation_com = db.Column(db.TEXT)
+    folk_com = db.Column(db.TEXT)
+    tech_mic_com = db.Column(db.TEXT)
+    con_imp_product = db.Column(db.TEXT)
+    con_creation_product = db.Column(db.TEXT)
+    gov_eff_product = db.Column(db.TEXT)
+    gov_creation_product = db.Column(db.TEXT)
+    gov_imp_product = db.Column(db.TEXT)
+    sz_eff_product = db.Column(db.TEXT)
+    soft_com = db.Column(db.TEXT)
+    soft_product = db.Column(db.TEXT)
+
+    def __repr__(self):
+        return 'info:{}'.format(self.id)
+
+    def __init__(self, columns, data):
+        init_databse(self, columns, data)

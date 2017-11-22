@@ -77,10 +77,12 @@
                     <li class="sidebar-search">
                         <div class="input-group custom-search-form">
                             <form id="search" action="/search_result">
-                                <input name="keyword" id="keyword1" type="text" class="form-control" placeholder="Search...">
+                                <input name="keyword" id="keyword1" type="text" class="form-control"
+                                       placeholder="Search...">
                             </form>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="document.getElementById('search').submit();">
+                                <button class="btn btn-default" type="button"
+                                        onclick="document.getElementById('search').submit();">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -352,10 +354,20 @@
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-
-                                                <a href='table1'>{{ "人才" }}</a>
-
+                                            <a href='/summary/sums_8'>人才</a>
                                         </li>
+                                        <li>
+                                            <a href='/summary/sums_3'>企业</a>
+                                        </li>
+{#                                        <li>#}
+{#                                            <a href='/summary/project'>项目</a>#}
+{#                                        </li>#}
+{#                                        <li>#}
+{#                                            <a href='/summary/vector'>载体</a>#}
+{#                                        </li>#}
+{#                                        <li>#}
+{#                                            <a href='/summary/R_D_institutions'>研发机构</a>#}
+{#                                        </li>#}
                                     </ul>
                                 {% endif %}
                             </li>
@@ -364,7 +376,7 @@
                     </li>
                     {% if current_user.roles[0].permissions>=7 %}
                         <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i>后台管理</a>
+                            <a href="/upload" target=""><i class="fa fa-edit fa-fw"></i>Input</a>
 
                         </li>
                     {% endif %}
@@ -428,7 +440,7 @@
 
             {#            responsive: true,#}
             "scrollX": true,
-            "aLengthMenu": [[50, -1], [50, 'ALL']],
+            "aLengthMenu": [[20, 50, -1], [20, 50, 'ALL']],
             "order": [[0, "desc"]]
         });
     });

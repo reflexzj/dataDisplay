@@ -1,0 +1,62 @@
+{% extends "flaskapp/base.html" %}
+
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Tables</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        产学研和人才工作数据
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover"
+                               id="example" cellspacing="0">
+                            <thead style="white-space:nowrap;">
+                            <tr>
+                                <th>年份</th>
+                                <th>"863""973"计划</th>
+                                <th>国际科技合作项目</th>
+                                <th>国家中小企业创新基金项目</th>
+                                <th>国家科技重大专项</th>
+                                <th>国家重点研发计划</th>
+                                <th>火炬计划</th>
+                                <th>星火计划</th>
+                                <th>省科技成果转化专项</th>
+                            </tr>
+                            </thead>
+                            <tbody style="white-space:nowrap;">
+                            {% for tmp in info %}
+                                <tr>
+                                    {% for column in columns[1] %}
+                                        {% if tmp[column.strip()] !='0' %}
+                                            <td>{{ tmp[column.strip()] }}</td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                        <!-- /.table-responsive -->
+
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+{% endblock %}

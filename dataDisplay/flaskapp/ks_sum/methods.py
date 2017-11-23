@@ -1,0 +1,47 @@
+# coding=utf-8
+import xlrd
+from dataDisplay.flaskapp.rules.column_convert import convert_table_name
+
+def read_ks_column(filepath):
+
+    ks_column = {}
+
+    data = xlrd.open_workbook(filepath)
+    table = data.sheets()[0]
+    nrows = table.nrows
+    directory_name = table.row_values(0)[0].strip('\n').strip()
+    # print directory_name
+
+    for index in range(0, nrows, 7):
+        ids = []
+        table_names = []
+        condition_names = []
+        condition_vals = []
+        add_columns = []
+
+        # print len(table.row_values(index+1)), table.row_values(index+1)
+        for i in range(1, len(table.row_values(index+1))):
+
+            id = table.row_values(index+1)[i]
+            table_name = table.row_values(index+2)[i]
+            condition_name = table.row_values(index+3)[i]
+            condition_val = table.row_values(index + 4)[i]
+            add_column = table.row_values(index+5)[i]
+            # print id,table_name,condition_name,condition_val,add_column
+
+            # 将规则中的各类数据中文名映射成对应的英文
+            if table_name.strip():
+                table_name, add_column, condition_name, re_falg, operation =  convert_table_name(table_name, add_column, condition_name)
+            # print id, table_name, condition_name, condition_val, add_column
+
+            ids.append(id)
+            table_names.append(table_name)
+            condition_names.append(condition_name)
+            condition_vals.append(condition_val)
+            add_columns.append(add_column)
+
+
+
+        ks_column.update({directory_name:[ids, table_names, condition_names, condition_vals, add_columns]})
+
+    return ks_column

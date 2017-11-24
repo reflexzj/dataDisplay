@@ -68,6 +68,12 @@ def show_charts(department):
         return render_template('flaskapp/charts_3.html', datas=datas)
 
 
+@blueprint.route('/catalog/<string:table_id>')
+@login_required
+def show_catalog(table_id):
+    return render_template('flaskapp/catalog/'+table_id+'.html')
+
+
 @blueprint.route('/tables/<string:table_id>')
 @login_required
 def show_tables(table_id):

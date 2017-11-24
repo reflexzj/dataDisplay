@@ -1,0 +1,482 @@
+{% extends "flaskapp/base.html" %}
+{% block content %}
+    <title>昆山市科技局合作交流科数据汇总表</title>
+    <style type="text/css">
+        table {
+            border: 1px solid #666666;
+        }
+
+        table tr {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        /* 隔行样式 */
+        .tr_odd {
+            background-color: rgba(192, 192, 192, 0.664);
+        }
+
+        .tr_even {
+            background-color: #F8F8F8;
+        }
+
+        /* 划过行样式 */
+        .tr_hover {
+            background-color: #CCCCFF;
+        }
+
+        /* 选中行样式 */
+        .tr_selected {
+            background-color: rgb(80, 144, 163);
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        // 定义选中行
+        var selected_tr;
+
+        $(function () {
+            // 隔行变色
+            $("#goodtable tr").addClass("tr_odd");
+            $("#goodtable tr:even").addClass("tr_even");
+
+            // 划过行变色
+            $("#goodtable tr").live("mouseover", function () {
+                $(this).addClass("tr_hover");
+            })
+                .live("mouseout", function () {
+                    $(this).removeClass("tr_hover");
+                });
+
+            // 选中行变色
+            $("#goodtable tr").live("click", function () {
+                if (selected_tr != null) {
+                    selected_tr.removeClass("tr_selected");
+                }
+
+                $(this).addClass("tr_selected");
+
+                // 设置选中行为当前行
+                selected_tr = $(this);
+            });
+        });
+    </script>
+    <div id="page-wrapper">
+        <div class="row">
+          <div class="table-responsive">
+        <h4 class="margin-bottom-15" align="center">成果科汇总表</h4>
+        <table id="goodtable" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <thead>
+                <tr>
+                <th>项目序号</th>
+                <th>项目类别</th>
+                <th>项目名称</th>
+                <th>项目级别</th>
+                <th>认定数</th>
+                <th>数额</th>
+                <th>备注信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>1</td>
+                <td>重大科学仪器设备开发专项</td>
+                <td><a href="http://119.23.15.165/tables/result_9">重大科学仪器设备开发专项</a></td>
+                <td>国家</td>
+                <td>3</td>
+                <td>暂无</td>
+                <td>暂无</td>
+                </tr>
+                <tr>
+                <td>2</td>
+                <td>国家级平台</td>
+                <td><a href="http://119.23.15.165/tables/result_10">国家技术转移示范机构</a></td>
+                <td>国家</td>
+                <td>4</td>
+                <td>暂无</td>
+                <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_11">省级科技成果转化项目</a></td>
+                    <td>省级</td>
+                    <td>37</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_12">苏州市级科技成果转化项目</a></td>
+                    <td>苏州</td>
+                    <td>7</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_13">昆山市级科技成果转化项目</a></td>
+                    <td>昆山</td>
+                    <td>50</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_14">培育转化一批科技成果项目</a></td>
+                    <td>昆山</td>
+                    <td>15</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>科技基础设施建设</td>
+                    <td><a href="http://119.23.15.165/tables/result_15">省级科技基础设施建设</a></td>
+                    <td>省级</td>
+                    <td>116</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>科技基础设施建设</td>
+                    <td><a href="http://119.23.15.165/tables/result_16">苏州市级科技基础设施建设</a></td>
+                    <td>苏州</td>
+                    <td>371</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>科技基础设施建设</td>
+                    <td><a href="http://119.23.15.165/tables/result_17">昆山市级科技基础设施建设</a></td>
+                    <td>昆山</td>
+                    <td>38</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>科技服务业发展专项</td>
+                    <td><a href="http://119.23.15.165/tables/result_18">昆山科技服务业发展专项</a></td>
+                    <td>昆山</td>
+                    <td>20</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>省企业研究生工作站</td>
+                    <td><a href="http://119.23.15.165/tables/result_37">江苏省企业研究生工作站</a></td>
+                    <td>省级</td>
+                    <td>116</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                        <td>12</td>
+                        <td>省重点企业研发机构</td>
+                        <td><a href="http://119.23.15.165/tables/result_38">江苏省重点企业研发机构</a></td>
+                        <td>省级</td>
+                        <td>44</td>
+                        <td>暂无</td>
+                        <td>暂无</td>
+                    </tr>
+                <tr>
+                    <td>13</td>
+                    <td>各级研发机构</td>
+                    <td><a href="http://119.23.15.165/tables/result_35">省级研发机构</a></td>
+                    <td>省级</td>
+                    <td>136</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>各级研发机构</td>
+                    <td><a href="http://119.23.15.165/tables/result_35">苏州研发机构</a></td>
+                    <td>苏州</td>
+                    <td>252</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>各级研发机构</td>
+                    <td><a href="http://119.23.15.165/tables/result_35">昆山研发机构</a></td>
+                    <td>昆山</td>
+                    <td>1214</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>各级研发机构</td>
+                    <td><a href="http://119.23.15.165/tables/result_36">购置研发设备补助明细</a></td>
+                    <td>昆山</td>
+                    <td>24</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>江苏区域创新驿站服务站点</td>
+                    <td><a href="http://119.23.15.165/tables/result_34">江苏区域创新驿站服务站点</a></td>
+                    <td>省级</td>
+                    <td>7</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>生产力促进奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_25">全国生产力促进奖</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>何梁何利</td>
+                    <td><a href="http://119.23.15.165/tables/result_26">何梁何利</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_32">国家级科技进步奖</a></td>
+                    <td>国家</td>
+                    <td>8</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_31">省级科技进步奖</a></td>
+                    <td>省级</td>
+                    <td>87</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_30"></a>苏州市级科技进步奖</td>
+                    <td>苏州</td>
+                    <td>340</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_28"></a>苏州市科技创新创业市长奖</td>
+                    <td>苏州</td>
+                    <td>8</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_29"></a>苏州市技术发明奖</td>
+                    <td>苏州</td>
+                    <td>4</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_23"></a>昆山市科技功臣奖</td>
+                    <td>昆山</td>
+                    <td>7</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_24"></a>昆山市科技合作和科技成果产业化奖</td>
+                    <td>昆山</td>
+                    <td>84</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_27"></a>昆山市级科技进步奖</td>
+                    <td>昆山</td>
+                    <td>932</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>科技进步奖</td>
+                    <td><a href="http://119.23.15.165/tables/result_2"></a>奖励</td>
+                    <td>昆山</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>国家级大学生科技创业基地</td>
+                    <td><a href="http://119.23.15.165/tables/result_42">国家级大学生科技创业基地</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>省级创业导师、创业明星、创业基地</td>
+                    <td><a href="http://119.23.15.165/tables/result_43">省级创业导师、创业明星、创业基地</a></td>
+                    <td>省级</td>
+                    <td>11</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>苏州级创业导师、创业孵化基地</td>
+                    <td><a href="http://119.23.15.165/tables/result_46">苏州级创业导师、创业孵化基地</a></td>
+                    <td>苏州</td>
+                    <td>6</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td>苏州科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_40">技术交易</a></td>
+                    <td>苏州</td>
+                    <td>28</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>33</td>
+                    <td>苏州科技成果转化项目</td>
+                    <td><a href="http://119.23.15.165/tables/result_39">技术转移机构</a></td>
+                    <td>苏州</td>
+                    <td>5</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>技术合同认定情况</td>
+                    <td><a href="http://119.23.15.165/tables/result_41">技术合同认定情况</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>科技服务业情况</td>
+                    <td><a href="http://119.23.15.165/tables/result_20">科技服务业</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>科技金融</td>
+                    <td><a href="http://119.23.15.165/tables/result_4">贷款担保</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>在保企业13家，在保金额7860万元</td>
+                </tr>
+                <tr>
+                    <td>37</td>
+                    <td>科技金融</td>
+                    <td><a href="http://119.23.15.165/tables/result_7">苏科货</a></td>
+                    <td>省级</td>
+                    <td>3</td>
+                    <td>4000万元</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>科技金融</td>
+                    <td><a href="http://119.23.15.165/tables/result_8">风险池贷款</a></td>
+                    <td></td>
+                    <td>196</td>
+                    <td>87324万元</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>39</td>
+                    <td>民办非企业</td>
+                    <td><a href="http://119.23.15.165/tables/result_51">民办非企业清单</a></td>
+                    <td></td>
+                    <td>4</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>40</td>
+                    <td>大中型企业研发机构建设</td>
+                    <td><a href="http://119.23.15.165/tables/result_3">大中型企业研发机构建设比例</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>41</td>
+                    <td>大型科学仪器</td>
+                    <td><a href="http://119.23.15.165/tables/result_52">大型科学仪器共享补贴</a></td>
+                    <td></td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>技术经纪人</td>
+                    <td><a href="http://119.23.15.165/tables/result_53">技术经纪人清单</a></td>
+                    <td>苏州</td>
+                    <td>118</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>43</td>
+                    <td>规上企业研发机构比重</td>
+                    <td><a href="http://119.23.15.165/tables/result_54">规上企业研发机构比重</a></td>
+                    <td>昆山</td>
+                    <td></td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>44</td>
+                    <td>一企一档数据库</td>
+                    <td><a href="http://119.23.15.165/tables/result_55">一企一档数据库</a></td>
+                    <td></td>
+                    <td>537</td>
+                    <td>暂无</td>
+                    <td>暂无</td>
+                </tr>
+        </tbody>
+        </table>
+<div>
+    </div>
+{% endblock %}

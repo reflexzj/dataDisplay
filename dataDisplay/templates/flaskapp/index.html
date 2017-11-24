@@ -1,6 +1,10 @@
 {% extends "flaskapp/base.html" %}
 
 {% block content %}
+    <body>
     <h3>index</h3>
-
+    <div id="page-wrapper">
+    <img src="{{ url_for('static', filename='flaskapp/img/index.jpeg') }}" width="100%" height="100%">
+        </div>
+    </body>
 {% endblock %}

@@ -1,0 +1,724 @@
+{% extends "flaskapp/base.html" %}
+{% block content %}
+    <title>昆山市科技局合作交流科数据汇总表</title>
+    <style type="text/css">
+        table {
+            border: 1px solid #666666;
+        }
+
+        table tr {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        /* 隔行样式 */
+        .tr_odd {
+            background-color: rgba(192, 192, 192, 0.664);
+        }
+
+        .tr_even {
+            background-color: #F8F8F8;
+        }
+
+        /* 划过行样式 */
+        .tr_hover {
+            background-color: #CCCCFF;
+        }
+
+        /* 选中行样式 */
+        .tr_selected {
+            background-color: rgb(80, 144, 163);
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        // 定义选中行
+        var selected_tr;
+
+        $(function () {
+            // 隔行变色
+            $("#goodtable tr").addClass("tr_odd");
+            $("#goodtable tr:even").addClass("tr_even");
+
+            // 划过行变色
+            $("#goodtable tr").live("mouseover", function () {
+                $(this).addClass("tr_hover");
+            })
+                .live("mouseout", function () {
+                    $(this).removeClass("tr_hover");
+                });
+
+            // 选中行变色
+            $("#goodtable tr").live("click", function () {
+                if (selected_tr != null) {
+                    selected_tr.removeClass("tr_selected");
+                }
+
+                $(this).addClass("tr_selected");
+
+                // 设置选中行为当前行
+                selected_tr = $(this);
+            });
+        });
+    </script>
+    <div id="page-wrapper">
+        <div class="row">
+           <div class="table-responsive">
+        <h4 class="margin-bottom-15" align="center">高新科汇总表</h4>
+        <table id="goodtable" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <thead>
+                <tr>
+                <th>计划类型</th>
+                <th>项目序号</th>
+                <th>项目名称</th>
+                <th>项目级别</th>
+                <th>项目数量</th>
+                <th>备注信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>项目</td>
+                <td>1</td>
+                <td><a href="http://119.23.15.165/tables/high_new_tec_20">国家科技重大专项</a></td>
+                <td>国家</td>
+                <td>13</td>
+                <td>暂无</td>
+                </tr>
+                <tr>
+                <td>项目</td>
+                <td>2</td>
+                <td><a href="http://119.23.15.165/tables/high_new_tec_21">国家科技重大专项统计</a></td>
+                <td>国家</td>
+                <td>13</td>
+                <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>3</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_12">国家863计划</a></td>
+                    <td>国家</td>
+                    <td>29</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>4</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_13">国家863计划统计</a></td>
+                    <td>国家</td>
+                    <td>29</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>5</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_14">国家973计划</a></td>
+                    <td>国家</td>
+                    <td>5</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>6</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_19">国家科技支撑计划</a></td>
+                    <td>国家</td>
+                    <td>7</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>7</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_39">科技型中小企业技术创新基金项目</a></td>
+                    <td>国家</td>
+                    <td>57</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>8</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_40">科技型中小企业技术创新基金项目经费支持统计</a></td>
+                    <td>国家</td>
+                    <td>57</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>9</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_38">科技部科技型中小企业创业投资引导基金资格</a></td>
+                    <td>国家</td>
+                    <td>4</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>10</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_16">国家火炬计划项目</a></td>
+                    <td>国家</td>
+                    <td>192</td>
+                    <td>国家150，省70</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>11</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_22">国家重点新产品计划</a></td>
+                    <td>国家</td>
+                    <td>48</td>
+                    <td></td>
+                </tr>
+                <tr>
+                        <td>项目</td>
+                        <td>12</td>
+                        <td><a href="http://119.23.15.165/tables/high_new_tec_23">国家重点新产品计划统计</a></td>
+                        <td>国家</td>
+                        <td>48</td>
+                        <td></td>
+                    </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>13</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_7">倍增计划</a></td>
+                    <td></td>
+                    <td>19</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>14</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_35">省科技型中小企业创业投资引导资金项目</a></td>
+                    <td>省级</td>
+                    <td>7</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>15</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_5">省天使投资引导资金入库机构资格申报及资金申请</a></td>
+                    <td>省级</td>
+                    <td>3</td>
+                    <td>3家机构入库17个项目</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>16</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_69">省科技支撑计划项目（2015年起叫 省重点研发计划）</a></td>
+                    <td>省级</td>
+                    <td>57</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>17</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_66">省科技型企业技术创新资金项目</a></td>
+                    <td>省级</td>
+                    <td>65</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>18</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_68">省科技支撑计划（科技企业上市培育)项目</a></td>
+                    <td>省级</td>
+                    <td>13</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>19</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_67">省科技支撑计划（科技企业上市培育)项目统计</a></td>
+                    <td>省级</td>
+                    <td>13</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>20</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_6">2014年省级中小企业创新发展专项资金合同</a></td>
+                    <td>省级</td>
+                    <td>9</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>21</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_80">苏州市科技发展计划项目</a></td>
+                    <td>苏州</td>
+                    <td>97</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>22</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_50">昆山市机器人发展计划科技专项</a></td>
+                    <td>昆山</td>
+                    <td>88</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>23</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_49">昆山市高新技术产业集群示范科技专项</a></td>
+                    <td>昆山</td>
+                    <td>19</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>24</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_54">昆山市新兴产业倍增计划科技专项</a></td>
+                    <td>昆山</td>
+                    <td>20</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>25</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_51">昆山市科技型企业技术创新资金项目</a></td>
+                    <td>昆山</td>
+                    <td>323</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>26</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_4">昆山市文化科技发展计划科技专项</a></td>
+                    <td>昆山</td>
+                    <td>9</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>27</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_53">昆山市企业信息化示范工程项目</a></td>
+                    <td>昆山</td>
+                    <td>70</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>28</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_46">昆山市促进台资企业转型升级项目</a></td>
+                    <td>昆山</td>
+                    <td>189</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>29</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_44">昆山市“互联网+”改造提升制造业科技专项</a></td>
+                    <td>昆山</td>
+                    <td>11</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>30</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_83">昆山市新材料技术科技专项</a></td>
+                    <td>昆山</td>
+                    <td>20</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>31</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_84">昆山市智能移动终端科技专项</a></td>
+                    <td>昆山</td>
+                    <td>17</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>项目</td>
+                    <td>32</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_2">昆山市国家、省级重大科技项目引导扶持科技专项</a></td>
+                    <td>昆山</td>
+                    <td>11</td>
+                    <td>对2015年后立项的省级以上项目，后补助</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>33</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_17">国家火炬计划重点高新技术企业</a></td>
+                    <td>国家</td>
+                    <td>29</td>
+                    <td>三一重机06年和11年认定，只计11年</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>34</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_18">国家级创新型试点企业</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>35</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_10">高新技术企业</a></td>
+                    <td>国家</td>
+                    <td>90</td>
+                    <td>2008年以前</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>36</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_9">高新技术企业</a></td>
+                    <td>国家</td>
+                    <td>665</td>
+                    <td>2008年及以后</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>37</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_25">技术先进型服务企业</a></td>
+                    <td>国家</td>
+                    <td>12</td>
+                    <td>国家级，委托苏州评审、认定</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>38</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_26">技术先进型服务企业统计</a></td>
+                    <td>国家</td>
+                    <td>12</td>
+                    <td>国家级，委托苏州评审、认定</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>39</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_15">国家火炬计划软件产业基地骨干企业</a></td>
+                    <td>国家</td>
+                    <td>2</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>40</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_60">省高新技术(后备）企业</a></td>
+                    <td>省级</td>
+                    <td>98</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>41</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_61">省高新技术（后备）企业未通过审核名单</a></td>
+                    <td>省级</td>
+                    <td>98</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>42</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_33">省高新技术企业培育计划推荐入库</a></td>
+                    <td>省级</td>
+                    <td>166</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>43</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_65">省科技企业上市培育计划推荐入库企业</a></td>
+                    <td>省级</td>
+                    <td>74</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>44</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_58">省创新型企业</a></td>
+                    <td>省级</td>
+                    <td>41</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>45</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_71">省双密企业</a></td>
+                    <td>省级</td>
+                    <td>19</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>46</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_64">省技术创新方法试点和示范企业</a></td>
+                    <td>省级</td>
+                    <td>6</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>47</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_57">省创新方法示范企业</a></td>
+                    <td>省级</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>48</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_36">省民营科技企业</a></td>
+                    <td>省级</td>
+                    <td>1229</td>
+                    <td>2016年新增162家</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>49</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_37">省民营科技企业统计</a></td>
+                    <td>省级</td>
+                    <td>1229</td>
+                    <td>2016年新增162家</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>50</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_32">省第二届百强民营科技企业</a></td>
+                    <td>省级</td>
+                    <td>2</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>51</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_70">省科技型中小企业</a></td>
+                    <td>省级</td>
+                    <td>498</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>52</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_79">苏州市创新先锋企业</a></td>
+                    <td>苏州</td>
+                    <td>15</td>
+                    <td>有效数</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>53</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_77">苏州高新技术企业</a></td>
+                    <td>苏州</td>
+                    <td>65</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>54</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_78">苏州高新技术企业统计</a></td>
+                    <td>苏州</td>
+                    <td>65</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>55</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_42">昆山高新技术企业</a></td>
+                    <td>昆山</td>
+                    <td>106</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>企业</td>
+                    <td>56</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_43">昆山高新技术企业统计</a></td>
+                    <td>昆山</td>
+                    <td>106</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>57</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_24">国家自主创新产品</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>58</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_74">国重点新产品</a></td>
+                    <td>省级</td>
+                    <td>71</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>59</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_62">省高新技术产品</a></td>
+                    <td>省级</td>
+                    <td>4557</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>60</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_75">省自主创新产品</a></td>
+                    <td>省级</td>
+                    <td>21</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>61</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_76">苏州高新技术产品</a></td>
+                    <td>苏州</td>
+                    <td>125</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>62</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_47">昆山市高新技术产品</a></td>
+                    <td>昆山</td>
+                    <td>174</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>产品</td>
+                    <td>63</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_48">昆山市高新技术产品</a></td>
+                    <td>昆山</td>
+                    <td>174</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>64</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_11">国家“863”计划高技术成果产业化基地</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>65</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_82">国家火炬计划特色产业基地</a></td>
+                    <td>国家</td>
+                    <td>8</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>66</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_3">科技部创新型产业集群试点</a></td>
+                    <td>国家</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>67</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_8">科技孵化器</a></td>
+                    <td>国家/省</td>
+                    <td>12</td>
+                    <td>5+8</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>68</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_27">科技加速器</a></td>
+                    <td>省级</td>
+                    <td>2</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>69</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_28">省产业技术创新战略联盟</a></td>
+                    <td>省级</td>
+                    <td>3</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>70</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_34">省产业技术创新战略联盟</a></td>
+                    <td>省级</td>
+                    <td>9</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>71</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_72">省文化科技产业园</a></td>
+                    <td>省级</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>72</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_30">省文化科技产业园</a></td>
+                    <td>省级</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>73</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_29">省创新型乡镇</a></td>
+                    <td>省级</td>
+                    <td>8</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>74</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_31">省创新专业镇</a></td>
+                    <td>省级</td>
+                    <td>3</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>75</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_59">省大学科技园</a></td>
+                    <td>省级</td>
+                    <td>2</td>
+                    <td>获批筹建</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>76</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_73">省众创空间</a></td>
+                    <td>省级</td>
+                    <td>9</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>77</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_63">省级众创集聚区</a></td>
+                    <td>省级</td>
+                    <td>1</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>78</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_81">苏州众创空间</a></td>
+                    <td>苏州</td>
+                    <td>6</td>
+                    <td>4+2（纳入管理）</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>79</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_52">昆山企业科技产业园</a></td>
+                    <td>昆山</td>
+                    <td>8</td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>载体</td>
+                    <td>80</td>
+                    <td><a href="http://119.23.15.165/tables/high_new_tec_55">昆山市众创空间</a></td>
+                    <td>昆山</td>
+                    <td>21</td>
+                    <td>暂无</td>
+                </tr>
+        </tbody>
+        </table>
+    </div>
+{% endblock %}

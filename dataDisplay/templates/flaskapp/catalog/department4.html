@@ -1,0 +1,142 @@
+{% extends "flaskapp/base.html" %}
+{% block content %}
+    <title>昆山市科技局合作交流科数据汇总表</title>
+    <style type="text/css">
+        table {
+            border: 1px solid #666666;
+        }
+
+        table tr {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        /* 隔行样式 */
+        .tr_odd {
+            background-color: rgba(192, 192, 192, 0.664);
+        }
+
+        .tr_even {
+            background-color: #F8F8F8;
+        }
+
+        /* 划过行样式 */
+        .tr_hover {
+            background-color: #CCCCFF;
+        }
+
+        /* 选中行样式 */
+        .tr_selected {
+            background-color: rgb(80, 144, 163);
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        // 定义选中行
+        var selected_tr;
+
+        $(function () {
+            // 隔行变色
+            $("#goodtable tr").addClass("tr_odd");
+            $("#goodtable tr:even").addClass("tr_even");
+
+            // 划过行变色
+            $("#goodtable tr").live("mouseover", function () {
+                $(this).addClass("tr_hover");
+            })
+                .live("mouseout", function () {
+                    $(this).removeClass("tr_hover");
+                });
+
+            // 选中行变色
+            $("#goodtable tr").live("click", function () {
+                if (selected_tr != null) {
+                    selected_tr.removeClass("tr_selected");
+                }
+
+                $(this).addClass("tr_selected");
+
+                // 设置选中行为当前行
+                selected_tr = $(this);
+            });
+        });
+    </script>
+    <div id="page-wrapper">
+        <div class="row">
+           <div class="table-responsive">
+        <h4 class="margin-bottom-15" align="center">合作交流科汇总表</h4>
+        <table id="goodtable" cellpadding="0" cellspacing="0" border="0" width="100%" >
+            <thead>
+                <tr>
+                <th>项目序号</th>
+                <th>项目名称</th>
+                <th>备注信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_1">国家级国际科技合作与交流专项</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_2">省级产学研联合创新资金</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_3">省级国际科技合作项目</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_4">苏州市级国际科技合作项目</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_5">昆山市级国际科技合作项目</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_6">产学研联合项目</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_7">产学研联合体</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_8">历年昆山市与高校院所签约情况</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_9">教授博士柔性进企业</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_10">企业创新岗</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_11">2014协同创新项目</a></td>
+                    <td>暂无</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td><a href="http://119.23.15.165/tables/cop_ex_12">2015对台科技合作专项</a></td>
+                    <td>暂无</td>
+                </tr>
+        </tbody>
+        </table>
+        </div>
+    </div>
+{% endblock %}

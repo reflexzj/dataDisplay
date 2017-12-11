@@ -1,8 +1,9 @@
 # coding=utf-8
 
-from dataDisplay.flaskapp.rules import sums_rules, methods
-from dataDisplay.flaskapp.calculation.auto_cal import select_table
+from dataDisplay.flaskapp.sums_models.rules import sums_rules, methods
+from dataDisplay.flaskapp.sums_models.calculation.auto_cal import select_table
 from dataDisplay.flaskapp.sums_models import update
+from dataDisplay.flaskapp.sums_models.directory_sum import do_sum
 
 # 目前可供实时统计更新的总结表，其他都是手动完成的
 sums_dict = ['sums_3', 'sums_7', 'sums_9', 'sums_10']
@@ -10,7 +11,7 @@ sums_dict = ['sums_3', 'sums_7', 'sums_9', 'sums_10']
 
 def sums_update(table_name, start_y, end_y):
     '''
-    更新总结表中的统计信息，前提是总结表在数据库中有对应表
+    更新单张总结表中的统计信息，前提是总结表在数据库中有对应表
     只能更新自动统计的部分，手动统计部分更新不在此处
     :param table_name:
     :param start_y:
@@ -44,6 +45,22 @@ def update_all(s_year, e_year):
     for table in sums_dict:
         result = sums_update(table, s_year, e_year)
 
-        print '总结表：', unicode(table, 'utf-8')
+        print u'总结表：', table
         for data in result:
             print data
+
+
+# 六个科室的名称
+directory_dict = [u'成果科汇总表', u'高新科汇总表', u'法规科汇总表', u'专利科汇总表', u'农社科汇总表', u'合作交流科汇总表']
+
+def update_directory():
+    '''
+    更新六个科室所有的目录表
+    :return:
+    '''
+    results = {}
+    for directory in directory_dict:
+        result = do_sum.show_ks_sums(directory)
+        results.update({directory: result})
+
+    return results

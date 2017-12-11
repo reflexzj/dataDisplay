@@ -7,6 +7,9 @@ from dataDisplay.flaskapp import update
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.sums_models.update import *
 from dataDisplay.user.models import Role, User
+from dataDisplay.flaskapp.sums_models.directory_sum  import do_sum
+from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.myfunc import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -20,7 +23,20 @@ def display():
     :return:
     '''
 
-    update.update_all(2014, 2015)
+    # 汇总表自动更新模块
+    # update.update_all(2014, 2015)
+
+    # 科室目录模块
+    # sheet_names = [u'技术经纪人']
+    # result = do_sum.row_sum(sheet_names)
+    # print result
+
+
+    # result = do_sum.show_ks_sums(u'成果科认定项目汇总表')
+    # print result
+
+    results = update.update_directory()
+    print results
 
     return '----------模块测试页面------------\n'
 

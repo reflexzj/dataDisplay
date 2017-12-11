@@ -1,6 +1,6 @@
 # coding=utf-8
 from dataDisplay.flaskapp.sums_models.methods import *
-from dataDisplay.flaskapp.rules.methods import *
+from dataDisplay.flaskapp.sums_models.rules.methods import *
 import datetime
 
 log_path = 'datadisplay/flaskapp/data/source_logs.txt'
@@ -85,3 +85,5 @@ def update_sums(table_name, sums, columns):
         logs.write('有部分数据未能完成更新，序号为：' + ','.join(fail_lists) + '\n')
     else:
         logs.write('所有数据更新完成！\n')
+
+

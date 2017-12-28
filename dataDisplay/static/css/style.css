@@ -40,7 +40,7 @@ textarea {
 .form-register .form-control {
   position: relative;
   font-size: 16px;
-  height: auto;
+  /*height: auto;*/
   padding: 10px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;

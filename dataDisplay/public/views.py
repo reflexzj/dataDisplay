@@ -8,7 +8,7 @@ from flask_login import login_required, login_user, logout_user
 from dataDisplay.extensions import login_manager
 from dataDisplay.public.forms import LoginForm
 from dataDisplay.user.forms import RegisterForm
-from dataDisplay.user.models import User
+from dataDisplay.user.models import User, Role
 from dataDisplay.utils import flash_errors
 
 blueprint = Blueprint('public', __name__, static_folder='../static')
@@ -52,10 +52,16 @@ def register():
     """Register new user."""
     form = RegisterForm(request.form, csrf_enabled=False)
     if form.validate_on_submit():
-        User.create(username=form.username.data, email=form.email.data, password=form.password.data,
-                    department=form.department.data, active=True)
-        flash('Thank you for registering. You can now log in.', 'success')
-        return redirect(url_for('public.home'))
+        User.create(username=form.username.data, password=form.password.data, department=form.department.data,
+                    active=1)
+        # 分配权限x
+        user = User.query.filter(User.username == form.username.data)[0]
+        role = Role(permissions=3)
+        user.roles.append(role)
+        user.update()
+
+        # flash('Thank you for registering. You can now log in.', 'success')
+        return redirect('/tables/User')
     else:
         flash_errors(form)
     return render_template('public/register.html', form=form)

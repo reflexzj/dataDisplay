@@ -78,7 +78,7 @@
                         <div class="input-group custom-search-form">
                             <form id="search" action="/search_result">
                                 <input name="keyword" id="keyword1" type="text" class="form-control"
-                                       placeholder="Search...">
+                                       placeholder="搜索...">
                             </form>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
@@ -91,10 +91,10 @@
                     </li>
 
                     <li>
-                        <a href="/index"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="/index"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 图表<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 {% if current_user.department=='department1' or current_user.roles[0].permissions>=7 %}
@@ -115,7 +115,8 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a><i class="fa fa-table fa-fw"></i> Tables<span class="fa arrow"></span></a>
+
+                        <a><i class="fa fa-table fa-fw"></i> 数据展示<span class="fa arrow"></span></a>
 
                         <ul class="nav nav-second-level">
                             <li>
@@ -137,7 +138,7 @@
                             </li>
                             <li>
                                 {% if current_user.department=='department4' or current_user.roles[0].permissions>=7 %}
-                                   <a href="/catalog/department4">合作交流科</a>
+                                    <a href="/catalog/department4">合作交流科</a>
                                 {% endif %}
                             </li>
                             <li>
@@ -157,18 +158,18 @@
                                         <li>
                                             <a href='/summary/sums_8'>人才</a>
                                         </li>
-{#                                        <li>#}
-{#                                            <a href='/summary/sums_3'>企业</a>#}
-{#                                        </li>#}
-{#                                        <li>#}
-{#                                            <a href='/summary/project'>项目</a>#}
-{#                                        </li>#}
-{#                                        <li>#}
-{#                                            <a href='/summary/vector'>载体</a>#}
-{#                                        </li>#}
-{#                                        <li>#}
-{#                                            <a href='/summary/R_D_institutions'>研发机构</a>#}
-{#                                        </li>#}
+                                        {#                                        <li>#}
+                                        {#                                            <a href='/summary/sums_3'>企业</a>#}
+                                        {#                                        </li>#}
+                                        {#                                        <li>#}
+                                        {#                                            <a href='/summary/project'>项目</a>#}
+                                        {#                                        </li>#}
+                                        {#                                        <li>#}
+                                        {#                                            <a href='/summary/vector'>载体</a>#}
+                                        {#                                        </li>#}
+                                        {#                                        <li>#}
+                                        {#                                            <a href='/summary/R_D_institutions'>研发机构</a>#}
+                                        {#                                        </li>#}
                                     </ul>
                                 {% endif %}
                             </li>
@@ -177,10 +178,24 @@
                     </li>
                     {% if current_user.roles[0].permissions>=7 %}
                         <li>
-                            <a href="/upload" target=""><i class="fa fa-edit fa-fw"></i>Input</a>
+                            <a href="/upload"><i class="fa fa-edit fa-fw"></i> 文件上传</a>
 
                         </li>
                     {% endif %}
+                    <li>
+                        {% if current_user.roles[0].permissions>=15 %}
+                        <a href="/index"><i class="fa fa-wrench fa-fw"></i> 后台管理
+                            <span class="fa arrow"></span></a>
+                        {% endif %}
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/tables/User">用户列表</a>
+                                <a href="/register">新增用户</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -242,11 +257,36 @@
             {#            responsive: true,#}
             "scrollX": true,
             "aLengthMenu": [[20, 50, -1], [20, 50, 'ALL']],
-            "order": [[0, "desc"]]
+            "order": [[0, "desc"]],
+            "columnDefs": [{
+                "targets": -1,
+                "render": function (data, type, full, meta) {
+                    var local = window.location.href
+                    var html = "<a href='" + local + "/detail/" + data + "' class='btn btn-default btn-xs' target='_blank'>编辑</a>"
+                    html += "<a href='javascript:void(0);'  onclick='show_confirm("+ data +")'  class='btn btn-default btn-xs'>删除</a>"
+
+
+                    return html;
+                }
+            },
+                {
+                    "orderable": false,
+                    "targets": -1
+                }]
         });
     });
 </script>
-
+<script type="text/javascript">
+function show_confirm(data)
+{
+var r=confirm("确定要删除本条记录？");
+if (r==true)
+  {
+  alert("操作成功");
+  location.href= window.location.href+ "/delete/" + data
+  }
+}
+</script>
 {#{% include "footer.html" %}#}
 </body>
 

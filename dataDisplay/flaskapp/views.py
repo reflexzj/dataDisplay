@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """main view"""
 from flask import Blueprint, render_template
+from flask import flash
 from flask import request
 from flask_login import login_required
 
@@ -11,6 +12,8 @@ from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.model_sums import *
 from dataDisplay.flaskapp.sums.create_sums import *
+from dataDisplay.user.forms import RegisterForm
+from dataDisplay.user.models import *
 from dataDisplay.user.models import Role, User
 from os import path
 from werkzeug.utils import secure_filename, redirect
@@ -43,8 +46,7 @@ def table_test(table_name):
     column_0 = columns[0].split(',')[1:]
     column_1 = columns[1].split(',')[1:]
     columns = [column_0, column_1]
-
-    return render_template('flaskapp/summary/'+table_name+'.html', info=info, columns=columns)
+    return render_template('flaskapp/summary/' + table_name + '.html', info=info, columns=columns)
 
 
 @blueprint.route('/index')
@@ -71,7 +73,7 @@ def show_charts(department):
 @blueprint.route('/catalog/<string:table_id>')
 @login_required
 def show_catalog(table_id):
-    return render_template('flaskapp/catalog/'+table_id+'.html')
+    return render_template('flaskapp/catalog/' + table_id + '.html')
 
 
 @blueprint.route('/tables/<string:table_id>')
@@ -82,17 +84,13 @@ def show_tables(table_id):
         abort(401)
     info = eval(table_id).query.all()
     table_name = get_table_name(table_id)
-    # print table_name
     columns = show_columns(table_id)
-    column_0 = columns[0].split(',')[1:]
-    column_1 = columns[1].split(',')[1:]
-    # if table_name == '汇总表':
-    #     columns = []
-    #     for x in range(len(column_0)):
-    #         print column_0[x]
-    #         columns.append([column_0[x],column_1[x]])
-    # return render_template('flaskapp/sums_8.html', info=info, columns=columns, table_name=table_name)
-
+    column_ch = columns[0].split(',')  # 中文名
+    column_en = columns[1].split(',')  # 数据库列名
+    column_0 = column_ch[1:]
+    column_0.append('操作')
+    column_1 = column_en[1:]
+    column_1.append(column_en[0])
     columns = [column_0, column_1]
     # print columns
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
@@ -124,13 +122,86 @@ def search_result():
         columns_all.append([table_id, table_name, column_0, column_1])
     return render_template('flaskapp/search_result.html', info=hits, columns_all=columns_all)
 
+
+@blueprint.route('/tables/<string:table_id>/detail/<int:data_id>')
+@clerk_required
+def show_detail(table_id, data_id):
+    """
+    展示具体数据
+    :param table_id:
+    :param data_id:
+    :return:
+    """
+    if current_user.roles[0].permissions < 7 and not is_allowed(current_user.department, table_id):
+        abort(401)
+    info = eval(table_id).query.filter(eval(table_id).id == data_id)[0]
+    if table_id == 'User':
+        form = RegisterForm(request.form, csrf_enabled=False)
+        return render_template('public/change_users_info.html', form=form, info=info, data_id=data_id)
+    columns = show_columns(table_id)
+    column_0 = columns[0].split(',')[1:]  # 中文名
+    column_1 = columns[1].split(',')[1:]  # 数据库列名
+    col_name = []
+    for i in range(len(column_0)):
+        col_name.append([column_0[i], column_1[i]])
+    return render_template('flaskapp/detailAndRevise.html', columns=col_name, info=info, table_id=table_id,
+                           data_id=data_id)
+
+
+@blueprint.route('/tables/<string:table_id>/update/<int:data_id>', methods=['GET', 'POST'])
+@clerk_required
+def update_record(table_id, data_id):
+    """
+    更新一条记录
+    :param table_id: 表id
+    :param data_id: id(主键)
+    :return:
+    """
+    if table_id == 'User':
+        if current_user.roles[0].permissions < 15:
+            abort(401)
+        form = RegisterForm(request.form, csrf_enabled=False)
+        password = bcrypt.generate_password_hash(form.password.data)
+        new_data = [form.username.data, form.department.data, password]
+        columns = ['username', 'department', 'password']
+    else:
+        datas = request.args
+        columns = []
+        new_data = []
+        for column in datas:
+            columns.append(column)
+            new_data.append(datas[column])
+    update_data(table_id, data_id, new_data, columns)
+    return redirect('/tables/' + table_id)
+
+
+@blueprint.route('/tables/<string:table_id>/delete/<int:data_id>')
+@clerk_required
+def delete_record(table_id, data_id):
+    """
+    删除一条记录
+    :param table_id: 表id
+    :param data_id: 记录id
+    :return:
+    """
+    if current_user.roles[0].permissions < 7 and not is_allowed(current_user.department, table_id):
+        abort(401)
+    if table_id == 'User':
+        if current_user.roles[0].permissions < 15:
+            abort(401)
+        Role.query.filter_by(user_id=data_id).delete()
+        db.session.commit()
+    delet_data(table_id, data_id)
+    return redirect('/tables/' + table_id)
+
+
 @csrf_protect.exempt
 @blueprint.route('/upload', methods=['GET', 'POST'])
 @admin_required
 def upload():
     if request.method == 'POST':
         f = request.files['file']
-        pa = path.join('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp',f.filename)
+        pa = path.join('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp', f.filename)
         f.save(pa)
         return "OK"
     return render_template('flaskapp/upload.html')

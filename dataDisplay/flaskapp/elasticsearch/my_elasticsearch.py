@@ -27,7 +27,7 @@ def fulltext_search(keyword):
         }
     }
 
-    _searched = es.search(body=_query_name_contains)
+    _searched = es.search(body=_query_name_contains, size=1000)
     #
     # print _searched
     # source = _searched['hits']['hits'][0]

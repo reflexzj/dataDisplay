@@ -31,6 +31,3 @@ def minister_required(func):
 def clerk_required(func):
     return permission_required(3)(func)
 
-
-def chief_required(func):
-    return permission_required(1)(func)

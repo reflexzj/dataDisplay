@@ -1,0 +1,38 @@
+{% extends "flaskapp/base.html" %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">详情</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+
+                <form id="data_form" action="/tables/{{ table_id }}/update/{{ data_id }}">
+                    {% for column in columns %}
+                        <div style="margin-bottom: 0">
+
+                            <label style="padding: 7px 0 0 5px;float:left;width:160px;text-align: right">
+                                {{ column[0].decode('utf-8') }}
+                            </label>
+                            <div style="padding: 2px;margin-left: 180px">
+                                <input name="{{ column[1] }}" id="{{ column[1] }}" type="text" class="form-group" style="width: 300px;"
+                                       value='{{ info[column[1]] }}'>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="data_update_btn"
+                                onclick="document.getElementById('data_form').submit();">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+
+{% endblock %}

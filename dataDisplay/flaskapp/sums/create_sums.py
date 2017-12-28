@@ -3,13 +3,13 @@ from .update import *
 
 
 def update_sums(table_name, sums, columns):
-    '''
+    """
     更新数据汇总表
     :param table_name:
     :param sums:
     :param columns:
     :return:
-    '''
+    """
     for sum in sums:
         try:
             insert(table_name, sums, columns)

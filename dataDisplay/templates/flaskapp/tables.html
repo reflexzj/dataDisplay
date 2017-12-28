@@ -18,11 +18,11 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <table width="100%" class="table table-striped table-bordered table-hover"
-                               id="example" cellspacing="0">
+                               id="example" cellspacing="0" style="table-layout: fixed">
                             <thead style="white-space:nowrap;">
                             <tr>
                                 {% for x in columns[0] %}
-                                <th>{{ x.decode('utf-8') }}</th>
+                                    <th>{{ x.decode('utf-8') }}</th>
                                 {% endfor %}
                             </tr>
                             </thead>
@@ -30,7 +30,7 @@
                             {% for tmp in info %}
                                 <tr>
                                     {% for column in columns[1] %}
-                                            <td>{{ tmp[column.strip()] }}</td>
+                                        <td style="overflow: hidden;text-overflow: ellipsis;max-width: 200px">{{ tmp[column.strip()] }}</td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}

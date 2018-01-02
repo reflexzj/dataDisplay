@@ -54,12 +54,24 @@ def is_allowed(department, table_id):
            'department5': 'high_new_tec',
            'department6': 'result',
            }
-    print dic[department]
+    # print dic[department]
     lenth = len(dic[department])
     if table_id[:lenth] == dic[department]:
         return True
     return False
 
+
+def chinese_department(department):
+    dic = {'department1': '农社科',
+           'department2': '专利科',
+           'department3': '法规科',
+           'department4': '合作交流科',
+           'department5': '高新科',
+           'department6': '成果科',
+           }
+    if department in dic:
+        return dic[department]
+    return department
 
 # class ChineseTokenizer(Tokenizer):
 #     """

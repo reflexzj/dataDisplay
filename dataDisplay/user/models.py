@@ -67,6 +67,9 @@ class User(UserMixin, SurrogatePK, Model):
         else:
             return False
 
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def __repr__(self):
         """Represent instance as a unique string."""
         return '<User({username!r})>'.format(username=self.username)

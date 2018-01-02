@@ -19,15 +19,15 @@
         "uploadUrl":"/upload",//上传文件信息地址
         "showSummerProgress":false,//总进度条，默认限制
         "maxFileNumber":3,//文件个数限制，为整数
-        "onUpload":onUploadFun,//在上传后执行的函数
+{#        "onUpload":onUploadFun,//在上传后执行的函数#}
         autoCommit:false,//文件是否自动上传
         "fileType":['xls','xlsx'],//文件类型限制，默认不限制，注意写的是文件后缀
     });
     function beforeUploadFun(opt){
         opt.otherData =[{"name":"你要上传的参数","value":"你要上传的值"}];
     }
-    function onUploadFun(opt,data){
-        alert(data);
+{#    function onUploadFun(opt,data){#}
+{#        alert(data);#}
 {#        uploadTools.uploadError(opt);//显示上传错误#}
-    }
+{#    }#}
 </script>

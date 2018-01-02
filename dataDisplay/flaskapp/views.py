@@ -12,6 +12,7 @@ from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.model_sums import *
 from dataDisplay.flaskapp.sums.create_sums import *
+from dataDisplay.flaskapp.sums_models.update import insert_db
 from dataDisplay.user.forms import RegisterForm
 from dataDisplay.user.models import *
 from dataDisplay.user.models import Role, User
@@ -55,6 +56,16 @@ def dashboard():
     return render_template('flaskapp/index.html')
 
 
+@blueprint.route('/Chinese.json')
+def get_plun_ins():
+    """
+    datatables国际化
+    :return: 中文翻译json
+    """
+    data = open('dataDisplay/static/flaskapp/txt/Chinese.json', 'r').read()
+    return data
+
+
 @blueprint.route('/charts/<string:department>')
 @login_required
 def show_charts(department):
@@ -92,7 +103,15 @@ def show_tables(table_id):
     column_1 = column_en[1:]
     column_1.append(column_en[0])
     columns = [column_0, column_1]
+    if table_id == 'User':
+        tmp = []
+        for user in info:
+            user = user.to_dict()
+            user['department']=chinese_department(user['department'])
+            tmp.append(user)
+        info = tmp
     # print columns
+
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
 
 
@@ -197,13 +216,19 @@ def delete_record(table_id, data_id):
 
 @csrf_protect.exempt
 @blueprint.route('/upload', methods=['GET', 'POST'])
-@admin_required
+@clerk_required
 def upload():
     if request.method == 'POST':
         f = request.files['file']
         pa = path.join('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp', f.filename)
         f.save(pa)
-        return "OK"
+        department = current_user.department
+        # print department
+        tmp = {'department1': 'farm_socity', 'department2': 'patent', 'department3': 'law', 'department4': 'cop_ex',
+               'department5': 'high_new_tec', 'department6': 'result', }
+        insert_db(path='/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp', xls_name=f.filename,
+                  ks_name=tmp[department])
+        return redirect('/index')
     return render_template('flaskapp/upload.html')
 
 

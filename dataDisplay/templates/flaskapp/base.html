@@ -176,7 +176,7 @@
 
                         </ul>
                     </li>
-                    {% if current_user.roles[0].permissions>=7 %}
+                    {% if current_user.roles[0].permissions ==3 %}
                         <li>
                             <a href="/upload"><i class="fa fa-edit fa-fw"></i> 文件上传</a>
 
@@ -184,8 +184,8 @@
                     {% endif %}
                     <li>
                         {% if current_user.roles[0].permissions>=15 %}
-                        <a href="/index"><i class="fa fa-wrench fa-fw"></i> 后台管理
-                            <span class="fa arrow"></span></a>
+                            <a href="/index"><i class="fa fa-wrench fa-fw"></i> 后台管理
+                                <span class="fa arrow"></span></a>
                         {% endif %}
                         <ul class="nav nav-second-level">
                             <li>
@@ -255,7 +255,11 @@
             ],
 
             {#            responsive: true,#}
+            "language": {
+                "url": "/Chinese.json"
+            },
             "scrollX": true,
+
             "aLengthMenu": [[20, 50, -1], [20, 50, 'ALL']],
             "order": [[0, "desc"]],
             "columnDefs": [{
@@ -263,7 +267,7 @@
                 "render": function (data, type, full, meta) {
                     var local = window.location.href
                     var html = "<a href='" + local + "/detail/" + data + "' class='btn btn-default btn-xs' target='_blank'>编辑</a>"
-                    html += "<a href='javascript:void(0);'  onclick='show_confirm("+ data +")'  class='btn btn-default btn-xs'>删除</a>"
+                    html += "<a href='javascript:void(0);'  onclick='show_confirm(" + data + ")'  class='btn btn-default btn-xs'>删除</a>"
 
 
                     return html;
@@ -277,15 +281,13 @@
     });
 </script>
 <script type="text/javascript">
-function show_confirm(data)
-{
-var r=confirm("确定要删除本条记录？");
-if (r==true)
-  {
-  alert("操作成功");
-  location.href= window.location.href+ "/delete/" + data
-  }
-}
+    function show_confirm(data) {
+        var r = confirm("确定要删除本条记录？");
+        if (r == true) {
+            alert("操作成功");
+            location.href = window.location.href + "/delete/" + data
+        }
+    }
 </script>
 {#{% include "footer.html" %}#}
 </body>

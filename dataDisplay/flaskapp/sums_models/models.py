@@ -13,10 +13,11 @@ def init_databse(self, columns, data):
     """
     for index in range(len(columns)):
         # 将缺省值做null处理
-        if str(data[index]).strip():
+        if data[index]:
             value = data[index]
         else:
-            value = None
+            value = ''
+
         setattr(self, columns[index], value)
 
 

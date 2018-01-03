@@ -38,6 +38,8 @@ def display():
     results = update.update_directory()
     print results
 
+    # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
+
     return '----------模块测试页面------------\n'
 
 

@@ -1,5 +1,6 @@
 # coding=utf-8
 from dataDisplay.flaskapp.sums_models.models import *
+from dataDisplay.flaskapp.models import *
 
 def delet_data(table_name, id):
     '''
@@ -58,15 +59,20 @@ def insert(table_name, xls_data, columns):
     :param columns:
     :return:
     '''
-    for data in xls_data:
-        content = None
+    # 没有成功插入的数据
+    fail_lists = []
 
+    for data in xls_data:
+
+        content = None
         try:
-            exec('content ='+ table_name + '(columns, data)')
+            exec('content = '+ table_name + '(columns, data)')
             db.session.add(content)
         except Exception, e:
             # models没有成功初始化
-            print 'table model init error: ', table_name, len(columns), len(data)
+            print u'数据插入失败：', table_name, u'——', data
+            print u'属性数目：', len(columns), u' 数据列数：', len(data)
+            fail_lists.append(data)
             print e
 
         try:
@@ -74,3 +80,5 @@ def insert(table_name, xls_data, columns):
         except Exception, e:
             # print 'ERROR:', e
             db.session.rollback()
+
+    return fail_lists

@@ -12,6 +12,7 @@ def delet_data(table_name, id):
     exec(table_name+ '.query.filter_by(id = id).delete()')
     db.session.commit()
 
+
 def find_id(table_name, year):
     '''
     根据年份信息寻找总结表中，对应年份数据对应的id
@@ -23,7 +24,6 @@ def find_id(table_name, year):
     exec ('result=' + table_name + '.query.filter_by(year = year).first()')
     id = result.id
     return id
-
 
 
 def update_data(tale_name, id, new_data, columns):
@@ -44,11 +44,9 @@ def update_data(tale_name, id, new_data, columns):
         values.append(value)
 
     values = '{' + ', '.join(values) + '}'
-    print 'values', values
-
+    # print 'values', values
     exec( tale_name+'.query.filter_by(id = id).update(' + values + ')')
     db.session.commit()
-
 
 
 def insert(table_name, xls_data, columns):
@@ -63,7 +61,6 @@ def insert(table_name, xls_data, columns):
     fail_lists = []
 
     for data in xls_data:
-
         content = None
         try:
             exec('content = '+ table_name + '(columns, data)')
@@ -82,3 +79,13 @@ def insert(table_name, xls_data, columns):
             db.session.rollback()
 
     return fail_lists
+
+def extract_table(table_name, column_value):
+    '''
+    抽取数据库中对应表，对应栏目的数据
+    :param table_name:
+    :param column_value:
+    :return:
+    '''
+
+    pass

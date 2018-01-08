@@ -61,15 +61,21 @@ def update_db(path, xls_name):
 
 def insert_db(path, xls_name, ks_name):
     '''
-    导入工作，数据库表只增加，不更新。可以接受同一科室下（一个excel文件）的多个sheet表。
+    导入工作，数据库表只增加，不更新。可以接受同一科室下的多张更新表（一个excel文件中对应的多个sheet表）。
     更新情况记录在source_logs.txt中
     :param path:
     :param xls_name:
-    :param ks_name: 接收对应的英文名，对应表情况如下
-                    reflect_table = {'专利科':'patent', '农社科':'farm_socity', '合作交流科':'cop_ex',
-                    '法规科':'law', '成果科':'result', '高新科':'high_new_tec', '总结':'sums'}
+    :param ks_name: 接收对应的英文名，对应表情况如下:
+                    reflect_table = {'专利科':'patent',
+                                    '农社科':'farm_socity',
+                                    '合作交流科':'cop_ex',
+                                    '法规科':'law',
+                                    '成果科':'result',
+                                    '高新科':'high_new_tec',
+                                    '总结':'sums'}
     :return:
     '''
+
     # 待更新excle文件，导入到到数据库中
     # 获取文件中的所有的sheets，以及对应数据库中的英文表名
     all_datas, sheet_names = give_sheet(path, xls_name)
@@ -95,9 +101,9 @@ def insert_db(path, xls_name, ks_name):
                     del e[0]
                     raw_data.append(e)
 
+            # 插入对应数据，并统计失败的项目，缩略记录到日志中
             fail_lists = insert(ref_name, raw_data, column)
             fail_sums =len(fail_lists)
-
             if fail_sums:
                 logs.write('->有部分数据未能完成导入，内容为：\n ' )
                 for e in fail_lists:
@@ -110,6 +116,7 @@ def insert_db(path, xls_name, ks_name):
                     logs.write(' +', error_data)
             else:
                 logs.write('->所有数据导入完成！\n')
+
         else:
             logs.write('->当前表，本科室无权导入！\n')
         logs.write('------ 所有表上传结束 ------\n')

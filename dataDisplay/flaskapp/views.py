@@ -10,6 +10,7 @@ from dataDisplay.user.models import Role, User
 from dataDisplay.flaskapp.sums_models.directory_sum  import do_sum
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.myfunc import *
+from dataDisplay.flaskapp.sums_models.analysis.methods import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -35,10 +36,14 @@ def display():
     # result = do_sum.show_ks_sums(u'成果科认定项目汇总表')
     # print result
 
-    results = update.update_directory()
-    print results
+    # results = update.update_directory()
+    # print results
 
     # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
+
+    extract = extract_columns()
+    print(extract)
+
 
     return '----------模块测试页面------------\n'
 

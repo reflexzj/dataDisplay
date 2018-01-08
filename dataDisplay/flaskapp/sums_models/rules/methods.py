@@ -1,4 +1,7 @@
 # coding=utf-8
+'''
+主要包括excle的读取、数据库表的索引、中英文表头的对照
+'''
 import xlrd
 import os
 from dataDisplay.flaskapp.myfunc import *
@@ -18,6 +21,7 @@ def page_tables():
         ref_names.update({data[0]: data[1]})
 
     return ref_names
+
 
 def show_columns():
     """

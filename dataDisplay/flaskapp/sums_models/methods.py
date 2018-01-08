@@ -1,4 +1,9 @@
 # coding=utf-8
+'''
+    数据库的增、删、改工作
+    个性化的查询要求
+'''
+
 from dataDisplay.flaskapp.sums_models.models import *
 from dataDisplay.flaskapp.models import *
 
@@ -80,6 +85,7 @@ def insert(table_name, xls_data, columns):
 
     return fail_lists
 
+
 def extract_table(table_name, column_value):
     '''
     抽取数据库中对应表，对应栏目的数据
@@ -87,5 +93,27 @@ def extract_table(table_name, column_value):
     :param column_value:
     :return:
     '''
+    columns = column_value[0]
+    values = column_value[1]
+    extract_list = []
+    result = None
+    exec('result = ' + table_name + '.query.all()')
 
-    pass
+    temp = []
+    for data in result:
+        for index in range(len(columns)):
+            column = columns[index]
+            value = values[index]
+            if column:
+                for e in column:
+                    temp.append(eval('data.' + e))
+            elif not column and value:
+                temp.append(value)
+            else:
+                temp.append('')
+        extract_list.append(temp)
+
+    return extract_list
+
+
+

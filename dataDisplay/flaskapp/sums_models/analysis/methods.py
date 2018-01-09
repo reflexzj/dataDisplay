@@ -60,7 +60,7 @@ def extract_columns():
                             column = column_ref[column]
                             column_name_ref.append(column)
                         except:
-                            print table_name, column
+                            print u'对应抽取属性不存在: ',table_name, column
                             column_name = ''
                     column_name = ','.join(column_name_ref)
                 else:
@@ -83,6 +83,7 @@ def data_pro(index, data, value):
     '''
     try:
         if index ==2:
+            # 这里只调整column非空下的，级别栏对应的数据格式，缺省的在规则表中就要标准化（省级。。）
             if data:
                 if unicode('省','utf-8') in data:
                     data = '省级'
@@ -92,7 +93,7 @@ def data_pro(index, data, value):
                     data = '昆山'
                 else:
                     data = '国家'
-                # print data
+
         elif index == 4:
             data  = judge_year(re.findall('\d+', data))[0]
             if len(data) == 2:
@@ -100,6 +101,43 @@ def data_pro(index, data, value):
                     data = '19' + data
                 else:
                     data = '20' + data
+
+        elif index == 5:
+            if data:
+                if unicode('高新', 'utf-8') in data or unicode('玉山', 'utf-8') in data:
+                    data = '高新区'
+                elif unicode('周市', 'utf-8') in data:
+                    data = '周市'
+                elif unicode('周庄', 'utf-8') in data:
+                    data = '周庄'
+                elif unicode('巴城', 'utf-8') in data:
+                    data = '巴城'
+                elif unicode('开发', 'utf-8') in data:
+                    data = '开发区'
+                elif unicode('张浦', 'utf-8') in data:
+                    data = '张浦'
+                elif unicode('淀山', 'utf-8') in data:
+                    data = '淀山湖'
+                elif unicode('花桥', 'utf-8') in data:
+                    data = '花桥'
+                elif unicode('锦溪', 'utf-8') in data:
+                    data = '锦溪'
+                elif unicode('陆家', 'utf-8') in data:
+                    data = '陆家'
+                elif unicode('千灯', 'utf-8') in data:
+                    data = '千灯'
+                elif unicode('市', 'utf-8') in data:
+                    data = '市属'
+                else:
+                    data = ''
+
+        elif index == 6:
+            data = float(re.findall('\d+\.?\d*', data)[0])
+            if value:
+                data = str(data/10000)
+            else:
+                data = str(data)
+
         elif index == 7:
             data = judge_year(re.findall('\d+', data.replace(r'.\d*', '')))[-1]
             if len(data) == 2:
@@ -107,18 +145,13 @@ def data_pro(index, data, value):
                     data = '19' + data
                 else:
                     data = '20' + data
-        elif index == 6:
-            data = float(re.findall('\d+\.?\d*', data)[0])
-            if value:
-                data = str(data/10000)
-            else:
-                data = str(data)
+
         else:
             data = data.replace(' ', '').replace('\n', '')
     except Exception,e:
         if data:
-            print index,'missing_value',data
-            print e
+            print 'index',index,',missing_value: ',data
+            print 'error:', e
 
     return  data
 

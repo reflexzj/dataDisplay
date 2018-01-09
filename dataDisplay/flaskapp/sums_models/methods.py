@@ -126,7 +126,7 @@ def extract_table(table_name, column_value):
                             if e:
                                 print e
                             num += 0
-                    temp.append(num)
+                    temp.append(str(num))
                 else:
                     try:
                         temp.append(','.join(cell))

@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template
 from flask import flash
 from flask import request
+from flask import session
 from flask_login import login_required
 
 from dataDisplay.extensions import csrf_protect
@@ -91,7 +92,7 @@ def show_catalog(table_id):
 @login_required
 def show_tables(table_id):
     """show dataTables"""
-    if current_user.roles[0].permissions < 7 and not is_allowed(current_user.department, table_id):
+    if not is_allowed(current_user.department, table_id):
         abort(401)
     info = eval(table_id).query.all()
     table_name = get_table_name(table_id)
@@ -103,13 +104,13 @@ def show_tables(table_id):
     column_1 = column_en[1:]
     column_1.append(column_en[0])
     columns = [column_0, column_1]
-    if table_id == 'User':
-        tmp = []
-        for user in info:
-            user = user.to_dict()
-            user['department']=chinese_department(user['department'])
-            tmp.append(user)
-        info = tmp
+    # if table_id == 'User':
+    #     tmp = []
+    #     for user in info:
+    #         user = user.to_dict()
+    #         user['name'] = chinese_department(user[''])
+    #         tmp.append(user)
+    #     info = tmp
     # print columns
 
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
@@ -117,7 +118,6 @@ def show_tables(table_id):
 
 @blueprint.route('/search_result')
 @login_required
-@minister_required
 def search_result():
     keyword = request.args.get('keyword')
     result = fulltext_search(keyword)
@@ -133,12 +133,12 @@ def search_result():
     # 获取表格名与表头
     for table_id in tables_id:
         # print table_id
-        table_name = get_table_name(table_id)
-
-        columns = show_columns(table_id)
-        column_0 = columns[0].split(',')[1:]
-        column_1 = columns[1].split(',')[1:]
-        columns_all.append([table_id, table_name, column_0, column_1])
+        if is_allowed(current_user.department, table_id):
+            table_name = get_table_name(table_id)
+            columns = show_columns(table_id)
+            column_0 = columns[0].split(',')[1:]
+            column_1 = columns[1].split(',')[1:]
+            columns_all.append([table_id, table_name, column_0, column_1])
     return render_template('flaskapp/search_result.html', info=hits, columns_all=columns_all)
 
 
@@ -151,11 +151,14 @@ def show_detail(table_id, data_id):
     :param data_id:
     :return:
     """
-    if current_user.roles[0].permissions < 7 and not is_allowed(current_user.department, table_id):
+    if not is_allowed(current_user.department, table_id):
         abort(401)
     info = eval(table_id).query.filter(eval(table_id).id == data_id)[0]
     if table_id == 'User':
         form = RegisterForm(request.form, csrf_enabled=False)
+        user = info.to_dict()
+        permission = Role.query.filter(Role.user_id == data_id)[0].permissions
+        update_form(user, form, permission)
         return render_template('public/change_users_info.html', form=form, info=info, data_id=data_id)
     columns = show_columns(table_id)
     column_0 = columns[0].split(',')[1:]  # 中文名
@@ -177,12 +180,26 @@ def update_record(table_id, data_id):
     :return:
     """
     if table_id == 'User':
-        if current_user.roles[0].permissions < 15:
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or session['permission'] != '63':
             abort(401)
         form = RegisterForm(request.form, csrf_enabled=False)
-        password = bcrypt.generate_password_hash(form.password.data)
-        new_data = [form.username.data, form.department.data, password]
-        columns = ['username', 'department', 'password']
+        department, permission, town = cal_permission(form)
+        if form.password.data:
+            password = bcrypt.generate_password_hash(form.password.data)
+
+            new_data = [form.username.data, password, form.role_name.data, department, town]
+            columns = ['username', 'password', 'name', 'department', 'town']
+        else:
+            new_data = [form.username.data, form.role_name.data, department, town]
+            columns = ['username', 'name', 'department', 'town']
+        update_data(table_id, data_id, new_data, columns)
+        # 分配权限x
+        user = User.query.filter(User.username == form.username.data)[0]
+        role = Role(permissions=permission)
+        user.roles[0] = role
+        user.update()
+    elif current_user.roles[0].permissions >> 2 % 2 == 0:
+        abort(401)
     else:
         datas = request.args
         columns = []
@@ -190,7 +207,7 @@ def update_record(table_id, data_id):
         for column in datas:
             columns.append(column)
             new_data.append(datas[column])
-    update_data(table_id, data_id, new_data, columns)
+        update_data(table_id, data_id, new_data, columns)
     return redirect('/tables/' + table_id)
 
 
@@ -203,10 +220,10 @@ def delete_record(table_id, data_id):
     :param data_id: 记录id
     :return:
     """
-    if current_user.roles[0].permissions < 7 and not is_allowed(current_user.department, table_id):
+    if current_user.roles[0].permissions >> 3 % 2 == 0 or not is_allowed(current_user.department, table_id):
         abort(401)
     if table_id == 'User':
-        if current_user.roles[0].permissions < 15:
+        if current_user.roles[0].permissions != 15 or session['permission'] != '63':
             abort(401)
         Role.query.filter_by(user_id=data_id).delete()
         db.session.commit()

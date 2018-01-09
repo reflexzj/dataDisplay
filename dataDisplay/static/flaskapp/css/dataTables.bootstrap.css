@@ -172,7 +172,7 @@ table.table-bordered tbody th,
 table.table-bordered tbody td {
     border-left-width: 0;
     border-bottom-width: 0;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 table.table-bordered th:last-child,

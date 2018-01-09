@@ -8,8 +8,10 @@
 def get_chart_datas(chart_id):
     pass
 
+
 def get_table_datas(table_id):
     pass
+
 
 def show_columns(table_id):
     """
@@ -47,31 +49,69 @@ def get_table_name(name):
 
 
 def is_allowed(department, table_id):
-    dic = {'department1': 'farm_socity',
-           'department2': 'petent',
-           'department3': 'law',
-           'department4': 'cop_ex',
-           'department5': 'high_new_tec',
-           'department6': 'result',
+    dic = {'farm': 0b000001,
+           'pate': 0b000010,
+           'law_': 0b000100,
+           'cop_': 0b001000,
+           'high': 0b010000,
+           'resu': 0b100000,
+           'User': 0b111111,
            }
-    # print dic[department]
-    lenth = len(dic[department])
-    if table_id[:lenth] == dic[department]:
+    permission = dic[table_id[:4]]
+    if permission & int(department) == permission:
         return True
     return False
 
 
-def chinese_department(department):
-    dic = {'department1': '农社科',
-           'department2': '专利科',
-           'department3': '法规科',
-           'department4': '合作交流科',
-           'department5': '高新科',
-           'department6': '成果科',
-           }
-    if department in dic:
-        return dic[department]
-    return department
+def int2bin(x):
+    arr = bytearray(bin(int(x)))[2:]
+    tmp = []
+    for byte in arr:
+        tmp.append(byte - 48)
+    length = 11 - len(tmp)
+    [tmp.insert(0, 0) for _ in range(length)]
+    return tmp
+
+
+def update_form(user, form, permission):
+    department = int2bin(user['department'])
+    for i in range(1, 7):
+        depart = 'department' + str(i)
+        form[depart].data = department[-i]
+
+    operation = int2bin(permission)
+    form.output.data = operation[-1]
+    form.input.data = operation[-2]
+    form.update.data = operation[-3]
+    form.delete.data = operation[-4]
+
+    if user['town'] == '2047':
+        form.town_all.data = 1
+    else:
+        towns = int2bin(user['town'])
+        for i in range(1, 12):
+            town = 'town' + str(i)
+            form[town].data = towns[-i]
+    return form
+
+
+def cal_permission(form):
+    department = (1 if form.department1.data == True else 0) + (2 if form.department2.data == True else 0) + (
+        4 if form.department3.data == True else 0) + (8 if form.department4.data == True else 0) + (
+                     16 if form.department5.data == True else 0) + (32 if form.department6.data == True else 0)
+    permission = (1 if form.output.data == True else 0) + (2 if form.input.data == True else 0) + (
+        4 if form.update.data == True else 0) + (8 if form.delete.data == True else 0)
+    if form.town_all.data:
+        town = 2047
+    else:
+        town = (1 if form.town1.data == True else 0) + (2 if form.town2.data == True else 0) + (
+            4 if form.town3.data == True else 0) + (8 if form.town4.data == True else 0) + (
+                   16 if form.town5.data == True else 0) + (32 if form.town6.data == True else 0) + (
+                   64 if form.town7.data == True else 0) + (128 if form.town8.data == True else 0) + (
+                   256 if form.town9.data == True else 0) + (512 if form.town10.data == True else 0) + (
+                   1024 if form.town11.data == True else 0)
+    return department, permission, town
+
 
 # class ChineseTokenizer(Tokenizer):
 #     """
@@ -101,33 +141,6 @@ def chinese_department(department):
 #     return ChineseTokenizer()
 #
 
-def myfunc(a, n, k):
-    global sum
-
-    if n == 1:
-        b = 0
-
-        for j in range(len(a) - 1):
-            if a[j] < a[j + 1]:
-                b += 1
-
-        if b == k:
-            sum += 1
-    else:
-        for i in range(n):
-            # print i
-            a[i], a[n - 1] = a[n - 1], a[i]
-            myfunc(a, n - 1, k)
-            a[n - 1], a[i] = a[i], a[n - 1]
-
 
 if __name__ == '__main__':
-    input = raw_input().strip().split()
-    n = int(input[0])
-    k = int(input[1])
-    list = []
-    for i in range(n):
-        list.append(i + 1)
-    sum = 0
-    myfunc(list, n, k)
-    print sum
+    print int2bin(1023)

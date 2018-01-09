@@ -37,6 +37,7 @@ class User(UserMixin, SurrogatePK, Model):
     password = Column(db.Binary(128), nullable=True)
     created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     department = Column(db.String(30), nullable=True)
+    town = Column(db.String(30), nullable=True)
     name = Column(db.String(30), nullable=True)
     active = Column(db.Boolean(), default=False)
 

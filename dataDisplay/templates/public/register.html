@@ -3,23 +3,124 @@
     <div class="container-narrow">
         <h1>新增用户</h1>
         <br/>
-        <form id="registerForm" class="form form-register" method="POST" action="" role="form">
+        <form id="registerForm" class="form" method="POST" action="" role="form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div class="form-group">
+            <div class="form-group" style="width: 50%">
                 {{ form.username.label }}
                 {{ form.username(class_="form-control") }}
             </div>
-            <div class="form-group">
-                {{ form.department.label }}
-                {{ form.department(class_="form-control") }}
+            <div class="form-group" style="width: 50%">
+                {{ form.role_name.label }}
+                {{ form.role_name(class_="form-control") }}
             </div>
-            <div class="form-group">
+            <div class="form-group" style="width: 50%">
                 {{ form.password.label }}
                 {{ form.password(class_="form-control") }}
             </div>
-            <div class="form-group">
+            <div class="form-group" style="width: 50%">
                 {{ form.confirm.label }}
                 {{ form.confirm(class_="form-control") }}
+            </div>
+
+            <div class="form-group">
+                <label>负责科室</label>
+                <br>
+                <label class="inline ng-scope">
+                    {{ form.department1(class_="ng-pristine ng-valid") }}
+                    {{ form.department1.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.department2(class_="ng-pristine ng-valid") }}
+                    {{ form.department2.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.department3(class_="ng-pristine ng-valid") }}
+                    {{ form.department3.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.department4(class_="ng-pristine ng-valid") }}
+                    {{ form.department4.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.department5(class_="ng-pristine ng-valid") }}
+                    {{ form.department5.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.department6(class_="ng-pristine ng-valid") }}
+                    {{ form.department6.label(class_="ng-binding") }}
+                </label>
+            </div>
+            <div class="form-group">
+                <label>负责区域</label>
+                <br>
+                <label class="inline ng-scope">
+                    {{ form.town_all(class_="ng-pristine ng-valid") }}
+                    {{ form.town_all.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town1(class_="ng-pristine ng-valid") }}
+                    {{ form.town1.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town2(class_="ng-pristine ng-valid") }}
+                    {{ form.town2.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town3(class_="ng-pristine ng-valid") }}
+                    {{ form.town3.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town4(class_="ng-pristine ng-valid") }}
+                    {{ form.town4.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town5(class_="ng-pristine ng-valid") }}
+                    {{ form.town5.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town6(class_="ng-pristine ng-valid") }}
+                    {{ form.town6.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town7(class_="ng-pristine ng-valid") }}
+                    {{ form.town7.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town8(class_="ng-pristine ng-valid") }}
+                    {{ form.town8.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town9(class_="ng-pristine ng-valid") }}
+                    {{ form.town9.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town10(class_="ng-pristine ng-valid") }}
+                    {{ form.town10.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.town11(class_="ng-pristine ng-valid") }}
+                    {{ form.town11.label(class_="ng-binding") }}
+                </label>
+            </div>
+            <div class="form-group">
+                <label>操作权限</label>
+                <br>
+                <label class="inline ng-scope">
+                    {{ form.output(class_="ng-pristine ng-valid") }}
+                    {{ form.output.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.input(class_="ng-pristine ng-valid") }}
+                    {{ form.input.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.update(class_="ng-pristine ng-valid") }}
+                    {{ form.update.label(class_="ng-binding") }}
+                </label>
+                <label class="inline ng-scope">
+                    {{ form.delete(class_="ng-pristine ng-valid") }}
+                    {{ form.delete.label(class_="ng-binding") }}
+                </label>
             </div>
             <p><input class="btn btn-default btn-submit" type="submit" value="保存"></p>
         </form>

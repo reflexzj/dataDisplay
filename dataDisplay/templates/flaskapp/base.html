@@ -97,17 +97,17 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 图表<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                {% if current_user.department=='department1' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-1]=='1' %}
                                     <a href="/charts/department1">农社科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department2' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-2]=='1' %}
                                     <a href="/charts/department2">专利科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department3' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-3]=='1' %}
                                     <a href="/charts/department3">法规科</a>
                                 {% endif %}
                             </li>
@@ -120,39 +120,39 @@
 
                         <ul class="nav nav-second-level">
                             <li>
-                                {% if current_user.department=='department1' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-1]=='1' %}
                                     <a href="/catalog/department1">农社科</a>
 
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department2' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-2]=='1' %}
                                     <a href="/tables/patent_1">专利科</a>
 
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department3' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-3]=='1' %}
                                     <a href="/tables/law_1">法规科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department4' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-4]=='1' %}
                                     <a href="/catalog/department4">合作交流科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department5' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-5]=='1' %}
                                     <a href="/catalog/department5">高新科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.department=='department6' or current_user.roles[0].permissions>=7 %}
+                                {% if session.permission[-6]=='1' %}
                                     <a href="/catalog/department6">成果科</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if current_user.roles[0].permissions>=7 %}
+                                {% if session.permission=='111111' %}
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>

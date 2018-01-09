@@ -2,10 +2,12 @@
 """Public section, including homepage and signup."""
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask import session
+from flask.ext.login import current_user
 
 from flask_login import login_required, login_user, logout_user
 
 from dataDisplay.extensions import login_manager
+from dataDisplay.flaskapp.myfunc import cal_permission
 from dataDisplay.public.forms import LoginForm
 from dataDisplay.user.forms import RegisterForm
 from dataDisplay.user.models import User, Role
@@ -29,6 +31,10 @@ def home():
         if request.method == 'POST':
             if form.validate_on_submit():
                 login_user(form.user)
+                print current_user.department
+                # x = bytearray(int(current_user.department))
+                # print x
+                session['permission'] = current_user.department
                 # flash('You are logged in.', 'success')
                 redirect_url = request.args.get('next') or url_for('data.dashboard')
                 return redirect(redirect_url)
@@ -52,11 +58,12 @@ def register():
     """Register new user."""
     form = RegisterForm(request.form, csrf_enabled=False)
     if form.validate_on_submit():
-        User.create(username=form.username.data, password=form.password.data, department=form.department.data,
-                    active=1)
+        department, permission, town = cal_permission(form)
+        User.create(username=form.username.data, password=form.password.data, department=department,
+                    name=form.role_name.data, town=town, active=1)
         # 分配权限x
         user = User.query.filter(User.username == form.username.data)[0]
-        role = Role(permissions=3)
+        role = Role(permissions=permission)
         user.roles.append(role)
         user.update()
 

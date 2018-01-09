@@ -1,4 +1,9 @@
 # coding=utf-8
+'''
+    1.读取清单数据生成规则
+    2.判断科室下所包含的表格
+'''
+
 import xlrd
 from dataDisplay.flaskapp.sums_models.rules.column_convert import convert_table_name
 

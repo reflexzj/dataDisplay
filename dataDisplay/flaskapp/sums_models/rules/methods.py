@@ -1,6 +1,8 @@
 # coding=utf-8
 '''
-主要包括excle的读取、数据库表的索引、中英文表头的对照
+    1.excle的读取
+    2.数据库表的索引
+    3.中英文表头的对照
 '''
 import xlrd
 import os

@@ -312,7 +312,7 @@ high_new_tec_4
 id,year,pro_number,pro_name,company_name,area,fund
 high_new_tec_5
 入库机构序号,天使投资机构名称,认定项目序号,项目编号,被投资企业名称,首轮投资金额(万元),省风险准备金额（万元）,项目认定年份
-agency_id,angel_invest_insti_pro,identify_proid,pro_id,invested_com_name,first_invest_amount,province_risk_amount,identify_year
+id,angel_invest_insti_pro,identify_proid,pro_id,invested_com_name,first_invest_amount,province_risk_amount,identify_year
 high_new_tec_6
 编号,项目名称,承担单位,区域,项目总投资,项目新增投资,经费
 id,pro_name,undertake_company,area,pro_all_inveat,added_invest,fund

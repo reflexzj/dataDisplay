@@ -11,6 +11,7 @@ from dataDisplay.flaskapp.sums_models.directory_sum  import do_sum
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.sums_models.analysis.methods import *
+from dataDisplay.flaskapp.sums_models.analysis.creat_extrat_table import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -41,9 +42,9 @@ def display():
 
     # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
 
-    extract = extract_columns()
-    print(extract)
-
+    # extract = extract_columns()
+    # print(extract)
+    extrat_data()
 
     return '----------模块测试页面------------\n'
 

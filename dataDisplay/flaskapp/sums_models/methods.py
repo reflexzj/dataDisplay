@@ -1,11 +1,13 @@
 # coding=utf-8
 '''
-    数据库的增、删、改工作
-    个性化的查询要求
+    1.数据库的增、删、改工作
+    2.个性化的查询要求
 '''
 
 from dataDisplay.flaskapp.sums_models.models import *
+from dataDisplay.flaskapp.sums_models.analysis.models import *
 from dataDisplay.flaskapp.models import *
+
 
 def delet_data(table_name, id):
     '''
@@ -95,22 +97,35 @@ def extract_table(table_name, column_value):
     '''
     columns = column_value[0]
     values = column_value[1]
+    ks_name = column_value[2]
     extract_list = []
     result = None
     exec('result = ' + table_name + '.query.all()')
 
-    temp = []
+    # 读取对应的table
     for data in result:
+        temp = []
         for index in range(len(columns)):
             column = columns[index]
             value = values[index]
             if column:
+                # 考虑一个单元格中包含的多个属性
+                column = column.split(',')
+                cell = []
                 for e in column:
-                    temp.append(eval('data.' + e))
+                    cell.append(eval('data.' + e))
+                try:
+                    temp.append(','.join(cell))
+                except:
+                    # cell = [None, None ]的情况
+                    temp.append('')
             elif not column and value:
                 temp.append(value)
             else:
                 temp.append('')
+
+        temp.append(ks_name)
+        temp.append(table_name + '.' + str(eval('data.id')))
         extract_list.append(temp)
 
     return extract_list

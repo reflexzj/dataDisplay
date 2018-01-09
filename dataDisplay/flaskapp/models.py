@@ -212,6 +212,8 @@ class cop_ex_6(db.Model):
     industry = db.Column(db.TEXT)
     contact = db.Column(db.TEXT)
     phone = db.Column(db.TEXT)
+    area = db.Column(db.TEXT)
+    remark = db.Column(db.TEXT)
 
     def __repr__(self):
         return 'info:{}'.format(self.id)
@@ -1216,7 +1218,7 @@ class high_new_tec_49(db.Model):
 
 
 class high_new_tec_5(db.Model):
-    agency_id = db.Column(db.INTEGER, primary_key=True)
+    id = db.Column(db.INTEGER, primary_key=True)
     angel_invest_insti_pro = db.Column(db.TEXT)
     identify_proid = db.Column(db.TEXT)
     pro_id = db.Column(db.TEXT)
@@ -3053,8 +3055,9 @@ class result_8(db.Model):
 
 class result_9(db.Model):
     id = db.Column(db.INTEGER, primary_key=True)
+    p_name1 = db.Column(db.TEXT)
     c_com = db.Column(db.TEXT)
-    p_name = db.Column(db.TEXT)
+    p_name2 = db.Column(db.TEXT)
     town = db.Column(db.TEXT)
     lx_year = db.Column(db.TEXT)
     fund = db.Column(db.TEXT)

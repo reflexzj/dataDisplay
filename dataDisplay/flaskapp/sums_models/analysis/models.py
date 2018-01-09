@@ -32,7 +32,7 @@ class extract_data_1(db.Model):
 	deadline= db.Column(db.TEXT)
 	category= db.Column(db.TEXT)
 	ks_name= db.Column(db.TEXT)
-	ref_table= db.Column(db.TEXT)
+	ref_table= db.Column(db.VARCHAR(45), unique=True)
 
 	def __repr__(self):
 		return 'info:{}'.format(self.id)

@@ -5,6 +5,7 @@
 
 import xlrd
 import os
+import re
 from dataDisplay.flaskapp.sums_models.rules.methods import page_tables, convert_column
 
 def extract_columns():
@@ -18,7 +19,12 @@ def extract_columns():
     all_table_names = page_tables()
 
     filepath = 'dataDisplay/flaskapp/sums_models/analysis/extract'
-    extract_file = {'成果科抽取.xlsx', '专利科抽取.xlsx',  '合作交流科抽取.xlsx', '法规科抽取.xlsx', '高新科抽取.xlsx', '农社科抽取.xlsx'}
+    extract_file = {'成果科抽取.xlsx',
+                    '专利科抽取.xlsx',
+                    '合作交流科抽取.xlsx',
+                    '法规科抽取.xlsx',
+                    '高新科抽取.xlsx',
+                    '农社科抽取.xlsx'}
 
     for file in extract_file:
         # print file
@@ -68,6 +74,59 @@ def extract_columns():
     return all_extract_lists
 
 
+def data_pro(index, data, value):
+    '''
+    根据不同的格式，处理不同的数据
+    :param index:p_id,p_name,lev,c_com,year,area,money,deadline,category,
+    :param data:
+    :return:
+    '''
+    try:
+        if index ==2:
+            if data:
+                if unicode('省','utf-8') in data:
+                    data = '省级'
+                elif unicode('苏','utf-8') in data:
+                    data = '苏州'
+                elif unicode('昆','utf-8') in data:
+                    data = '昆山'
+                else:
+                    data = '国家'
+                # print data
+        elif index == 4:
+            data  = judge_year(re.findall('\d+', data))[0]
+            if len(data) == 2:
+                if int(data) > 50:
+                    data = '19' + data
+                else:
+                    data = '20' + data
+        elif index == 7:
+            data = judge_year(re.findall('\d+', data.replace(r'.\d*', '')))[-1]
+            if len(data) == 2:
+                if int(data) > 50:
+                    data = '19' + data
+                else:
+                    data = '20' + data
+        elif index == 6:
+            data = float(re.findall('\d+\.?\d*', data)[0])
+            if value:
+                data = str(data/10000)
+            else:
+                data = str(data)
+        else:
+            data = data.replace(' ', '').replace('\n', '')
+    except Exception,e:
+        if data:
+            print index,'missing_value',data
+            print e
 
+    return  data
 
+def judge_year(datas):
+    new_datas = []
+    for data in datas:
+        if len(data) == 2 or len(data) == 4:
+            new_datas.append(data)
+
+    return new_datas
 

@@ -7,6 +7,7 @@
 from dataDisplay.flaskapp.sums_models.models import *
 from dataDisplay.flaskapp.sums_models.analysis.models import *
 from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.sums_models.analysis.methods import *
 
 
 def delet_data(table_name, id):
@@ -113,14 +114,29 @@ def extract_table(table_name, column_value):
                 column = column.split(',')
                 cell = []
                 for e in column:
-                    cell.append(eval('data.' + e))
-                try:
-                    temp.append(','.join(cell))
-                except:
-                    # cell = [None, None ]的情况
-                    temp.append('')
+                    cell.append(data_pro(index, eval('data.' + e), value))
+
+                # 多项金额要相加,其他的直接组合成一个字符串
+                if index == 6:
+                    num = 0
+                    for e in cell:
+                        try:
+                            num += float(e)
+                        except:
+                            if e:
+                                print e
+                            num += 0
+                    temp.append(num)
+                else:
+                    try:
+                        temp.append(','.join(cell))
+                    except:
+                        # cell = [None, None ]的情况
+                        temp.append('')
+
             elif not column and value:
                 temp.append(value)
+
             else:
                 temp.append('')
 

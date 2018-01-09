@@ -12,10 +12,16 @@ def extrat_data():
 
     for table_name, column_value in extract_dicts.iteritems():
         data_list = extract_table(table_name, column_value)
+        print table_name
+        log_data = open('dataDisplay/flaskapp/sums_models/analysis/log_data.txt', 'a')
+        for data in data_list:
+            log_data.write(data[4].encode('utf-8')+ ',' + data[7].encode('utf-8') + '\n')
+
         columns = 'p_id,p_name,lev,c_com,year,area,money,deadline,category,ks_name,ref_table'
         columns = columns.split(',')
-        fail_lists = insert('extract_data_1', data_list, columns)
-        print('\n'.join(fail_lists))
+        # fail_lists = insert('extract_data_1', data_list, columns)
+        # print('\n'.join(fail_lists))
+
 
         # print('------', table_name, '------')
         # for data in data_list:

@@ -8,6 +8,8 @@ from dataDisplay.flaskapp.sums_models.models import *
 from dataDisplay.flaskapp.sums_models.analysis.models import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.sums_models.analysis.methods import *
+from dataDisplay.flaskapp.sums_models.area_sel.methods import *
+from sqlalchemy import or_
 
 
 def delet_data(table_name, id):
@@ -147,4 +149,31 @@ def extract_table(table_name, column_value):
     return extract_list
 
 
+def data_by_area(table_name, area_name):
+    '''
+    返回对应表下对应区镇的数据
+    :param table_name: 英文表名
+    :param area_name: 指向哪一个取证
+    :return:
+    '''
+    # 对应表示区镇的英文栏目名
+    area = get_area_dict()[table_name]
+    # print area_name
+
+    result = None
+    if area_name == '高新区':
+        cmd = 'result = ' + table_name + '.query.filter( or_(' \
+              + table_name + '.' + area + ".like('%" + area_name + "%'), " \
+              + table_name + '.' + area + ".like('%玉山%')" + ")).all()"
+
+    else:
+        cmd = 'result = ' + table_name + '.query.filter(' +\
+              table_name + '.' + area + ".like('%" + area_name + "%')).all()"
+    # print cmd
+    exec(cmd)
+
+    for data in result:
+        print data
+
+    return  result
 

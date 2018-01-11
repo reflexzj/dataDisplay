@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from dataDisplay.database import db
-
+from sqlalchemy import or_, and_
 
 def init_databse(self, columns, data):
     """
@@ -19,64 +19,47 @@ def init_databse(self, columns, data):
             value = None
         setattr(self, columns[index], value)
 
-
-class sums_8(db.Model):
+class Sheet_Form(db.Model):
+    __tablename__ = 'extract_data_1'
     id = db.Column(db.INTEGER, primary_key=True)
+    p_id = db.Column(db.TEXT)
+    p_name = db.Column(db.TEXT)
+    lev = db.Column(db.TEXT)
+    c_com = db.Column(db.TEXT)
     year = db.Column(db.TEXT)
-    ac_workstation_gov = db.Column(db.TEXT)
-    ac_workstation_sz = db.Column(db.TEXT)
-    master_ws = db.Column(db.TEXT)
-    qianren_all = db.Column(db.TEXT)
-    qianren_coustom = db.Column(db.TEXT)
-    wanren = db.Column(db.TEXT)
-    tec_plan = db.Column(db.TEXT)
-    gov_in_team_tec = db.Column(db.TEXT)
-    gov_in_team_all = db.Column(db.TEXT)
-    gov_in_team_other = db.Column(db.TEXT)
-    gov_in_person_tec = db.Column(db.TEXT)
-    gov_in_person = db.Column(db.TEXT)
-    gs_person_tec = db.Column(db.TEXT)
-    gs_person_other = db.Column(db.TEXT)
-    gs_team = db.Column(db.TEXT)
-    ks_team = db.Column(db.TEXT)
-    ks_person = db.Column(db.TEXT)
-    union_project = db.Column(db.TEXT)
-    union_base = db.Column(db.TEXT)
-    rate_con_person = db.Column(db.TEXT)
-    sum_person = db.Column(db.TEXT)
-    person_research = db.Column(db.TEXT)
-    rate_con_tec = db.Column(db.TEXT)
-    rate_sta_civ = db.Column(db.TEXT)
+    area = db.Column(db.TEXT)
+    money = db.Column(db.TEXT)
+    deadline = db.Column(db.TEXT)
+    category = db.Column(db.TEXT)
+    ks_name = db.Column(db.TEXT)
+    ref_table = db.Column(db.TEXT)
 
     def __repr__(self):
-        return 'info:{}'.format(self.id)
-
-    def __init__(self, columns, data):
-        init_databse(self, columns, data)
+        return '<Sheet_Form {}'.format(self.p_name)
 
 
-class sums_3(db.Model):
-    id = db.Column(db.INTEGER, primary_key=True)
-    year = db.Column(db.TEXT)
-    torch_com = db.Column(db.TEXT)
-    creation_com = db.Column(db.TEXT)
-    gxjs_identity = db.Column(db.TEXT)
-    gxjs_effictive = db.Column(db.TEXT)
-    advance_com = db.Column(db.TEXT)
-    gov_creation_com = db.Column(db.TEXT)
-    folk_com = db.Column(db.TEXT)
-    tech_mic_com = db.Column(db.TEXT)
-    con_imp_product = db.Column(db.TEXT)
-    con_creation_product = db.Column(db.TEXT)
-    gov_eff_product = db.Column(db.TEXT)
-    gov_creation_product = db.Column(db.TEXT)
-    gov_imp_product = db.Column(db.TEXT)
-    sz_eff_product = db.Column(db.TEXT)
-    soft_com = db.Column(db.TEXT)
-    soft_product = db.Column(db.TEXT)
-
-    def __repr__(self):
-        return 'info:{}'.format(self.id)
-
-    def __init__(self, columns, data):
-        init_databse(self, columns, data)
+def select(year, lev, area, office):
+    sel_cmd = 'info = Sheet_Form.query.filter(and_('
+    if year != u'' and year != u'所有':
+        year_cmd = 'Sheet_Form.year == year,'
+        sel_cmd += year_cmd
+    if lev != u'' and lev != u'所有':
+        lev_cmd = "Sheet_Form.lev.like('%" + lev + "%'),"
+        sel_cmd += lev_cmd
+    if area != u'' and area != u'所有':
+        area_cmd = "Sheet_Form.area.like('%" + area + "%'),"
+        sel_cmd += area_cmd
+    if office != u'' and office != u'所有':
+        off_cmd = 'Sheet_Form.ks_name == office'
+        sel_cmd += off_cmd
+    sel_cmd += ')).all()'
+    try:
+        # u_area = unicode(area)
+        # info = Sheet_Form.query.filter(and_(Sheet_Form.year == year ,Sheet_Form.lev.like('%'+lev+'%'),
+        #                                     Sheet_Form.area.like('%'+area+'%'),Sheet_Form.ks_name == office)).all()
+        # print sel_cmd
+        exec (sel_cmd)
+        return info
+    except IOError:
+        return None
+    return None

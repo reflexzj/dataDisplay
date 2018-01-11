@@ -7,7 +7,7 @@ from flask.ext.login import current_user
 from flask_login import login_required, login_user, logout_user
 
 from dataDisplay.extensions import login_manager
-from dataDisplay.flaskapp.myfunc import cal_permission
+from dataDisplay.flaskapp.myfunc import cal_permission, int2bin
 from dataDisplay.public.forms import LoginForm
 from dataDisplay.user.forms import RegisterForm
 from dataDisplay.user.models import User, Role
@@ -31,10 +31,7 @@ def home():
         if request.method == 'POST':
             if form.validate_on_submit():
                 login_user(form.user)
-                print current_user.department
-                # x = bytearray(int(current_user.department))
-                # print x
-                session['permission'] = current_user.department
+                session['permission'] = int2bin(current_user.department)
                 # flash('You are logged in.', 'success')
                 redirect_url = request.args.get('next') or url_for('data.dashboard')
                 return redirect(redirect_url)

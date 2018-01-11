@@ -1,0 +1,55 @@
+{% extends "flaskapp/base.html" %}
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        $('table.table').DataTable({
+            dom: '<<"col-sm-4"l><"col-sm-5"B><"col-sm-3"f>>r<t><<"col-sm-6"i><"col-sm-6"p>>',
+            "buttons": [
+                {
+                    'extend': 'excel',
+                    'text': '导出',//定义导出excel按钮的文字
+                    'title': $.trim($("div.panel-heading").text()),
+                    'exportOptions': {
+                        'modifier': {
+                            {#                            'page': 'current'#}
+                        }
+                    }
+                }
+            ],
+
+            {#            responsive: true,#}
+            "language": {
+                "url": "/Chinese.json"
+            },
+            "scrollX": true,
+
+            "aLengthMenu": [[20, 50, -1], [20, 50, 'ALL']],
+            "order": [[0, "desc"]],
+            "columnDefs": [{
+                "targets": -1,
+                "render": function (data, type, full, meta) {
+                    var local = window.location.href
+                    var html = "<a href='" + local + "/detail/" + data + "' class='btn btn-default btn-xs' target='_blank'>编辑</a>"
+                    html += "<a href='javascript:void(0);'  onclick='show_confirm(" + data + ")'  class='btn btn-default btn-xs'>删除</a>"
+
+
+                    return html;
+                }
+            },
+                {
+                    "orderable": false,
+                    "targets": -1
+                }]
+        });
+    });
+</script>
+<script type="text/javascript">
+    function show_confirm(data) {
+        var r = confirm("确定要删除本条记录？");
+        if (r == true) {
+            alert("操作成功");
+            location.href = window.location.href + "/delete/" + data
+        }
+    }
+</script>
+{% endblock %}

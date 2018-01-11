@@ -20,14 +20,14 @@ def permission_required(permissions):
     return decorator
 
 
-def admin_required(func):
-    return permission_required(15)(func)
+def delete_required(func):
+    return permission_required(8)(func)
 
 
-def minister_required(func):
-    return permission_required(7)(func)
+def update_required(func):
+    return permission_required(4)(func)
 
 
-def clerk_required(func):
-    return permission_required(3)(func)
+def input_required(func):
+    return permission_required(2)(func)
 

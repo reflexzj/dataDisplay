@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数据分析系统</title>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='flaskapp/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-select.css') }}">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+    <script src="{{ url_for('static', filename='flaskapp/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='flaskapp/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-select.js') }}"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">综合查询</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <form class="form-inline">
+        <div class="form-group">
+            <label class="col-md-1 control-label" style="width:100%">科室:</label>
+        </div>
+        <div class="form-group">
+            <select id="lunch4" class="selectpicker" data-live-search="true" title="请选择科室 ...">
+
+                {% if session.permission[5:11]==[1,1,1,1,1,1] %}
+                    <option>所有</option>
+                {% endif %}
+                {% if session.permission[-1]==1 %}
+                    <option>农社科</option>
+                {% endif %}
+                {% if session.permission[-2]==1 %}
+                    <option>专利科</option>
+                {% endif %}
+                {% if session.permission[-3]==1 %}
+                    <option>法规科</option>
+                {% endif %}
+                {% if session.permission[-4]==1 %}
+                    <option>合作交流科</option>
+                {% endif %}
+                {% if session.permission[-5]==1 %}
+                    <option>高新科</option>
+                {% endif %}
+                {% if session.permission[-6]==1 %}
+                    <option>成果科</option>
+                {% endif %}
+            </select>
+        </div>
+
+        {#    <div class="form-group">#}
+        {#     <label class="col-md-1 control-label"  style="width:100%">选项5:</label>#}
+        {#    </div>#}
+        {#    <div class="form-group">#}
+        {#    <select id="lunch5" class="selectpicker" data-live-search="true" title="Please select a lunch ...">#}
+        {#        <option>Hot Dog, Fries and a Soda</option>#}
+        {#        <option>Burger, Shake and a Smile</option>#}
+        {#        <option>Sugar, Spice and all things nice</option>#}
+        {#        <option>Baby Back Ribs</option>#}
+        {#        <option>A really really long option made to illustrate an issue with the live search in an inline form</option>#}
+        {#    </select>#}
+        {#    </div>#}
+    </form>
+
+    <hr>
+    <form class="form-inline">
+        <div class="form-group">
+            <label class="col-md-1 control-label" style="width:100%">年份:</label>
+        </div>
+        <div class="form-group">
+            <select id="lunch1" name="lunch1" class="selectpicker" data-live-search="true" title="请选择年份 ...">
+                <option>所有</option>
+                <option>2008</option>
+                <option>2009</option>
+                <option>2010</option>
+                <option>2011</option>
+                <option>2012</option>
+                <option>2012</option>
+                <option>2013</option>
+                <option>2014</option>
+                <option>2015</option>
+                <option>2016</option>
+                <option>2017</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-1 control-label" style="width:100%">区镇:</label>
+        </div>
+        <div class="form-group">
+            <select id="lunch2" name="lunch2" class="selectpicker" data-live-search="true" title="请选择区镇 ...">
+                {% if town==[1,1,1,1,1,1,1,1,1] %}
+                    <option>所有</option>
+                {% endif %}
+                {% if town[1]==1 %}
+                    <option>开发区</option>
+                {% endif %}
+                {% if town[2]==1 %}
+                    <option>高新区</option>
+                {% endif %}
+                {% if town[3]==1 %}
+                    <option>花桥镇</option>
+                {% endif %}
+                {% if town[4]==1 %}
+                    <option>张浦镇</option>
+                {% endif %}
+                {% if town[5]==1 %}
+                    <option>周市镇</option>
+                {% endif %}
+                {% if town[6]==1 %}
+                    <option>陆家镇</option>
+                {% endif %}
+                {% if town[7]==1 %}
+                    <option>巴城镇</option>
+                {% endif %}
+                {% if town[8]==1 %}
+                    <option>千灯镇</option>
+                {% endif %}
+                {% if town[9]==1 %}
+                    <option>淀山湖</option>
+                {% endif %}
+                {% if town[10]==1 %}
+                <option>锦溪镇</option>
+                {% endif %}
+
+                {% if town[11]==1 %}
+                    <option>周庄镇</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-1 control-label" style="width:100%">级别:</label>
+        </div>
+        <div class="form-group">
+            <select id="lunch3" name="lunch2" class="selectpicker" data-live-search="true" title="请选择项目级别 ...">
+                <option>所有</option>
+                <option>国家</option>
+                <option>省级</option>
+                <option>苏州</option>
+                <option>昆山</option>
+            </select>
+        </div>
+    </form>
+
+
+    <hr>
+
+    <div class="row text-right">
+        <button class="btn btn-primary center-block" id="submit" name="submit" type="button">查询</button>
+    </div>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>年度</th>
+            <th>项目编号</th>
+            <th>项目名称</th>
+            <th>级别</th>
+            <th>区镇</th>
+            <th>经费（万元）</th>
+            <th>截止时间</th>
+            <th>科室</th>
+        </tr>
+        </thead>
+        <tbody id="tbMain">
+        </tbody>
+    </table>
+    <hr>
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#submit").off().on("click", function () {
+            var s1 = $("#lunch1").val();
+            var s2 = $("#lunch2").val();
+            var s3 = $("#lunch3").val();
+            var s4 = $("#lunch4").val();
+            data_tmp = {
+                "year": s1,
+                "area": s2,
+                "lev": s3,
+                "office": s4
+            };
+            //        console.info(stuNo+"\n"+stuName);
+            $.post('/search_result_accurate', data_tmp, function (data) {
+//            alert(data[1])
+                var tbody = document.getElementById('tbMain');
+                tbody.innerHTML = '';
+                for (var i = 0; i < data.length; i++) {
+
+                    var trow = getDataRow(data[i], i);
+                    tbody.appendChild(trow)
+                }
+
+
+            });
+            function getDataRow(h, i) {
+                var row = document.createElement('tr');
+                var numCell = document.createElement('td');
+                numCell.innerHTML = i + 1;
+                row.appendChild(numCell);
+                var yearCell = document.createElement('td');
+                yearCell.innerHTML = h.year;
+                row.appendChild(yearCell);
+                var idCell = document.createElement('td');
+                idCell.innerHTML = h.id;
+                row.appendChild(idCell);
+                var nameCell = document.createElement('td');
+                nameCell.innerHTML = h.name;
+                row.appendChild(nameCell);
+                var levCell = document.createElement('td');
+                levCell.innerHTML = h.lev;
+                row.appendChild(levCell);
+                var areaCell = document.createElement('td');
+                areaCell.innerHTML = h.area;
+                row.appendChild(areaCell);
+                var monCell = document.createElement('td');
+                monCell.innerHTML = h.money;
+                row.appendChild(monCell);
+                var deCell = document.createElement('td');
+                deCell.innerHTML = h.deadline;
+                row.appendChild(deCell);
+                var offCell = document.createElement('td');
+                offCell.innerHTML = h.office;
+                row.appendChild(offCell);
+                return row
+            }
+        });
+    });
+</script>
+</body>
+</html>

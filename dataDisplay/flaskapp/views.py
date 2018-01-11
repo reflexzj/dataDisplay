@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """main view"""
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from flask import flash
+from flask import json
 from flask import request
 from flask import session
 from flask_login import login_required
@@ -25,7 +26,6 @@ blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
 @blueprint.route('/test')
 @login_required
-@minister_required
 def display():
     keyword = request.args.get('keyword')
     # print keyword
@@ -41,8 +41,7 @@ def display():
 
 @blueprint.route('/summary/<string:table_name>')
 @login_required
-@minister_required
-def table_test(table_name):
+def table_summary(table_name):
     info = eval(table_name).query.all()
     columns = show_columns(table_name)
     column_0 = columns[0].split(',')[1:]
@@ -100,19 +99,11 @@ def show_tables(table_id):
     column_ch = columns[0].split(',')  # 中文名
     column_en = columns[1].split(',')  # 数据库列名
     column_0 = column_ch[1:]
-    column_0.append('操作')
     column_1 = column_en[1:]
-    column_1.append(column_en[0])
+    if current_user.roles[0].permissions >= 7:
+        column_0.append('操作')
+        column_1.append(column_en[0])
     columns = [column_0, column_1]
-    # if table_id == 'User':
-    #     tmp = []
-    #     for user in info:
-    #         user = user.to_dict()
-    #         user['name'] = chinese_department(user[''])
-    #         tmp.append(user)
-    #     info = tmp
-    # print columns
-
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
 
 
@@ -122,8 +113,10 @@ def search_result():
     keyword = request.args.get('keyword')
     result = fulltext_search(keyword)
     hits = result['hits']['hits']
+    filename = '/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp/' + current_user.username + '_search_result'
+    with open(filename, 'w') as f:
+        f.write(json.dumps(hits))
     tmp = []
-
     for hit in hits:
         # print hit['_index']
         tmp.append(hit['_index'])
@@ -139,11 +132,44 @@ def search_result():
             column_0 = columns[0].split(',')[1:]
             column_1 = columns[1].split(',')[1:]
             columns_all.append([table_id, table_name, column_0, column_1])
-    return render_template('flaskapp/search_result.html', info=hits, columns_all=columns_all)
+    return render_template('flaskapp/search_result2.html', info=hits, columns_all=columns_all)
+
+
+@csrf_protect.exempt
+@blueprint.route('/search_result_accurate', methods=['GET', 'POST'])
+@login_required
+def search_result_accurate():
+    if request.method == 'POST':
+        var = request.values
+        search_result = []
+        year = var['year']
+        area = var['area'].split(u'镇')[0]
+        lev = var['lev']
+        office = var['office']
+        info = select(year, lev, area, office)
+        for i in info:
+            s_data = {
+                'year': i.year,
+                'id': i.p_id,
+                'name': i.p_name,
+                'lev': i.lev,
+                'area': i.area,
+                'money': i.money,
+                'deadline': i.deadline,
+                'office': i.ks_name
+            }
+            search_result.append(s_data)
+
+        filename = '/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp/' + current_user.username + '_search_result'
+        with open(filename, 'w') as f:
+            f.write(json.dumps(search_result))
+        return jsonify(search_result)
+    town = int2bin(current_user.town)
+    return render_template('flaskapp/select.html', town=town)
 
 
 @blueprint.route('/tables/<string:table_id>/detail/<int:data_id>')
-@clerk_required
+@login_required
 def show_detail(table_id, data_id):
     """
     展示具体数据
@@ -171,7 +197,7 @@ def show_detail(table_id, data_id):
 
 
 @blueprint.route('/tables/<string:table_id>/update/<int:data_id>', methods=['GET', 'POST'])
-@clerk_required
+@update_required
 def update_record(table_id, data_id):
     """
     更新一条记录
@@ -180,7 +206,7 @@ def update_record(table_id, data_id):
     :return:
     """
     if table_id == 'User':
-        if current_user.roles[0].permissions >> 2 % 2 == 0 or session['permission'] != '63':
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or session['permission'] != 63:
             abort(401)
         form = RegisterForm(request.form, csrf_enabled=False)
         department, permission, town = cal_permission(form)
@@ -212,7 +238,7 @@ def update_record(table_id, data_id):
 
 
 @blueprint.route('/tables/<string:table_id>/delete/<int:data_id>')
-@clerk_required
+@delete_required
 def delete_record(table_id, data_id):
     """
     删除一条记录
@@ -223,7 +249,7 @@ def delete_record(table_id, data_id):
     if current_user.roles[0].permissions >> 3 % 2 == 0 or not is_allowed(current_user.department, table_id):
         abort(401)
     if table_id == 'User':
-        if current_user.roles[0].permissions != 15 or session['permission'] != '63':
+        if current_user.roles[0].permissions != 15 or session['permission'] != 63:
             abort(401)
         Role.query.filter_by(user_id=data_id).delete()
         db.session.commit()
@@ -233,7 +259,7 @@ def delete_record(table_id, data_id):
 
 @csrf_protect.exempt
 @blueprint.route('/upload', methods=['GET', 'POST'])
-@clerk_required
+@input_required
 def upload():
     if request.method == 'POST':
         f = request.files['file']
@@ -250,7 +276,6 @@ def upload():
 
 
 @blueprint.route('/addrole')
-@admin_required
 def add_role():
     """Add a role to a user."""
 

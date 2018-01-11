@@ -27,6 +27,4 @@ def extrat_data():
         print table_name, u'已抽取结束'
 
 
-        # print('------', table_name, '------')
-        # for data in data_list:
-        #     print ','.join(data)
+

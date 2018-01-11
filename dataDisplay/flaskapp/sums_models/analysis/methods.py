@@ -152,6 +152,7 @@ def data_pro(index, data, value):
         if data:
             print 'index',index,',missing_value: ',data
             print 'error:', e
+            data = ''
 
     return  data
 

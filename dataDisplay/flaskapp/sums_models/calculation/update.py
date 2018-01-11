@@ -18,7 +18,7 @@ def sums_update(table_name, start_y, end_y):
     :param end_y:
     :return:
     '''
-    all_rules = sums_rules.get_sums_rule('datadisplay/flaskapp/data/sums.xlsx')
+    all_rules = sums_rules.get_sums_rule('datadisplay/flaskapp/sums_models/calculation/sums.xlsx')
     conditions = all_rules[table_name]
     columns = methods.show_columns()
 
@@ -50,17 +50,3 @@ def update_all(s_year, e_year):
             print data
 
 
-# 六个科室的名称
-directory_dict = [u'成果科汇总表', u'高新科汇总表', u'法规科汇总表', u'专利科汇总表', u'农社科汇总表', u'合作交流科汇总表']
-
-def update_directory():
-    '''
-    更新六个科室所有的目录表
-    :return:
-    '''
-    results = {}
-    for directory in directory_dict:
-        result = do_sum.show_ks_sums(directory)
-        results.update({directory: result})
-
-    return results

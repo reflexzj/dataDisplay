@@ -8,4 +8,5 @@ def get_area_data(table_name, area_name):
     :param area_name:
     :return:
     '''
-    data_by_area(table_name, area_name)
+    area_dict = data_by_area(table_name, area_name)
+    return area_dict

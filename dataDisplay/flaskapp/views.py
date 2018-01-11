@@ -3,15 +3,10 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
-from dataDisplay.flaskapp import update
+from dataDisplay.flaskapp.sums_models.calculation import update
 from dataDisplay.flaskapp.decorators import *
-from dataDisplay.flaskapp.sums_models.update import *
 from dataDisplay.user.models import Role, User
-from dataDisplay.flaskapp.sums_models.directory_sum  import do_sum
-from dataDisplay.flaskapp.models import *
-from dataDisplay.flaskapp.myfunc import *
-from dataDisplay.flaskapp.sums_models.analysis.methods import *
-from dataDisplay.flaskapp.sums_models.analysis.creat_extrat_table import *
+from dataDisplay.flaskapp.sums_models.methods import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -26,7 +21,7 @@ def display():
     '''
 
     # 汇总表自动更新模块
-    # update.update_all(2014, 2015)
+    update.update_all(2014, 2015)
 
     # 科室目录模块
     # sheet_names = [u'技术经纪人']
@@ -44,8 +39,11 @@ def display():
 
     # extract = extract_columns()
     # print(extract)
-    extrat_data()
+    # extrat_data()
 
+    # dict = get_area_dict()
+    # for table in dict.iterkeys():
+    #     get_area_data(table, [u'高新区'])
     return '----------模块测试页面------------\n'
 
 

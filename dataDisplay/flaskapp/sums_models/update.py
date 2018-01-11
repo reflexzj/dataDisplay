@@ -1,11 +1,17 @@
 # coding=utf-8
+'''
+    更新数据库，插入、更新
+    更新数据库，增量更新
+    汇总表数据更新
+'''
+
 from dataDisplay.flaskapp.sums_models.methods import *
 from dataDisplay.flaskapp.sums_models.rules.methods import *
 from dataDisplay.flaskapp.sums_models.directory_sum.methods import judge_table
 import datetime
 
-log_path = 'datadisplay/flaskapp/data/source_logs.txt'
-log_path2 = 'datadisplay/flaskapp/data/sums_logs.txt'
+log_path = 'datadisplay/flaskapp/sums_models/source_logs.txt'
+log_path2 = 'datadisplay/flaskapp/sums_models/calculation/sums_logs.txt'
 
 def update_db(path, xls_name):
     '''

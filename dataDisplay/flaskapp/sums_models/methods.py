@@ -149,7 +149,7 @@ def extract_table(table_name, column_value):
     return extract_list
 
 
-def data_by_area(table_name, area_name):
+def data_by_area(table_name, area_names):
     '''
     返回对应表下对应区镇的数据
     :param table_name: 英文表名
@@ -161,14 +161,14 @@ def data_by_area(table_name, area_name):
     # print area_name
 
     result = None
-    if area_name == '高新区':
-        cmd = 'result = ' + table_name + '.query.filter( or_(' \
-              + table_name + '.' + area + ".like('%" + area_name + "%'), " \
-              + table_name + '.' + area + ".like('%玉山%')" + ")).all()"
-
-    else:
-        cmd = 'result = ' + table_name + '.query.filter(' +\
-              table_name + '.' + area + ".like('%" + area_name + "%')).all()"
+    cmd = 'result = ' + table_name + '.query.filter( or_('
+    for area_name in area_names:
+        if area_name == unicode('高新区', 'utf-8'):
+            cmd += table_name + '.' + area + ".like('%" + unicode('高新区', 'utf-8') + "%'), " \
+                   + table_name + '.' + area + ".like('%" + unicode('玉山', 'utf-8') + "%'),"
+        else:
+            cmd += table_name + '.' + area + ".like('%" + area_name + "%'),"
+    cmd += ')).all()'
     # print cmd
     exec(cmd)
 

@@ -43,7 +43,7 @@ def select_table(table_name, conditions, year):
         if re_name:
             # 按照年份查询，年份是总结表的主要属性
             result = None
-            cmd = 'result =' + re_name + '.query.filter(' + re_name + '.' + re_year + '== str(year)'
+            cmd = 'result =' + re_name + '.query.filter(' + re_name + '.' + re_year + ".like('%' + str(year)+ '%')"
 
             # 判断查询时是否有额外的附加条件
             if ''.join(condition_name):
@@ -80,7 +80,7 @@ def select_table(table_name, conditions, year):
                 result_num = len(result)
 
         else:
-            result_num = 0
+            result_num = ''
 
         result_nums.append(result_num)
 

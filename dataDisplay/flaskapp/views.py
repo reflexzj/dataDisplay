@@ -7,6 +7,7 @@ from dataDisplay.flaskapp.sums_models.calculation import update
 from dataDisplay.flaskapp.decorators import *
 from dataDisplay.user.models import Role, User
 from dataDisplay.flaskapp.sums_models.methods import *
+from dataDisplay.flaskapp.sums_models.interfaces import *
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
@@ -21,7 +22,7 @@ def display():
     '''
 
     # 汇总表自动更新模块
-    update.update_all(2014, 2015)
+    update.update_all()
 
     # 科室目录模块
     # sheet_names = [u'技术经纪人']
@@ -37,8 +38,7 @@ def display():
 
     # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
 
-    # extract = extract_columns()
-    # print(extract)
+
     # extrat_data()
 
     # dict = get_area_dict()

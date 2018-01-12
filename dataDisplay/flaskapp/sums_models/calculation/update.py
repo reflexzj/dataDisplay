@@ -5,8 +5,7 @@ from dataDisplay.flaskapp.sums_models.calculation.auto_cal import select_table
 from dataDisplay.flaskapp.sums_models import update
 from dataDisplay.flaskapp.sums_models.directory_sum import do_sum
 
-# 目前可供实时统计更新的总结表，其他都是手动完成的
-sums_dict = ['sums_3', 'sums_7', 'sums_9', 'sums_10']
+
 
 
 def sums_update(table_name, start_y, end_y):
@@ -35,18 +34,20 @@ def sums_update(table_name, start_y, end_y):
     return datas
 
 
-def update_all(s_year, e_year):
+def update_all():
     '''
     根据年份，更新所有的总结表中的内容
     :param s_year:
     :param e_year:
     :return:
     '''
-    for table in sums_dict:
-        result = sums_update(table, s_year, e_year)
+    # 目前可供实时统计更新的总结表，其他都是手动完成的
+    sums_dict = ['sums_3', 'sums_13', 'sums_9', 'sums_10']
 
-        print u'总结表：', table
-        for data in result:
-            print data
+    sums_update('sums_3', 2005, 2017 )
+    sums_update('sums_13', 2010, 2017)
+    sums_update('sums_9', 2005, 2017)
+    sums_update('sums_10',2003, 2017)
+
 
 

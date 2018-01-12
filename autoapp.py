@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """Create an application instance."""
-from flask.helpers import get_debug_flag
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
+from flask.helpers import get_debug_flag
 from dataDisplay.app import create_app
 from dataDisplay.settings import DevConfig, ProdConfig
 

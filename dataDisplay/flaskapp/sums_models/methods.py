@@ -81,7 +81,10 @@ def insert(table_name, xls_data, columns):
         result = None
         cmd = 'result =' +  table_name + '.query.filter('
         for index in range(0 , len(columns)):
-            cmd +=  table_name + '.' + columns[index] + "== '" + str(data[index])+ "', "
+            # 考虑数据中包含换行符号,空格符号，小数点符号等情况
+            value = str(data[index]).replace('\n', '%').replace(' ', '%').replace('  ','%').replace('.0','%')
+            cmd +=  table_name + '.' + columns[index] + " .like('%" + value + "%'), "
+
         cmd += ').all()'
         exec(cmd)
         if not result:

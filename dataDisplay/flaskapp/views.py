@@ -22,7 +22,7 @@ def display():
     '''
 
     # 汇总表自动更新模块
-    update.update_all()
+    # update.update_all()
 
     # 科室目录模块
     # sheet_names = [u'技术经纪人']
@@ -36,7 +36,7 @@ def display():
     # results = update.update_directory()
     # print results
 
-    # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
+    insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
 
 
     # extrat_data()

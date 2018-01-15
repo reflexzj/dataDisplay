@@ -54,18 +54,21 @@ def get_table_name(name):
 
 
 def is_allowed(department, table_id):
-    dic = {'farm': 0b000001,
-           'pate': 0b000010,
-           'law_': 0b000100,
-           'cop_': 0b001000,
-           'high': 0b010000,
-           'resu': 0b100000,
-           'User': 0b111111,
-           }
-    permission = dic[table_id[:4]]
-    if permission & int(department) == permission:
-        return True
-    return False
+    try:
+        dic = {'farm': 0b000001,
+               'pate': 0b000010,
+               'law_': 0b000100,
+               'cop_': 0b001000,
+               'high': 0b010000,
+               'resu': 0b100000,
+               'User': 0b111111,
+               }
+        permission = dic[table_id[:4]]
+        if permission & int(department) == permission:
+            return True
+        return False
+    except:
+        return False
 
 
 def int2bin(x):

@@ -16,7 +16,7 @@ def get_area_dict():
             data = data.strip().split(',')
             org_name, org_column = unicode(data[0], 'utf-8'), unicode(data[1], 'utf-8')
             # print org_name, org_column
-            tabel_name = all_tables[org_name].strip()
+            tabel_name = all_tables[org_name]
             area_name = convert_column(tabel_name)[org_column]
             # print tabel_name, area_name
             area_dict.update({tabel_name:area_name})

@@ -52,7 +52,7 @@ def convert_column(table_name):
     :return: 一个中英文对照字典
     '''
     columns = show_columns()
-    column = columns[table_name.strip()]
+    column = columns[table_name]
     org_column = column[0]
     ref_column = column[1]
 

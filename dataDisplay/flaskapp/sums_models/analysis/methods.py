@@ -81,6 +81,9 @@ def data_pro(index, data, value):
     :param data:
     :return:
     '''
+    # 去除中英文空格以及换行符号
+    data = data.replace(' ', '').replace('\n', '').replace('  ', '')
+
     try:
         if index ==2:
             # 这里只调整column非空下的，级别栏对应的数据格式，缺省的在规则表中就要标准化（省级。。）
@@ -146,8 +149,6 @@ def data_pro(index, data, value):
                 else:
                     data = '20' + data
 
-        else:
-            data = data.replace(' ', '').replace('\n', '')
     except Exception,e:
         if data:
             print 'index',index,',missing_value: ',data

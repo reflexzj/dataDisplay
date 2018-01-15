@@ -96,27 +96,6 @@
                     <li>
                         <a href="/index"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 图表<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                {% if session.permission[-1]==1 %}
-                                    <a href="/charts/department1">农社科</a>
-                                {% endif %}
-                            </li>
-                            <li>
-                                {% if session.permission[-2]==1 %}
-                                    <a href="/charts/department2">专利科</a>
-                                {% endif %}
-                            </li>
-                            <li>
-                                {% if session.permission[-3]==1 %}
-                                    <a href="/charts/department3">法规科</a>
-                                {% endif %}
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
                     {% if session.permission[-1]==1 %}
                         <li>
 
@@ -476,6 +455,34 @@
                             </ul>
                         </li>
                     {% endif %}
+                    <li>
+                        <a><i class="fa fa-table fa-fw"></i> 常用数据汇总<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                {% for tmp in [['科技投入-GDP、科技经费','sums_1'],
+['科技投入-R＆D占GDP比重','sums_2'],
+['企业','sums_3'],
+['高新技术产值、新兴产业','sums_4'],
+['高新技术产值、新兴产业-阶段性统计','sums_5'],
+['区镇高新技术产值统计','sums_6'],
+['专利','sums_7'],
+['专利-阶段性统计','sums_8'],
+['人才','sums_9'],
+['研发机构','sums_10'],
+['区镇研发机构统计','sums_11'],
+['项目-申请总汇','sums_12'],
+['项目-当年统计数','sums_13'],
+['累计项目统计数','sums_14'],
+['载体','sums_15'],
+['税收-科技创新政策落实','sums_16'],
+['税收-合同','sums_17'],
+['核心数据历年比较','sums_18']] %}
+                                 <a href={{ "/summary_tables/"~tmp[1] }}>{{ tmp[0] }}</a>
+                                {% endfor %}
+
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="/search_result_accurate" target="_blank"><i class="fa fa-search fa-fw"></i> 综合查询</a>
                     </li>

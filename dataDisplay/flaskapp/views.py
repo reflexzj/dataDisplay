@@ -14,19 +14,18 @@ from dataDisplay.flaskapp.elasticsearch.my_elasticsearch import fulltext_search
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.sums.create_sums import *
+from dataDisplay.flaskapp.sums_models.analysis.models import select
 from dataDisplay.flaskapp.sums_models.interfaces import *
-from dataDisplay.flaskapp.sums_models.update import insert_db, select
+from dataDisplay.flaskapp.sums_models.models import *
 from dataDisplay.settings import Config
 from dataDisplay.user.forms import RegisterForm
 from dataDisplay.user.models import *
-from dataDisplay.user.models import Role, User
 from os import path
 from werkzeug.utils import secure_filename, redirect
 
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
 
-#
 # @blueprint.route('/test')
 # @login_required
 # def display():
@@ -88,12 +87,6 @@ def show_charts(department):
         return render_template('flaskapp/charts_3.html', datas=datas)
 
 
-@blueprint.route('/catalog/<string:table_id>')
-@login_required
-def show_catalog(table_id):
-    return render_template('flaskapp/catalog/' + table_id + '.html')
-
-
 @blueprint.route('/tables/<string:table_id>')
 @login_required
 def show_tables(table_id):
@@ -122,6 +115,18 @@ def show_tables(table_id):
     columns = [column_0, column_1]
     return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
 
+
+@blueprint.route('/summary_tables/<string:table_id>')
+@login_required
+def show_summary_tables(table_id):
+    """show dataTables"""
+    info = eval(table_id).query.all()
+    table_name = get_table_name(table_id)
+    columns = show_columns(table_id)
+    column_0 = columns[0].split(',')[1:]
+    column_1 = columns[1].split(',')[1:]
+    columns = [column_0, column_1]
+    return render_template('flaskapp/summary_tables.html', info=info, columns=columns, table_name=table_name)
 
 @blueprint.route('/search_result')
 @login_required
@@ -296,8 +301,8 @@ def upload():
         f.save(pa)
         department = current_user.department
         # print department
-        tmp = {'department1': 'farm_socity', 'department2': 'patent', 'department3': 'law', 'department4': 'cop_ex',
-               'department5': 'high_new_tec', 'department6': 'result', }
+        tmp = {'1': 'farm_socity', '2': 'patent', '4': 'law', '8': 'cop_ex',
+               '16': 'high_new_tec', '32': 'result', }
         insert_db(path=Config.APP_DIR + '/static/flaskapp/tmp', xls_name=f.filename,
                   ks_name=tmp[department])
         return redirect('/index')

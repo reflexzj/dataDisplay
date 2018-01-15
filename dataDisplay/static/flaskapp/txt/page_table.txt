@@ -12,7 +12,7 @@
 2014协同创新项目,cop_ex_11
 2015对台科技合作专项,cop_ex_12
 立项项目累计情况,law_1
-汇总表,result_1
+清单,result_1
 奖励,result_2
 大中型研发机构建设比例,result_3
 企业研发机构建设情况调查统计完成进度2014,result_4
@@ -67,6 +67,7 @@
 技术经纪人,result_53
 研发机构比重,result_54
 一企一档,result_55
+总表,extract_data_1
 国家重大专项,farm_socity_1
 国家星火计划,farm_socity_2
 省农业,farm_socity_3
@@ -80,6 +81,24 @@
 昆山社会发展项目,farm_socity_11
 昆山软科学项目,farm_socity_12
 省农业科技型企业,farm_socity_13
+科技投入-GDP、科技经费,sums_1
+科技投入-R＆D占GDP比重,sums_2
+企业,sums_3
+高新技术产值、新兴产业,sums_4
+高新技术产值、新兴产业-阶段性统计,sums_5
+区镇高新技术产值统计,sums_6
+专利,sums_7
+专利-阶段性统计,sums_8
+人才,sums_9
+研发机构,sums_10
+区镇研发机构统计,sums_11
+项目-申请总汇,sums_12
+项目-当年统计数,sums_13
+累计项目统计数,sums_14
+载体,sums_15
+税收-科技创新政策落实,sums_16
+税收-合同,sums_17
+核心数据历年比较,sums_18
 汇总表,high_new_tec_1
 2016重大科技项目引导扶持专项,high_new_tec_2
 2013年度科技部创新型产业集群试点,high_new_tec_3
@@ -101,7 +120,7 @@
 国家科技支撑,high_new_tec_19
 国家科技重大专项,high_new_tec_20
 国家科技重大专项统计,high_new_tec_21
-国家重点新产品计划 ,high_new_tec_22
+国家重点新产品计划,high_new_tec_22
 国家重点新产品计划统计,high_new_tec_23
 国家自主创新产品,high_new_tec_24
 技术先进型服务企业,high_new_tec_25

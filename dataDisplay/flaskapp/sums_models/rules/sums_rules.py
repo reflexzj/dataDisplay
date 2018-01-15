@@ -31,9 +31,13 @@ def get_sums_rule(filepath):
         sheet_name = names[1]
         table_name = 'sums' + '_' + re.findall(r'\d+', names[0])[0]
 
-        # print len(table.row_values(index+1)), table.row_values(index+1)
-        for i in range(1, len(table.row_values(index+1))):
+        # 计算对应表头的长度，不然会默认为excle中最大的表头长度
+        length = 0
+        for data in table.row_values(index+1):
+            if data.strip():
+                length += 1
 
+        for i in range(1, length):
             re_tab_name = table.row_values(index+2)[i]
             re_year_name = table.row_values(index+3)[i]
             condition_name = table.row_values(index+4)[i]

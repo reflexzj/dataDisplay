@@ -389,8 +389,8 @@ high_new_tec_29
 序号,专业镇名称,认定年份
 id,professor_tomn_name,identify_year
 high_new_tec_30
-序号,名称,认定年份,区域
-id,name,identify_year,area
+序号,名称,区域,认定年份
+id,name,area,identify_year
 high_new_tec_31
 序号,名称
 id,professor_tomn_name

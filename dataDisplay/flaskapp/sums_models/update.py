@@ -1,11 +1,17 @@
 # coding=utf-8
+'''
+    更新数据库，插入、更新
+    更新数据库，增量更新
+    汇总表数据更新
+'''
+
 from dataDisplay.flaskapp.sums_models.methods import *
 from dataDisplay.flaskapp.sums_models.rules.methods import *
 from dataDisplay.flaskapp.sums_models.directory_sum.methods import judge_table
 import datetime
 
-log_path = 'datadisplay/flaskapp/data/source_logs.txt'
-log_path2 = 'datadisplay/flaskapp/data/sums_logs.txt'
+log_path = 'datadisplay/flaskapp/sums_models/source_logs.txt'
+log_path2 = 'datadisplay/flaskapp/sums_models/calculation/sums_logs.txt'
 
 def update_db(path, xls_name):
     '''
@@ -61,7 +67,7 @@ def update_db(path, xls_name):
 
 def insert_db(path, xls_name, ks_name):
     '''
-    导入工作，数据库表只增加，不更新。可以接受同一科室下的多张更新表（一个excel文件中对应的多个sheet表）。
+    导入工作表，数据库表只增加，不更新。可以接受同一科室下的多张更新表（一个excel文件中对应的多个sheet表）。
     更新情况记录在source_logs.txt中
     :param path:
     :param xls_name:
@@ -137,27 +143,22 @@ def update_sums(table_name, sums, columns):
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     logs.write(time + ': 汇总表自动统计数据更新\n')
 
-    for e in sums:
-        # 逐条读取单个sheet中的数据，要重新构建成二位list，直接用list函数不行
-        data = []
-        data.append(e)
+    for data in sums:
+        # 定位可以更新的部分，部分属性是手工统计的, 部分结果为0，不予以更新
+        update_lists = []
+        for index in range(0, len(data)):
+            if  data[index] :
+                update_lists.append(index)
 
-        fail_lists = []
-        fail_sums = 0
-        try:
-            insert(table_name, data, columns)
-        except:
-            id = data[0]
-            try:
-                update_data(table_name, id, data, columns)
-            except:
-                fail_lists.append(id)
-                fail_sums += 1
+        new_data, new_datas, new_column = [], [], []
+        for index in update_lists:
+            new_column.append(columns[index])
+            new_data.append(data[index])
+        new_datas.append(new_data)
+
+        insert(table_name, new_datas, new_column)
+        update_data(table_name,  new_datas, new_column)
 
     logs.write('数据上传结束！\n')
-    if fail_sums:
-        logs.write('有部分数据未能完成更新，序号为：' + ','.join(fail_lists) + '\n')
-    else:
-        logs.write('所有数据更新完成！\n')
 
 

@@ -1,4 +1,8 @@
+{% if current_user.town=='2047' %}
 {% extends "flaskapp/base.html" %}
+{% else %}
+{% extends "flaskapp/base_town.html" %}
+{% endif %}
 {% block javascript %}
 <script>
     $(document).ready(function () {

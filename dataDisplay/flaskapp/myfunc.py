@@ -4,6 +4,11 @@
 # @Author  :Xuxian
 """
 
+import xlwt
+from flask.ext.login import current_user
+
+from dataDisplay.settings import Config
+
 
 def get_chart_datas(chart_id):
     pass
@@ -111,6 +116,51 @@ def cal_permission(form):
                    256 if form.town9.data == True else 0) + (512 if form.town10.data == True else 0) + (
                    1024 if form.town11.data == True else 0)
     return department, permission, town
+
+
+def generate_excel(data):
+    title = ["年度", "项目编号", "项目名称", "级别", "区镇", "经费(万元)", "截止时间", "科室"]
+    book = xlwt.Workbook(encoding='utf-8')  # 创建一个excel对象
+    sheet = book.add_sheet('Sheet1', cell_overwrite_ok=True)  # 添加一个sheet页
+    key = ["year", "id", "name", "lev", "area", "money", "deadline", "office", ]
+    for i in range(len(title)):
+        sheet.write(0, i, title[i])
+    for i in range(0, len(data)):
+        for j in range(len(title)):
+            sheet.write(i + 1, j, data[i][key[j]])
+    filename = Config.APP_DIR + '/static/flaskapp/tmp/' + current_user.username + '_search_result.xls'
+    book.save(filename)
+
+
+def generate_excel2(columns_all, data):
+    book = xlwt.Workbook(encoding='utf-8')  # 创建一个excel对象
+    sheet = book.add_sheet('Sheet1', cell_overwrite_ok=True)  # 添加一个sheet页
+    i = 0
+    for columns in columns_all:
+        table_id = columns[0]
+        table_name = columns[1]
+        column_0 = columns[2]
+        column_1 = columns[3]
+        sheet.write(i, 0, table_name)  # 表名
+        i += 1
+        j = 0
+        for name in column_0:  # 表头
+            sheet.write(i, j, name)
+            j += 1
+        i += 1
+        for line in data:  # 数据
+            if line['_index'] == table_id:
+                tmp = line['_source']
+                for j in range(len(column_1)):
+                    try:
+                        # print tmp[column_1[j]]
+                        sheet.write(i, j, tmp[column_1[j]])
+                    except:
+                        pass
+                i += 1
+        i += 1
+    filename = Config.APP_DIR + '/static/flaskapp/tmp/' + current_user.username + '_search_result_all.xls'
+    book.save(filename)
 
 
 # class ChineseTokenizer(Tokenizer):

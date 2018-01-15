@@ -12,8 +12,8 @@ def show_ks_sums(directory_name):
     :param directory_name:
     :return:
     '''
-
     all_conditions = read_ks_column('dataDisplay/flaskapp/sums_models/directory_sum/sum.xlsx')
+    # print  all_conditions
     # print directory_name, all_conditions.keys()[0]
     conditions = all_conditions[directory_name]
 
@@ -32,17 +32,23 @@ def show_ks_sums(directory_name):
         add_column = add_columns[index].strip().strip('\n')
         # print id,table_name,condition_name,condition_val,add_column
 
+        # 返回表单中对应数据库的数据集合，对应数据条目，对应的值累加计算
+        result, result1, result2 = None, 0, 0
+
         if table_name.strip():
-            cmd = 'result = ' + table_name + '.query.filter('
-            for i in range(len(condition_name)):
-                cmd += ', ' + table_name + '.' + condition_name[i] + ".like('" + condition_val[i] + "')"
-            cmd += ').all()'
-            exec (cmd)
-
-            result, result1, result2 = None, 0, 0
-
-            cmd = 'result = ' + table_name + '.query.all()'
-            exec (cmd)
+            if condition_name.strip():
+                condition_name = condition_name.split(',')
+                condition_val = condition_val.split(',')
+                cmd = 'result = ' + table_name + '.query.filter('
+                for i in range(len(condition_name)):
+                    cmd +=  table_name + '.' + condition_name[i] + ".like('" + condition_val[i] + "')" + ','
+                cmd += ').all()'
+                print index, cmd
+                exec(cmd)
+            else:
+                cmd = 'result = ' + table_name + '.query.all()'
+                print index, cmd
+                exec(cmd)
             result1 = len(result)
 
             if add_column:
@@ -57,6 +63,6 @@ def show_ks_sums(directory_name):
                         print table_name, u'中，对应', add_column, u'属性值，存在', str(val), u'不合法！'
                 result2 = result_num
 
-            results.update({id:[result1, result2]})
+        results.update({id:[result1, result2]})
 
     return results

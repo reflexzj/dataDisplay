@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, jsonify
 from flask import flash
 from flask import json
 from flask import request
+from flask import send_from_directory
 from flask import session
 from flask_login import login_required
 
@@ -12,9 +13,10 @@ from dataDisplay.flaskapp.decorators import *
 from dataDisplay.flaskapp.elasticsearch.my_elasticsearch import fulltext_search
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
-from dataDisplay.flaskapp.model_sums import *
 from dataDisplay.flaskapp.sums.create_sums import *
-from dataDisplay.flaskapp.sums_models.update import insert_db
+from dataDisplay.flaskapp.sums_models.interfaces import *
+from dataDisplay.flaskapp.sums_models.update import insert_db, select
+from dataDisplay.settings import Config
 from dataDisplay.user.forms import RegisterForm
 from dataDisplay.user.models import *
 from dataDisplay.user.models import Role, User
@@ -24,19 +26,24 @@ from werkzeug.utils import secure_filename, redirect
 blueprint = Blueprint('data', __name__, static_folder='../static/flaskapp')
 
 
-@blueprint.route('/test')
-@login_required
-def display():
-    keyword = request.args.get('keyword')
-    # print keyword
-    result = fulltext_search(keyword)
-    # print type(result)
-    lenth = result['hits']['total']
-    hits = result['hits']['hits']
-    print hits
-    # for _ in range(lenth):
-
-    return '你妹啊'
+#
+# @blueprint.route('/test')
+# @login_required
+# def display():
+# table_name = 'patent_1'
+# print table_name
+# info = data_by_area(table_name, '开发区')
+#
+# columns = show_columns(table_name)
+# column_ch = columns[0].split(',')  # 中文名
+# column_en = columns[1].split(',')  # 数据库列名
+# column_0 = column_ch[1:]
+# column_1 = column_en[1:]
+# if current_user.roles[0].permissions >= 7:
+#     column_0.append('操作')
+#     column_1.append(column_en[0])
+# columns = [column_0, column_1]
+# return render_template('flaskapp/tables.html', info=info, columns=columns, table_name=table_name)
 
 
 @blueprint.route('/summary/<string:table_name>')
@@ -93,7 +100,16 @@ def show_tables(table_id):
     """show dataTables"""
     if not is_allowed(current_user.department, table_id):
         abort(401)
-    info = eval(table_id).query.all()
+    if current_user.town != '2047':
+        town = int2bin(current_user.town)
+        area = []
+        dic = ['开发区', '高新区', '花桥', '张浦', '周市', '陆家', '巴城', '千灯', '淀山湖', '锦溪', '周庄']
+        for i in range(11):
+            if town[i] == 1:
+                area.append(dic[i])
+        info = get_area_data(table_id, area)
+    else:
+        info = eval(table_id).query.all()
     table_name = get_table_name(table_id)
     columns = show_columns(table_id)
     column_ch = columns[0].split(',')  # 中文名
@@ -113,9 +129,6 @@ def search_result():
     keyword = request.args.get('keyword')
     result = fulltext_search(keyword)
     hits = result['hits']['hits']
-    filename = '/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp/' + current_user.username + '_search_result'
-    with open(filename, 'w') as f:
-        f.write(json.dumps(hits))
     tmp = []
     for hit in hits:
         # print hit['_index']
@@ -132,6 +145,7 @@ def search_result():
             column_0 = columns[0].split(',')[1:]
             column_1 = columns[1].split(',')[1:]
             columns_all.append([table_id, table_name, column_0, column_1])
+    generate_excel2(columns_all, hits)
     return render_template('flaskapp/search_result2.html', info=hits, columns_all=columns_all)
 
 
@@ -160,9 +174,7 @@ def search_result_accurate():
             }
             search_result.append(s_data)
 
-        filename = '/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp/' + current_user.username + '_search_result'
-        with open(filename, 'w') as f:
-            f.write(json.dumps(search_result))
+        generate_excel(search_result)
         return jsonify(search_result)
     town = int2bin(current_user.town)
     return render_template('flaskapp/select.html', town=town)
@@ -206,7 +218,7 @@ def update_record(table_id, data_id):
     :return:
     """
     if table_id == 'User':
-        if current_user.roles[0].permissions >> 2 % 2 == 0 or session['permission'] != 63:
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.name != '管理员':
             abort(401)
         form = RegisterForm(request.form, csrf_enabled=False)
         department, permission, town = cal_permission(form)
@@ -249,12 +261,28 @@ def delete_record(table_id, data_id):
     if current_user.roles[0].permissions >> 3 % 2 == 0 or not is_allowed(current_user.department, table_id):
         abort(401)
     if table_id == 'User':
-        if current_user.roles[0].permissions != 15 or session['permission'] != 63:
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.name != '管理员':
             abort(401)
         Role.query.filter_by(user_id=data_id).delete()
         db.session.commit()
     delet_data(table_id, data_id)
     return redirect('/tables/' + table_id)
+
+
+@blueprint.route('/download/<string:category>')
+@login_required
+def download(category):
+    """
+    文件下载
+    :return:
+    """
+    if category == 'accurate':
+        directory = Config.APP_DIR + '/static/flaskapp/tmp/'
+        filename = current_user.username + '_search_result.xls'
+    elif category == 'all':
+        directory = Config.APP_DIR + '/static/flaskapp/tmp/'
+        filename = current_user.username + '_search_result_all.xls'
+    return send_from_directory(directory, filename, as_attachment=True)
 
 
 @csrf_protect.exempt
@@ -263,13 +291,14 @@ def delete_record(table_id, data_id):
 def upload():
     if request.method == 'POST':
         f = request.files['file']
-        pa = path.join('/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp', f.filename)
+        directory = Config.APP_DIR + '/static/flaskapp/tmp'
+        pa = path.join(directory, f.filename)
         f.save(pa)
         department = current_user.department
         # print department
         tmp = {'department1': 'farm_socity', 'department2': 'patent', 'department3': 'law', 'department4': 'cop_ex',
                'department5': 'high_new_tec', 'department6': 'result', }
-        insert_db(path='/Users/xuxian/doing/dataDisplay/dataDisplay/static/flaskapp/tmp', xls_name=f.filename,
+        insert_db(path=Config.APP_DIR + '/static/flaskapp/tmp', xls_name=f.filename,
                   ks_name=tmp[department])
         return redirect('/index')
     return render_template('flaskapp/upload.html')

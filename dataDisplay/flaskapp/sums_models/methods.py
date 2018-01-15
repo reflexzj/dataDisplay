@@ -1,6 +1,16 @@
 # coding=utf-8
+'''
+    1.数据库的增、删、改工作
+    2.个性化的查询要求
+'''
+
 from dataDisplay.flaskapp.sums_models.models import *
+from dataDisplay.flaskapp.sums_models.analysis.models import *
 from dataDisplay.flaskapp.models import *
+from dataDisplay.flaskapp.sums_models.analysis.methods import *
+from dataDisplay.flaskapp.sums_models.area_sel.methods import *
+from sqlalchemy import or_
+
 
 def delet_data(table_name, id):
     '''
@@ -9,8 +19,9 @@ def delet_data(table_name, id):
     :param id:
     :return:
     '''
-    exec(table_name+ '.query.filter_by(id = id).delete()')
+    exec (table_name + '.query.filter_by(id = id).delete()')
     db.session.commit()
+
 
 def find_id(table_name, year):
     '''
@@ -23,7 +34,6 @@ def find_id(table_name, year):
     exec ('result=' + table_name + '.query.filter_by(year = year).first()')
     id = result.id
     return id
-
 
 
 def update_data(tale_name, id, new_data, columns):
@@ -44,11 +54,9 @@ def update_data(tale_name, id, new_data, columns):
         values.append(value)
 
     values = '{' + ', '.join(values) + '}'
-    print 'values', values
-
-    exec( tale_name+'.query.filter_by(id = id).update(' + values + ')')
+    # print 'values', values
+    exec (tale_name + '.query.filter_by(id = id).update(' + values + ')')
     db.session.commit()
-
 
 
 def insert(table_name, xls_data, columns):
@@ -63,10 +71,9 @@ def insert(table_name, xls_data, columns):
     fail_lists = []
 
     for data in xls_data:
-
         content = None
         try:
-            exec('content = '+ table_name + '(columns, data)')
+            exec ('content = ' + table_name + '(columns, data)')
             db.session.add(content)
         except Exception, e:
             # models没有成功初始化
@@ -82,3 +89,88 @@ def insert(table_name, xls_data, columns):
             db.session.rollback()
 
     return fail_lists
+
+
+def extract_table(table_name, column_value):
+    '''
+    抽取数据库中对应表，对应栏目的数据
+    :param table_name:
+    :param column_value:
+    :return:
+    '''
+    columns = column_value[0]
+    values = column_value[1]
+    ks_name = column_value[2]
+    extract_list = []
+    result = None
+    exec ('result = ' + table_name + '.query.all()')
+
+    # 读取对应的table
+    for data in result:
+        temp = []
+        for index in range(len(columns)):
+            column = columns[index]
+            value = values[index]
+            if column:
+                # 考虑一个单元格中包含的多个属性
+                column = column.split(',')
+                cell = []
+                for e in column:
+                    cell.append(data_pro(index, eval('data.' + e), value))
+
+                # 多项金额要相加,其他的直接组合成一个字符串
+                if index == 6:
+                    num = 0
+                    for e in cell:
+                        try:
+                            num += float(e)
+                        except:
+                            if e:
+                                print e
+                            num += 0
+                    temp.append(str(num))
+                else:
+                    try:
+                        temp.append(','.join(cell))
+                    except:
+                        # cell = [None, None ]的情况
+                        temp.append('')
+
+            elif not column and value:
+                temp.append(value)
+
+            else:
+                temp.append('')
+
+        temp.append(ks_name)
+        temp.append(table_name + '.' + str(eval('data.id')))
+        extract_list.append(temp)
+
+    return extract_list
+
+
+def data_by_area(table_name, area_names):
+    '''
+    返回对应表下对应区镇的数据
+    :param table_name: 英文表名
+    :param area_name: 指向哪一个取证
+    :return:
+    '''
+    # 对应表示区镇的英文栏目名
+    area_dict = get_area_dict()
+    area = area_dict[table_name]
+    # print area_name
+
+    result = None
+    cmd = 'result = ' + table_name + '.query.filter( or_('
+    for area_name in area_names:
+        if area_name == unicode('高新区', 'utf-8'):
+            cmd += table_name + '.' + area + ".like('%" + unicode('高新区', 'utf-8') + "%'), " \
+                   + table_name + '.' + area + ".like('%" + unicode('玉山', 'utf-8') + "%'),"
+        else:
+            cmd += table_name + '.' + area + ".like('%" + area_name + "%'),"
+    cmd += ')).all()'
+    # print cmd
+    exec (cmd)
+
+    return result

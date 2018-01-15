@@ -1,4 +1,9 @@
 # coding=utf-8
+'''
+    1.excle的读取
+    2.数据库表的索引
+    3.中英文表头的对照
+'''
 import xlrd
 import os
 from dataDisplay.flaskapp.myfunc import *
@@ -19,6 +24,7 @@ def page_tables():
 
     return ref_names
 
+
 def show_columns():
     """
     读取存储好的文件中所有栏目表
@@ -33,17 +39,37 @@ def show_columns():
             ref_columns = data[index + 2].strip().split(',')
             columns_table.update({table_name: [org_columns, ref_columns]})
         except Exception, e:
-            print 'show_columns-----------------', table_name
+            print u'对应表的中英文表头读取失败:', table_name
             print e
 
     return columns_table
+
+
+def convert_column(table_name):
+    '''
+    对应某张表中，中文属性名对应的英文属性名
+    :param table_name:
+    :return: 一个中英文对照字典
+    '''
+    columns = show_columns()
+    column = columns[table_name.strip()]
+    org_column = column[0]
+    ref_column = column[1]
+
+    column_ref = {}
+    for index in range(len(org_column)):
+        key = unicode(org_column[index], 'utf-8')
+        column_ref.update({key: ref_column[index]})
+
+    return column_ref
+
 
 def give_sheet(path, xls_name):
     '''
     读取一个excels中所有的sheets的内容
     :param path:
     :param xls_name:
-    :return:
+    :return:excel文件中的所有的sheet名，以及对应的数据字典
     '''
     data = xlrd.open_workbook(os.path.join(path, xls_name))
 
@@ -76,7 +102,6 @@ def read_sheet(table, begin, end):
 
     for i in range(begin, end):
         data = table.row_values(i)
-
         row_data = []
         for cell in data:
             content = cell

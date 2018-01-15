@@ -103,38 +103,38 @@
                 {% if town==[1,1,1,1,1,1,1,1,1] %}
                     <option>所有</option>
                 {% endif %}
-                {% if town[1]==1 %}
+                {% if town[0]==1 %}
                     <option>开发区</option>
                 {% endif %}
-                {% if town[2]==1 %}
+                {% if town[1]==1 %}
                     <option>高新区</option>
                 {% endif %}
-                {% if town[3]==1 %}
+                {% if town[2]==1 %}
                     <option>花桥镇</option>
                 {% endif %}
-                {% if town[4]==1 %}
+                {% if town[3]==1 %}
                     <option>张浦镇</option>
                 {% endif %}
-                {% if town[5]==1 %}
+                {% if town[4]==1 %}
                     <option>周市镇</option>
                 {% endif %}
-                {% if town[6]==1 %}
+                {% if town[5]==1 %}
                     <option>陆家镇</option>
                 {% endif %}
-                {% if town[7]==1 %}
+                {% if town[6]==1 %}
                     <option>巴城镇</option>
                 {% endif %}
-                {% if town[8]==1 %}
+                {% if town[7]==1 %}
                     <option>千灯镇</option>
                 {% endif %}
-                {% if town[9]==1 %}
+                {% if town[8]==1 %}
                     <option>淀山湖</option>
                 {% endif %}
-                {% if town[10]==1 %}
+                {% if town[9]==1 %}
                 <option>锦溪镇</option>
                 {% endif %}
 
-                {% if town[11]==1 %}
+                {% if town[10]==1 %}
                     <option>周庄镇</option>
                 {% endif %}
             </select>
@@ -157,8 +157,11 @@
 
     <hr>
 
-    <div class="row text-right">
-        <button class="btn btn-primary center-block" id="submit" name="submit" type="button">查询</button>
+       <div class="row text-right center-block">
+        <div class="center-block" style="text-align: center">
+            <button class="btn btn-primary  " id="submit" name="submit" type="button"  style="margin-right: 10px" >查询</button>
+            <a  href="/download/accurate"><button class="btn btn-primary">下载</button></a>
+        </div>
     </div>
     <hr>
     <table class="table table-striped">
@@ -184,35 +187,39 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("#submit").off().on("click", function () {
-            var s1 = $("#lunch1").val();
-            var s2 = $("#lunch2").val();
-            var s3 = $("#lunch3").val();
-            var s4 = $("#lunch4").val();
-            data_tmp = {
+  $(document).ready(function () {
+
+    $("#submit").off().on("click",function(){
+
+        var s1 = $("#lunch1").val();
+        var s2 = $("#lunch2").val();
+        var s3 = $("#lunch3").val();
+        var s4 = $("#lunch4").val();
+        if (s2.length != 0 && s4.length != 0){
+
+
+        data_tmp = {
                 "year": s1,
                 "area": s2,
                 "lev": s3,
                 "office": s4
-            };
-            //        console.info(stuNo+"\n"+stuName);
-            $.post('/search_result_accurate', data_tmp, function (data) {
+                };
+//        if( s1 !=  ''):
+        //        console.info(stuNo+"\n"+stuName);
+        $.post('/sel',data_tmp ,function (data) {
 //            alert(data[1])
-                var tbody = document.getElementById('tbMain');
-                tbody.innerHTML = '';
-                for (var i = 0; i < data.length; i++) {
+            var tbody = document.getElementById('tbMain');
+            tbody.innerHTML = '';
+            for ( var i = 0;i<data.length;i++){
 
-                    var trow = getDataRow(data[i], i);
-                    tbody.appendChild(trow)
-                }
-
-
-            });
-            function getDataRow(h, i) {
+                var trow = getDataRow(data[i],i);
+                tbody.appendChild(trow)
+            }
+        });
+        function getDataRow(h,i) {
                 var row = document.createElement('tr');
                 var numCell = document.createElement('td');
-                numCell.innerHTML = i + 1;
+                numCell.innerHTML = i+1;
                 row.appendChild(numCell);
                 var yearCell = document.createElement('td');
                 yearCell.innerHTML = h.year;
@@ -240,8 +247,13 @@
                 row.appendChild(offCell);
                 return row
             }
-        });
+
+    }
+    else {
+            alert('请选择区镇和科室！')
+        }
     });
+  });
 </script>
 </body>
 </html>

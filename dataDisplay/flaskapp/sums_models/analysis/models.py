@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from dataDisplay.database import db
-from sqlalchemy import or_, and_
+
 
 def init_databse(self, columns, data):
     """
@@ -11,16 +11,16 @@ def init_databse(self, columns, data):
     :param data:
     :return:
     """
-    for index in range(len(data)):
+    for index in range(len(columns)):
         # 将缺省值做null处理
-        if str(data[index]).strip():
+        if data[index]:
             value = data[index]
         else:
-            value = None
+            value = ''
         setattr(self, columns[index], value)
 
-class Sheet_Form(db.Model):
-    __tablename__ = 'extract_data_1'
+
+class extract_data_1(db.Model):
     id = db.Column(db.INTEGER, primary_key=True)
     p_id = db.Column(db.TEXT)
     p_name = db.Column(db.TEXT)
@@ -32,27 +32,31 @@ class Sheet_Form(db.Model):
     deadline = db.Column(db.TEXT)
     category = db.Column(db.TEXT)
     ks_name = db.Column(db.TEXT)
-    ref_table = db.Column(db.TEXT)
+    ref_table = db.Column(db.VARCHAR(45), unique=True)
 
     def __repr__(self):
-        return '<Sheet_Form {}'.format(self.p_name)
+        return 'info:{}'.format(self.id)
+
+    def __init__(self, columns, data):
+        init_databse(self, columns, data)
 
 
 def select(year, lev, area, office):
-    sel_cmd = 'info = Sheet_Form.query.filter(and_('
+    info = None
+    sel_cmd = 'info = extract_data_1.query.filter('
     if year != u'' and year != u'所有':
-        year_cmd = 'Sheet_Form.year == year,'
+        year_cmd = 'extract_data_1.year == year,'
         sel_cmd += year_cmd
     if lev != u'' and lev != u'所有':
-        lev_cmd = "Sheet_Form.lev.like('%" + lev + "%'),"
+        lev_cmd = "extract_data_1.lev.like('%" + lev + "%'),"
         sel_cmd += lev_cmd
     if area != u'' and area != u'所有':
-        area_cmd = "Sheet_Form.area.like('%" + area + "%'),"
+        area_cmd = "extract_data_1.area.like('%" + area + "%'),"
         sel_cmd += area_cmd
     if office != u'' and office != u'所有':
-        off_cmd = 'Sheet_Form.ks_name == office'
+        off_cmd = 'extract_data_1.ks_name == office'
         sel_cmd += off_cmd
-    sel_cmd += ')).all()'
+    sel_cmd += ').all()'
     try:
         # u_area = unicode(area)
         # info = Sheet_Form.query.filter(and_(Sheet_Form.year == year ,Sheet_Form.lev.like('%'+lev+'%'),

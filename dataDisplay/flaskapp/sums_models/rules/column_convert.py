@@ -10,7 +10,7 @@ def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= '', opera
     '''
     获取对应sheet表,所对应的mysql数据库中的表名
     :param xls_sheet:
-    :return: str
+    :return: str,所有的都是字符串形式的（多个值','隔开）
     '''
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     logs = open(log_path, 'a')
@@ -49,8 +49,9 @@ def convert_table_name(xls_sheet, year_name, conditions_name, re_flag= '', opera
         year_ref = column_ref[year_name]
     except Exception,e:
         year_ref = ''
-        error =  xls_name + u'.xls中的' + sheet_name + '(' + table_name + ')' + u'没有对应的属性:' + year_name
-        print error
+        if year_name:
+            error =  xls_name + u'.xls中的' + sheet_name + '(' + table_name + ')' + u'没有对应的属性:' + year_name
+            print error
         # logs.write(time + 'error:'  + error + ')\n')
 
 

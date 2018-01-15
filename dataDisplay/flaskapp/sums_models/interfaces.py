@@ -1,0 +1,2 @@
+from dataDisplay.flaskapp.sums_models.analysis.creat_extrat_table import extrat_data
+from dataDisplay.flaskapp.sums_models.area_sel.area_data import get_area_data

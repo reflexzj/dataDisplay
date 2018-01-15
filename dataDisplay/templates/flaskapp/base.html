@@ -486,7 +486,7 @@
                     <li>
                         <a href="/search_result_accurate" target="_blank"><i class="fa fa-search fa-fw"></i> 综合查询</a>
                     </li>
-                    {% if (current_user.roles[0].permissions-current_user.roles[0].permissions%2)/2%2== 1 %}
+                    {% if ((current_user.roles[0].permissions-current_user.roles[0].permissions%2)/2)%2== 1 %}
                         <li>
                             <a href="/upload" target="_blank"><i class="fa fa-edit fa-fw"></i> 文件上传</a>
                         </li>

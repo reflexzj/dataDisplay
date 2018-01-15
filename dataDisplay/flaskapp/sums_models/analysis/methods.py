@@ -45,8 +45,9 @@ def extract_columns():
 
             # 将中文表名映射成英文名
             table_name = table.row_values(index)[1].replace('\n', '').strip()
+            print table_name
             table_name = get_table_name(reflect_table[ks_name], table_name)
-
+            print table_name
 
             # 将规则中的各类数据中文表头映射成对应的英文
             column_ref = convert_column(table_name)

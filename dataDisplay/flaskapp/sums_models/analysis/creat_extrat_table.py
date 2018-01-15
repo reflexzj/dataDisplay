@@ -20,11 +20,11 @@ def extrat_data():
             # print data[2]
 
         # 将数据插入到extract_data_1中去
-        # columns = 'p_id,p_name,lev,c_com,year,area,money,deadline,category,ks_name,ref_table'
-        # columns = columns.split(',')
-        # fail_lists = insert('extract_data_1', data_list, columns)
-        # miss_data.write('\n'.join(fail_lists))
-        # print table_name, u'已抽取结束'
+        columns = 'p_id,p_name,lev,c_com,year,area,money,deadline,category,ks_name,ref_table'
+        columns = columns.split(',')
+        fail_lists = insert('extract_data_1', data_list, columns)
+        miss_data.write('\n'.join(fail_lists))
+        print table_name, u'已抽取结束'
 
 
 

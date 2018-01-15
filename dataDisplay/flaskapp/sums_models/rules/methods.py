@@ -112,3 +112,18 @@ def read_sheet(table, begin, end):
     return all_datas
 
 
+def get_table_name(ks_name, table_name):
+    '''
+    根据科室的名字以及对应的sheet名，返回对应英文表名，解决sheet重名问题
+    :param ks_name: 英文映射
+    :param table_name: 中文sheet
+    :return:
+    '''
+    dict_path = 'dataDisplay/flaskapp/data/sheets_dict.txt'
+    table_dicts = open(dict_path).read().decode('utf-8')
+    exec(table_dicts)
+
+    cmd = ks_name + '[table_name]'
+    table_name = eval(cmd)
+
+    return table_name

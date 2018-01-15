@@ -6,7 +6,7 @@
 import xlrd
 import os
 import re
-from dataDisplay.flaskapp.sums_models.rules.methods import page_tables, convert_column
+from dataDisplay.flaskapp.sums_models.rules.methods import  convert_column, get_table_name
 
 def extract_columns():
     '''
@@ -15,20 +15,26 @@ def extract_columns():
     '''
     all_extract_lists = {}
 
-    # 数据库中所有表的英文名对照表
-    all_table_names = page_tables()
-
     filepath = 'dataDisplay/flaskapp/sums_models/analysis/extract'
     extract_file = {'成果科抽取.xlsx',
                     '专利科抽取.xlsx',
                     '合作交流科抽取.xlsx',
                     '法规科抽取.xlsx',
                     '高新科抽取.xlsx',
-                    '农社科抽取.xlsx'}
+                    '农社科抽取.xlsx'
+                    }
+
+    reflect_table = {'专利科': 'patent',
+                     '农社科': 'farm_socity',
+                     '合作交流科': 'cop_ex',
+                     '法规科': 'law',
+                     '成果科': 'result',
+                     '高新科': 'high_new_tec',
+                     }
 
     for file in extract_file:
         # print file
-        ks_name = unicode(file.replace('抽取.xlsx', ''), 'utf-8')
+        ks_name = file.replace('抽取.xlsx', '')
         data = xlrd.open_workbook(os.path.join(filepath , unicode(file, 'utf-8')))
         table = data.sheets()[0]
         nrows = table.nrows
@@ -37,11 +43,12 @@ def extract_columns():
             column_names = []
             column_vals = []
 
+            # 将中文表名映射成英文名
             table_name = table.row_values(index)[1].replace('\n', '').strip()
-            # print(table_name)
-            table_name = all_table_names[table_name].strip('\n')
+            table_name = get_table_name(reflect_table[ks_name], table_name)
 
-            # 将规则中的各类数据中文名映射成对应的英文
+
+            # 将规则中的各类数据中文表头映射成对应的英文
             column_ref = convert_column(table_name)
 
             for i in range(1, len(table.row_values(index + 1))):

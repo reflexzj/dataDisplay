@@ -36,10 +36,10 @@ def display():
     # results = update.update_directory()
     # print results
 
-    # insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
+    insert_db('dataDisplay/flaskapp', 'test.xlsx', 'cop_ex')
 
 
-    extrat_data()
+    # extrat_data()
 
     # dict = get_area_dict()
     # for table in dict.iterkeys():

@@ -22,8 +22,9 @@ def extrat_data():
         # 将数据插入到extract_data_1中去
         columns = 'p_id,p_name,lev,c_com,year,area,money,deadline,category,ks_name,ref_table'
         columns = columns.split(',')
-        fail_lists = insert('extract_data_1', data_list, columns)
-        miss_data.write('\n'.join(fail_lists))
+        fail_lists, duplicate_data = insert('extract_data_1', data_list, columns)
+        for data in fail_lists:
+            miss_data.write(data + '\n')
         print table_name, u'已抽取结束'
 
 

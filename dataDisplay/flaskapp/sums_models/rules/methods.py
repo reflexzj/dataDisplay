@@ -30,7 +30,7 @@ def show_columns():
     读取存储好的文件中所有栏目表
     :return: columsn_table字典，返回原始栏目名和对应的数据库中映射表名
     """
-    data = open('datadisplay/flaskapp/data/all_tables.txt', 'r').readlines()
+    data = open('dataDisplay/flaskapp/data/all_tables.txt', 'r').readlines()
     columns_table = {}
     for index in range(0, len(data), 3):
         try:

@@ -76,16 +76,18 @@ def insert(table_name, xls_data, columns):
     '''
     # 没有成功插入的数据
     fail_lists = []
+    duplicate_data = []
 
     for data in xls_data:
         result = None
         cmd = 'result =' +  table_name + '.query.filter('
         for index in range(0 , len(columns)):
             # 考虑数据中包含换行符号,空格符号，小数点符号等情况
+            if type(data[index]) == float:
+                data[index] = str(data[index])
             value = str(data[index]).replace('\n', '%').replace(' ', '%').replace('  ','%').replace('.0','%')
             if value:
                 cmd +=  table_name + '.' + columns[index] + " .like('%" + value + "%'), "
-
         cmd += ').all()'
         try:
             exec(cmd)
@@ -101,7 +103,7 @@ def insert(table_name, xls_data, columns):
                 # models没有成功初始化
                 print u'数据插入失败：', table_name, u'——', data
                 print u'属性数目：', len(columns), u' 数据列数：', len(data)
-                fail_lists.append(data)
+                fail_lists.append(','.join(data))
                 print e
 
             try:
@@ -110,7 +112,11 @@ def insert(table_name, xls_data, columns):
                 # print 'ERROR:', e
                 db.session.rollback()
 
-    return fail_lists
+        else:
+            duplicate_data.append(','.join(data[:-3]))
+            print data
+
+    return fail_lists, duplicate_data
 
 
 def extract_table(table_name, column_value):

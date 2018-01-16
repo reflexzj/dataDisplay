@@ -108,26 +108,23 @@ def insert_db(path, xls_name, ks_name):
                     raw_data.append(e)
 
             # 插入对应数据，并统计失败的项目，缩略记录到日志中
-            fail_lists = insert(ref_name, raw_data, column)
+            fail_lists, duplicate_data = insert(ref_name, raw_data, column)
             fail_sums =len(fail_lists)
-            if fail_sums:
-                logs.write('->有部分数据未能完成导入，内容为：\n ' )
-                for e in fail_lists:
-                    error_data = ''
-                    for i in range(0, 3):
-                        if type(e[i]) == float:
-                            error_data += str(e[i]) + ' '
-                        else:
-                            error_data += e[i] + ' '
-                    logs.write(' +', error_data)
+            if fail_sums or duplicate_data:
+                logs.write('->有部分数据未能完成导入，内容为：\n' )
+                logs.write('错误数据：\n')
+                logs.write('\n'.join(fail_lists))
+                logs.write('重复数据：\n')
+                logs.write('\n'.join(duplicate_data))
             else:
                 logs.write('->所有数据导入完成！\n')
 
         else:
             logs.write('->当前表，本科室无权导入！\n')
-        logs.write('------ 所有表上传结束 ------\n')
+        logs.write('\n------ 所有表上传结束 ------\n')
         logs.close()
 
+    return fail_lists, duplicate_data
 
 
 def update_sums(table_name, sums, columns):

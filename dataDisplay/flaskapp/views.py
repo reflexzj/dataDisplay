@@ -96,7 +96,7 @@ def show_tables(table_id):
     if current_user.town != '2047':
         town = int2bin(current_user.town)
         area = []
-        dic = ['开发区', '高新区', '花桥', '张浦', '周市', '陆家', '巴城', '千灯', '淀山湖', '锦溪', '周庄']
+        dic = [u'开发区', u'高新区', u'花桥', u'张浦', u'周市', u'陆家', u'巴城', u'千灯', u'淀山湖', u'锦溪', u'周庄']
         for i in range(11):
             if town[i] == 1:
                 area.append(dic[i])

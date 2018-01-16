@@ -193,7 +193,5 @@ def data_by_area(table_name, area_names):
     # print cmd
     exec (cmd)
 
-    for data in result:
-        print data
 
     return result

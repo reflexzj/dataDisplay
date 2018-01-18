@@ -133,14 +133,17 @@ def money_lev_k(id):
             area_data[11].append(i)
     for j in range(12):
         for q in area_data[j]:
-            if q.lev == u'国家':
-                res[j][0] += float(i.money)
-            elif q.lev == u'省级':
-                res[j][1] += float(i.money)
-            elif q.lev == u'苏州':
-                res[j][2] += float(i.money)
-            elif q.lev == u'昆山':
-                res[j][3] += float(i.money)
+            try:
+                if q.lev == u'国家':
+                    res[j][0] += float(i.money)
+                elif q.lev == u'省级':
+                    res[j][1] += float(i.money)
+                elif q.lev == u'苏州':
+                    res[j][2] += float(i.money)
+                elif q.lev == u'昆山':
+                    res[j][3] += float(i.money)
+            except:
+                pass
     return res
 
 

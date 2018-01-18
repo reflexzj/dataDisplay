@@ -14,7 +14,7 @@ from dataDisplay.flaskapp.elasticsearch.my_elasticsearch import fulltext_search
 from dataDisplay.flaskapp.myfunc import *
 from dataDisplay.flaskapp.models import *
 from dataDisplay.flaskapp.sums.create_sums import *
-from dataDisplay.flaskapp.sums_models.analysis.models import select
+from dataDisplay.flaskapp.sums_models.analysis.models import *
 from dataDisplay.flaskapp.sums_models.interfaces import *
 from dataDisplay.flaskapp.sums_models.models import *
 from dataDisplay.settings import Config
@@ -85,6 +85,52 @@ def show_charts(department):
         datas = [16880, 38210, 34450]
         # 获取数据
         return render_template('flaskapp/charts_3.html', datas=datas)
+
+
+@blueprint.route('/keshilist/<int:id>')
+@login_required
+def statiShow(id):
+    money_lev = money_lev_k(id)
+    pronum_area = pronum_area_lev(id)
+    money_year_area = money_area_year_lev(id)
+
+    # 各个年份下，各区镇的国家级别数据获取
+    CountryData = []
+    for i in range(13):
+        CountryData.append([])
+
+    for i in range(13):
+        for j in range(12):
+            CountryData[i].append(money_year_area[j][i][0])
+
+    #各个年份下，各区镇的省级数据获取
+    ProvinceData = []
+    for i in range(13):
+        ProvinceData.append([])
+
+    for i in range(13):
+        for j in range(12):
+            ProvinceData[i].append(money_year_area[j][i][1])
+
+    # 各个年份下，各区镇的苏州数据获取
+    SuzhouData = []
+    for i in range(13):
+        SuzhouData.append([])
+
+    for i in range(13):
+        for j in range(12):
+            SuzhouData[i].append(money_year_area[j][i][2])
+
+    # 各个年份下，各区镇的昆山数据获取
+    KunshanData = []
+    for i in range(13):
+        KunshanData.append([])
+
+    for i in range(13):
+        for j in range(12):
+            KunshanData[i].append(money_year_area[j][i][3])
+
+    return render_template("flaskapp/chartshow.html", info1=money_lev, info2=pronum_area, info3_1=CountryData, info3_2=ProvinceData, info3_3=SuzhouData, info3_4=KunshanData)
 
 
 @blueprint.route('/tables/<string:table_id>')
@@ -303,9 +349,15 @@ def upload():
         # print department
         tmp = {'1': 'farm_socity', '2': 'patent', '4': 'law', '8': 'cop_ex',
                '16': 'high_new_tec', '32': 'result', }
-        insert_db(path=Config.APP_DIR + '/static/flaskapp/tmp', xls_name=f.filename,
+        list1, list2 =insert_db(path=Config.APP_DIR + '/static/flaskapp/tmp', xls_name=f.filename,
                   ks_name=tmp[department])
-        return redirect('/index')
+
+        ret = {}
+        ret["fail"] = list1
+        ret["repeat"] = list2
+        return jsonify(ret)
+
+        # return redirect('/index')
     return render_template('flaskapp/upload.html')
 
 

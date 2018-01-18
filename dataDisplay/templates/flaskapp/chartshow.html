@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>统计表及图表分析</title>
+
+    <meta charset="utf-8">
+
+    <link href="{{ url_for('static', filename='flaskapp/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-select.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 20px;
+        }
+    </style>
+
+    <script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="{{ url_for('static', filename='flaskapp/js/echarts.js') }}"></script>
+    <script src="{{ url_for('static', filename='flaskapp/js/dataTool.js') }}"></script>
+
+    <!-- 引入Bootstrap的样式表 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <script src="{{ url_for('static', filename='flaskapp/js/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='flaskapp/js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <a class="navbar-link" href="/"><i class="fa fa-sign-out">返回</i></a>
+            <h1>
+                本科室的数据分析图表展示
+            </h1>
+            <br><br>
+            <div class="tabbable" id="tabs-188579">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a rel="nofollow" href="#panel-664667" data-toggle="tab">经费分析</a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="#panel-631274" data-toggle="tab">项目情况</a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" href="#panel-631275" data-toggle="tab">整体趋势</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane  active" id="panel-664667">
+                        <br><br>
+                        <div id="echarts_post1" style="width:900px;height:650px;"></div>
+                        <script type="text/javascript">
+                            var aft_info = {{ info1 }};
+                            var area_allmoney = [0, 0, 0, 0];
+                            for (var i = 0; i < 4; i++) {
+                                for (var j = 0; j < 12; j++) {
+                                    area_allmoney[i] += aft_info[j][i];
+                                }
+                            }
+                            //内圆数据准备
+                            var inner_r_data = [];
+                            var levname = ['国家', '省级', '苏州', '昆山'];
+                            for (var i = 0; i < 4; i++) {
+                                inner_r_data[i] = {value: area_allmoney[i], name: levname[i]};
+                            }
+
+                            //外圆数据准备
+                            var out_r_data = [];
+                            m = 0
+                            var areaname = ['市区', '高新区', '开发区', '巴城', '花桥', '周市', '千灯', '张浦', '周庄', '淀山湖', '陆家', '锦溪'];
+                            for (var i = 0; i < 4; i++) {
+                                for (var j = 0; j < 12; j++) {
+                                    out_r_data[m] = {value: aft_info[j][i], name: areaname[j]};
+                                    m++;
+                                }
+                            }
+                            var myChart = echarts.init(document.getElementById('echarts_post1'));
+                            option = {
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                                },
+                                legend: {
+                                    orient: 'vertical',
+                                    x: 'left',
+                                    data: ['国家', '省级', '苏州', '昆山', '市区', '高新区', '开发区', '巴城', '花桥', '周市', '千灯', '张浦', '周庄', '淀山湖', '陆家', '锦溪']
+                                },
+                                series: [
+                                    {
+                                        //内圆的数据处理
+                                        name: '经费总额',
+                                        type: 'pie',
+                                        selectedMode: 'single',
+                                        radius: [0, '30%'],
+
+                                        label: {
+                                            normal: {
+                                                position: 'inner'
+                                            }
+                                        },
+                                        labelLine: {
+                                            normal: {
+                                                show: false
+                                            }
+                                        },
+                                        data: inner_r_data
+                                    },
+                                    {
+                                        name: '经费总额',
+                                        type: 'pie',
+                                        radius: ['40%', '55%'],
+                                        data: out_r_data
+                                    }
+                                ]
+                            };
+                            // 使用配置项和数据显示图表
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                    <div class="tab-pane" id="panel-631274">
+                        <br><br>
+                        <div id="echarts_post2" style="width:900px;height:600px;"></div>
+                        <script type="text/javascript">
+                            var aft_info = {{ info2 }};
+                            var pronum = [];
+                            for (var i = 0; i < 4; i++) {
+                                pronum[i] = aft_info[i];
+                            }
+                            var levname = ['国家', '省级', '苏州', '昆山'];
+                            var pro_series = [];
+                            for (var i = 0; i < 4; i++) {
+                                pro_series[i] = {
+                                    name: levname[i],
+                                    type: 'line',
+                                    stack: '总量',
+                                    data: pronum[i]
+                                };
+                            }
+                            var myChart = echarts.init(document.getElementById('echarts_post2'));
+                            option = {
+                                title: {
+                                    text: ''
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: ['国家', '省级', '苏州', '昆山']
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: ['市区', '高新区', '开发区', '巴城', '花桥', '周市', '千灯', '张浦', '周庄', '淀山湖', '陆家', '锦溪']
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: pro_series
+                            };
+                            // 使用配置项和数据显示图表
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                    <div class="tab-pane" id="panel-631275">
+                        <br><br>
+                        <div id="echarts_post3" style="width:900px;height:650px;"></div>
+                        <script type="text/javascript">
+                            //构造数据块
+                            var dataFormat1 = {
+                                2017:{{ info3_1[12] }},
+                                2016:{{ info3_1[11] }},
+                                2015:{{ info3_1[10] }},
+                                2014:{{ info3_1[9] }},
+                                2013:{{ info3_1[8] }},
+                                2012:{{ info3_1[7] }},
+                                2011:{{ info3_1[6] }},
+                                2010:{{ info3_1[5] }},
+                                2009:{{ info3_1[4] }},
+                                2008:{{ info3_1[3] }},
+                                2007:{{ info3_1[2] }},
+                                2006:{{ info3_1[1] }},
+                                2005:{{ info3_1[0] }},
+                            };
+
+                            var dataFormat2 = {
+
+                                2017:{{ info3_2[12] }},
+                                2016:{{ info3_2[11]}},
+                                2015:{{ info3_2[10]}},
+                                2014:{{ info3_2[9]}},
+                                2013:{{ info3_2[8]}},
+                                2012:{{ info3_2[7]}},
+                                2011:{{ info3_2[6]}},
+                                2010:{{ info3_2[5]}},
+                                2009:{{ info3_2[4]}},
+                                2008:{{ info3_2[3]}},
+                                2007:{{ info3_2[2]}},
+                                2006:{{ info3_2[1]}},
+                                2005:{{ info3_2[0]}}
+                            };
+                            var dataFormat3 = {
+                                2017:{{ info3_3[12]}},
+                                2016:{{ info3_3[11]}},
+                                2015:{{ info3_3[10]}},
+                                2014:{{ info3_3[9]}},
+                                2013:{{ info3_3[8]}},
+                                2012:{{ info3_3[7]}},
+                                2011:{{ info3_3[6]}},
+                                2010:{{ info3_3[5]}},
+                                2009:{{ info3_3[4]}},
+                                2008:{{ info3_3[3]}},
+                                2007:{{ info3_3[2]}},
+                                2006:{{ info3_3[1]}},
+                                2005:{{ info3_3[0]}},
+                            };
+                            var dataFormat4 = {
+                                2017:{{ info3_4[12]}},
+                                2016:{{ info3_4[11]}},
+                                2015:{{ info3_4[10]}},
+                                2014:{{ info3_4[9]}},
+                                2013:{{ info3_4[8]}},
+                                2012:{{ info3_4[7]}},
+                                2011:{{ info3_4[6]}},
+                                2010:{{ info3_4[5]}},
+                                2009:{{ info3_4[4]}},
+                                2008:{{ info3_4[3]}},
+                                2007:{{ info3_4[2]}},
+                                2006:{{ info3_4[1]}},
+                                2005:{{ info3_4[0]}}
+                            };
+
+                            var dataMap = {};
+                            function dataFormatter(obj) {
+                                var pList = ['', '国家', '省级', '苏州', '昆山', '市区', '高新区', '开发区', '巴城', '花桥', '周市', '千灯', '张浦', '周庄', '淀山湖', '陆家', '锦溪'];
+                                var temp;
+                                for (var year = 2005; year <= 2017; year++) {
+                                    var max = 0;
+                                    var sum = 0;
+                                    temp = obj[year];
+                                    var l = temp.length;
+                                    for (var i = 0; i < l; i++) {
+                                        max = Math.max(max, temp[i]);
+                                        sum += temp[i];
+                                        obj[year][i] = {
+                                            name: pList[i],
+                                            value: temp[i]
+                                        }
+                                    }
+                                    obj[year + 'max'] = Math.floor(max / 100) * 100;
+                                    obj[year + 'sum'] = sum;
+                                }
+                                return obj;
+                            }
+
+
+                            dataMap.dataCountry = dataFormatter(dataFormat1);
+
+                            dataMap.dataProvince = dataFormatter(dataFormat2);
+
+                            dataMap.dataSuzhou = dataFormatter(dataFormat3);
+
+                            dataMap.dataKunshan = dataFormatter(dataFormat4);
+
+                            var myChart = echarts.init(document.getElementById('echarts_post3'));
+                            option = {
+                                baseOption: {
+                                    timeline: {
+                                        // y: 0,
+                                        axisType: 'category',
+                                        // realtime: false,
+                                        // loop: false,
+                                        autoPlay: true,
+                                        // currentIndex: 2,
+                                        playInterval: 1000,
+                                        // controlStyle: {
+                                        //     position: 'left'
+                                        // },
+                                        data: [
+                                            '2005-01-01', '2006-01-01', '2007-01-01', '2008-01-01',
+                                            '2009-01-01', '2010-01-01', '2011-01-01', '2012-01-01',
+                                            '2013-01-01', '2014-01-01', '2015-01-01', '2016-01-01',
+                                            '2017-01-01'
+                                        ],
+                                        label: {
+                                            formatter: function (s) {
+                                                return (new Date(s)).getFullYear();
+                                            }
+                                        }
+                                    },
+                                    title: {
+                                        subtext: '数据来自昆山市科技局'
+                                    },
+                                    tooltip: {},
+                                    legend: {
+                                        x: 'right',
+                                        data: ['国家级', '省级', '苏州', '昆山'],
+
+                                    },
+                                    calculable: true,
+                                    grid: {
+                                        top: 80,
+                                        bottom: 100,
+                                        tooltip: {
+                                            trigger: 'axis',
+                                            axisPointer: {
+                                                type: 'shadow',
+                                                label: {
+                                                    show: true,
+                                                    formatter: function (params) {
+                                                        return params.value.replace('\n', '');
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    xAxis: [
+                                        {
+                                            'type': 'category',
+                                            'axisLabel': {'interval': 0},
+                                            'data': [
+                                                '市区', '\n高新区', '开发区', '\n巴城', '花桥', '\n周市',
+                                                '千灯', '\n张浦', '周庄', '\n淀山湖', '陆家', '\n锦溪'
+                                            ],
+                                            splitLine: {show: false}
+                                        }
+                                    ],
+                                    yAxis: [
+                                        {
+                                            type: 'value',
+                                            name: '项目经费总额（万元）'
+                                        }
+                                    ],
+                                    series: [
+                                        {name: '国家级', type: 'bar'},
+                                        {name: '省级', type: 'bar'},
+                                        {name: '苏州', type: 'bar'},
+                                        {name: '昆山', type: 'bar'},
+
+                                        {
+                                            name: '经费占比',
+                                            type: 'pie',
+                                            center: ['75%', '35%'],
+                                            radius: '28%',
+                                            z: 100
+                                        }
+                                    ]
+                                },
+                                options: [
+                                    {
+                                        title: {text: '2005经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2005']},
+                                            {data: dataMap.dataProvince['2005']},
+                                            {data: dataMap.dataSuzhou['2005']},
+                                            {data: dataMap.dataKunshan['2005']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2005sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2005sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2005sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2005sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2006经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2006']},
+                                            {data: dataMap.dataProvince['2006']},
+                                            {data: dataMap.dataSuzhou['2006']},
+                                            {data: dataMap.dataKunshan['2006']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2006sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2006sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2006sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2006sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2007经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2007']},
+                                            {data: dataMap.dataProvince['2007']},
+                                            {data: dataMap.dataSuzhou['2007']},
+                                            {data: dataMap.dataKunshan['2007']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2007sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2007sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2007sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2007sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2008经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2008']},
+                                            {data: dataMap.dataProvince['2008']},
+                                            {data: dataMap.dataSuzhou['2008']},
+                                            {data: dataMap.dataKunshan['2008']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2008sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2008sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2008sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2008sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2009经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2009']},
+                                            {data: dataMap.dataProvince['2009']},
+                                            {data: dataMap.dataSuzhou['2009']},
+                                            {data: dataMap.dataKunshan['2009']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2009sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2009sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2009sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2009sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2010经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2010']},
+                                            {data: dataMap.dataProvince['2010']},
+                                            {data: dataMap.dataSuzhou['2010']},
+                                            {data: dataMap.dataKunshan['2010']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2010sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2010sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2010sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2010sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2011经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2011']},
+                                            {data: dataMap.dataProvince['2011']},
+                                            {data: dataMap.dataSuzhou['2011']},
+                                            {data: dataMap.dataKunshan['2011']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2011sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2011sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2011sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2011sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2012经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2012']},
+                                            {data: dataMap.dataProvince['2012']},
+                                            {data: dataMap.dataSuzhou['2012']},
+                                            {data: dataMap.dataKunshan['2012']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2012sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2012sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2012sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2012sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2013经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2013']},
+                                            {data: dataMap.dataProvince['2013']},
+                                            {data: dataMap.dataSuzhou['2013']},
+                                            {data: dataMap.dataKunshan['2013']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2013sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2013sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2013sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2013sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2014经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2014']},
+                                            {data: dataMap.dataProvince['2014']},
+                                            {data: dataMap.dataSuzhou['2014']},
+                                            {data: dataMap.dataKunshan['2014']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2014sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2014sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2014sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2014sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2015经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2015']},
+                                            {data: dataMap.dataProvince['2015']},
+                                            {data: dataMap.dataSuzhou['2015']},
+                                            {data: dataMap.dataKunshan['2015']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2015sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2015sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2015sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2015sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2016经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2016']},
+                                            {data: dataMap.dataProvince['2016']},
+                                            {data: dataMap.dataSuzhou['2016']},
+                                            {data: dataMap.dataKunshan['2016']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2016sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2016sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2016sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2016sum']}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: {text: '2017经费指标'},
+                                        series: [
+                                            {data: dataMap.dataCountry['2017']},
+                                            {data: dataMap.dataProvince['2017']},
+                                            {data: dataMap.dataSuzhou['2017']},
+                                            {data: dataMap.dataKunshan['2017']},
+
+                                            {
+                                                data: [
+                                                    {name: '国家级', value: dataMap.dataCountry['2017sum']},
+                                                    {name: '省级', value: dataMap.dataProvince['2017sum']},
+                                                    {name: '苏州', value: dataMap.dataSuzhou['2017sum']},
+                                                    {name: '昆山', value: dataMap.dataKunshan['2017sum']}
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            };
+                            // 使用配置项和数据显示图表
+                            myChart.setOption(option);
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#<div class="container">#}
+    {#	<div class="row">#}
+    {#		<div class="span12">#}
+    {#			<div class="tabbable" id="tabs-560793">#}
+    {#				<ul class="nav nav-tabs">#}
+    {#					<li class="active">#}
+    {#                        <h3>数据分析的结果陈列</h3>#}
+    {#					</li>#}
+    {#				</ul>#}
+    {#                <br>#}
+    {#                <br>#}
+    {#                <table class="table">#}
+    {#                    <tbody>#}
+    {#                        <tr>#}
+    {#                            <td>#}
+    {#                                <div id="echarts_post1" style="width:600px;height:500px;"></div>#}
+    {#                                <script type="text/javascript">#}
+    {#                                    var aft_info = {{ info1 }};#}
+    {#                                    var area_allmoney = [0,0,0,0];#}
+    {#                                    for(var i=0; i<4; i++){#}
+    {#                                        for(var j=0; j<12; j++){#}
+    {#                                            area_allmoney[i] += aft_info[j][i];#}
+    {#                                        }#}
+    {#                                    }#}
+    {#                                    //内圆数据准备#}
+    {#                                    var inner_r_data = [];#}
+    {#                                    var levname = ['国家','省级','苏州','昆山'];#}
+    {#                                    for(var i=0; i<4; i++){#}
+    {#                                        inner_r_data[i] = {value:area_allmoney[i], name:levname[i]};#}
+    {#                                    }#}
+    {##}
+    {#                                    //外圆数据准备#}
+    {#                                    var out_r_data = [];#}
+    {#                                    m = 0#}
+    {#                                    var areaname = ['市区','高新区','开发区','巴城','花桥','周市','千灯','张浦','周庄','淀山湖','陆家','锦溪'];#}
+    {#                                    for(var i=0; i<4; i++){#}
+    {#                                        for(var j=0; j<12; j++){#}
+    {#                                            out_r_data[m] = {value:aft_info[j][i], name:areaname[j]};#}
+    {#                                            m++;#}
+    {#                                         }#}
+    {#                                    }#}
+    {#                                    var myChart =echarts.init(document.getElementById('echarts_post1'));#}
+    {#                                    option = {#}
+    {#                                        tooltip: {#}
+    {#                                            trigger: 'item',#}
+    {#                                            formatter: "{a} <br/>{b}: {c} ({d}%)"#}
+    {#                                        },#}
+    {#                                        legend: {#}
+    {#                                            orient: 'vertical',#}
+    {#                                            x: 'left',#}
+    {#                                            data: ['国家', '省级', '苏州', '昆山','市区','高新区','开发区','巴城','花桥','周市','千灯','张浦','周庄','淀山湖','陆家','锦溪']#}
+    {#                                        },#}
+    {#                                        series: [#}
+    {#                                            {#}
+    {#                                                //内圆的数据处理#}
+    {#                                                name:'经费总额',#}
+    {#                                                type:'pie',#}
+    {#                                                selectedMode: 'single',#}
+    {#                                                radius: [0, '30%'],#}
+    {##}
+    {#                                                label: {#}
+    {#                                                    normal: {#}
+    {#                                                        position: 'inner'#}
+    {#                                                    }#}
+    {#                                                },#}
+    {#                                                labelLine: {#}
+    {#                                                    normal: {#}
+    {#                                                        show: false#}
+    {#                                                    }#}
+    {#                                                },#}
+    {#                                                data:#}
+    {#                                                inner_r_data#}
+    {#                                            },#}
+    {#                                            {#}
+    {#                                                name:'经费总额',#}
+    {#                                                type:'pie',#}
+    {#                                                radius: ['40%', '55%'],#}
+    {#                                                data: out_r_data#}
+    {#                                            }#}
+    {#                                        ]#}
+    {#                                    };#}
+    {#                                    // 使用配置项和数据显示图表#}
+    {#                                    myChart.setOption(option);#}
+    {#                                </script>#}
+    {#                            </td>#}
+    {#                            <td>#}
+    {#                                <div id="echarts_post2" style="width:600px;height:450px;"></div>#}
+    {#                                <script type="text/javascript">#}
+    {#                                        var aft_info = {{ info2 }};#}
+    {#                                        var pronum = [];#}
+    {#                                        for(var i=0; i<4; i++){#}
+    {#                                            pronum[i] = aft_info[i];#}
+    {#                                        }#}
+    {#                                        var levname = ['国家','省级','苏州','昆山'];#}
+    {#                                        var pro_series = [];#}
+    {#                                        for(var i=0; i<4; i++){#}
+    {#                                            pro_series[i] = {#}
+    {#                                                name: levname[i],#}
+    {#                                                type: 'line',#}
+    {#                                                stack: '总量',#}
+    {#                                                data: pronum[i]#}
+    {#                                            };#}
+    {#                                        }#}
+    {#                                        var myChart =echarts.init(document.getElementById('echarts_post2'));#}
+    {#                                        option = {#}
+    {#                                        title: {#}
+    {#                                            text: ''#}
+    {#                                        },#}
+    {#                                        tooltip: {#}
+    {#                                            trigger: 'axis'#}
+    {#                                        },#}
+    {#                                        legend: {#}
+    {#                                            data:['国家','省级','苏州','昆山']#}
+    {#                                        },#}
+    {#                                        grid: {#}
+    {#                                            left: '3%',#}
+    {#                                            right: '4%',#}
+    {#                                            bottom: '3%',#}
+    {#                                            containLabel: true#}
+    {#                                        },#}
+    {#                                        toolbox: {#}
+    {#                                            feature: {#}
+    {#                                                saveAsImage: {}#}
+    {#                                            }#}
+    {#                                        },#}
+    {#                                        xAxis: {#}
+    {#                                            type: 'category',#}
+    {#                                            boundaryGap: false,#}
+    {#                                            data: ['市区','高新区','开发区','巴城','花桥','周市','千灯','张浦','周庄','淀山湖','陆家','锦溪']#}
+    {#                                        },#}
+    {#                                        yAxis: {#}
+    {#                                            type: 'value'#}
+    {#                                        },#}
+    {#                                        series: pro_series#}
+    {#                                        };#}
+    {#                                    // 使用配置项和数据显示图表#}
+    {#                                    myChart.setOption(option);#}
+    {#                                </script>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                        <tr>#}
+    {#                            <td>#}
+    {#                                <div id="echarts_post3" style="width:900px;height:650px;"></div>#}
+    {#                                <script type="text/javascript">#}
+    {#                                    //构造数据块#}
+    {#                                    var dataFormat1 = {#}
+    {#                                        2017:{{ info3_1[12] }},#}
+    {#                                        2016:{{ info3_1[11] }},#}
+    {#                                        2015:{{ info3_1[10] }},#}
+    {#                                        2014:{{ info3_1[9] }},#}
+    {#                                        2013:{{ info3_1[8] }},#}
+    {#                                        2012:{{ info3_1[7] }},#}
+    {#                                        2011:{{ info3_1[6] }},#}
+    {#                                        2010:{{ info3_1[5] }},#}
+    {#                                        2009:{{ info3_1[4] }},#}
+    {#                                        2008:{{ info3_1[3] }},#}
+    {#                                        2007:{{ info3_1[2] }},#}
+    {#                                        2006:{{ info3_1[1] }},#}
+    {#                                        2005:{{ info3_1[0] }},#}
+    {#                                    };#}
+    {##}
+    {#                                    var dataFormat2 = {#}
+    {##}
+    {#                                        2017:{{ info3_2[12] }},#}
+    {#                                        2016:{{ info3_2[11]}},#}
+    {#                                        2015:{{ info3_2[10]}},#}
+    {#                                        2014:{{ info3_2[9]}},#}
+    {#                                        2013:{{ info3_2[8]}},#}
+    {#                                        2012:{{ info3_2[7]}},#}
+    {#                                        2011:{{ info3_2[6]}},#}
+    {#                                        2010:{{ info3_2[5]}},#}
+    {#                                        2009:{{ info3_2[4]}},#}
+    {#                                        2008:{{ info3_2[3]}},#}
+    {#                                        2007:{{ info3_2[2]}},#}
+    {#                                        2006:{{ info3_2[1]}},#}
+    {#                                        2005:{{ info3_2[0]}}#}
+    {#                                    };#}
+    {#                                    var dataFormat3 = {#}
+    {#                                        2017:{{ info3_3[12]}},#}
+    {#                                        2016:{{ info3_3[11]}},#}
+    {#                                        2015:{{ info3_3[10]}},#}
+    {#                                        2014:{{ info3_3[9]}},#}
+    {#                                        2013:{{ info3_3[8]}},#}
+    {#                                        2012:{{ info3_3[7]}},#}
+    {#                                        2011:{{ info3_3[6]}},#}
+    {#                                        2010:{{ info3_3[5]}},#}
+    {#                                        2009:{{ info3_3[4]}},#}
+    {#                                        2008:{{ info3_3[3]}},#}
+    {#                                        2007:{{ info3_3[2]}},#}
+    {#                                        2006:{{ info3_3[1]}},#}
+    {#                                        2005:{{ info3_3[0]}},#}
+    {#                                    };#}
+    {#                                    var dataFormat4 = {#}
+    {#                                        2017:{{ info3_4[12]}},#}
+    {#                                        2016:{{ info3_4[11]}},#}
+    {#                                        2015:{{ info3_4[10]}},#}
+    {#                                        2014:{{ info3_4[9]}},#}
+    {#                                        2013:{{ info3_4[8]}},#}
+    {#                                        2012:{{ info3_4[7]}},#}
+    {#                                        2011:{{ info3_4[6]}},#}
+    {#                                        2010:{{ info3_4[5]}},#}
+    {#                                        2009:{{ info3_4[4]}},#}
+    {#                                        2008:{{ info3_4[3]}},#}
+    {#                                        2007:{{ info3_4[2]}},#}
+    {#                                        2006:{{ info3_4[1]}},#}
+    {#                                        2005:{{ info3_4[0]}}#}
+    {#                                    };#}
+    {##}
+    {#                                    var dataMap = {};#}
+    {#                                    function dataFormatter(obj) {#}
+    {#                                        var pList = ['', '国家', '省级', '苏州', '昆山', '市区', '高新区', '开发区', '巴城', '花桥', '周市', '千灯', '张浦', '周庄', '淀山湖', '陆家', '锦溪'];#}
+    {#                                        var temp;#}
+    {#                                        for (var year = 2005; year <= 2017; year++) {#}
+    {#                                            var max = 0;#}
+    {#                                            var sum = 0;#}
+    {#                                            temp = obj[year];#}
+    {#                                            var l = temp.length;#}
+    {#                                            for (var i = 0; i < l; i++) {#}
+    {#                                                max = Math.max(max, temp[i]);#}
+    {#                                                sum += temp[i];#}
+    {#                                                obj[year][i] = {#}
+    {#                                                    name: pList[i],#}
+    {#                                                    value: temp[i]#}
+    {#                                                }#}
+    {#                                            }#}
+    {#                                            obj[year + 'max'] = Math.floor(max / 100) * 100;#}
+    {#                                            obj[year + 'sum'] = sum;#}
+    {#                                        }#}
+    {#                                        return obj;}#}
+    {##}
+    {##}
+    {#                                        dataMap.dataCountry = dataFormatter(dataFormat1);#}
+    {##}
+    {#                                        dataMap.dataProvince = dataFormatter(dataFormat2);#}
+    {##}
+    {#                                        dataMap.dataSuzhou = dataFormatter(dataFormat3);#}
+    {##}
+    {#                                        dataMap.dataKunshan = dataFormatter(dataFormat4);#}
+    {##}
+    {#                                        var myChart = echarts.init(document.getElementById('echarts_post3'));#}
+    {#                                        option = {#}
+    {#                                            baseOption: {#}
+    {#                                                timeline: {#}
+    {#                                                    // y: 0,#}
+    {#                                                    axisType: 'category',#}
+    {#                                                    // realtime: false,#}
+    {#                                                    // loop: false,#}
+    {#                                                    autoPlay: true,#}
+    {#                                                    // currentIndex: 2,#}
+    {#                                                    playInterval: 1000,#}
+    {#                                                    // controlStyle: {#}
+    {#                                                    //     position: 'left'#}
+    {#                                                    // },#}
+    {#                                                    data: [#}
+    {#                                                        '2005-01-01', '2006-01-01', '2007-01-01', '2008-01-01',#}
+    {#                                                        '2009-01-01', '2010-01-01', '2011-01-01', '2012-01-01',#}
+    {#                                                        '2013-01-01', '2014-01-01', '2015-01-01', '2016-01-01',#}
+    {#                                                        '2017-01-01'#}
+    {#                                                    ],#}
+    {#                                                    label: {#}
+    {#                                                        formatter: function (s) {#}
+    {#                                                            return (new Date(s)).getFullYear();#}
+    {#                                                        }#}
+    {#                                                    }#}
+    {#                                                },#}
+    {#                                                title: {#}
+    {#                                                    subtext: '数据来自昆山市科技局'#}
+    {#                                                },#}
+    {#                                                tooltip: {},#}
+    {#                                                legend: {#}
+    {#                                                    x: 'right',#}
+    {#                                                    data: ['国家级', '省级', '苏州', '昆山'],#}
+    {##}
+    {#                                                },#}
+    {#                                                calculable: true,#}
+    {#                                                grid: {#}
+    {#                                                    top: 80,#}
+    {#                                                    bottom: 100,#}
+    {#                                                    tooltip: {#}
+    {#                                                        trigger: 'axis',#}
+    {#                                                        axisPointer: {#}
+    {#                                                            type: 'shadow',#}
+    {#                                                            label: {#}
+    {#                                                                show: true,#}
+    {#                                                                formatter: function (params) {#}
+    {#                                                                    return params.value.replace('\n', '');#}
+    {#                                                                }#}
+    {#                                                            }#}
+    {#                                                        }#}
+    {#                                                    }#}
+    {#                                                },#}
+    {#                                                xAxis: [#}
+    {#                                                    {#}
+    {#                                                        'type': 'category',#}
+    {#                                                        'axisLabel': {'interval': 0},#}
+    {#                                                        'data': [#}
+    {#                                                            '市区', '\n高新区', '开发区', '\n巴城', '花桥', '\n周市',#}
+    {#                                                            '千灯', '\n张浦', '周庄', '\n淀山湖', '陆家', '\n锦溪'#}
+    {#                                                        ],#}
+    {#                                                        splitLine: {show: false}#}
+    {#                                                    }#}
+    {#                                                ],#}
+    {#                                                yAxis: [#}
+    {#                                                    {#}
+    {#                                                        type: 'value',#}
+    {#                                                        name: '项目经费总额（万元）'#}
+    {#                                                    }#}
+    {#                                                ],#}
+    {#                                                series: [#}
+    {#                                                    {name: '国家级', type: 'bar'},#}
+    {#                                                    {name: '省级', type: 'bar'},#}
+    {#                                                    {name: '苏州', type: 'bar'},#}
+    {#                                                    {name: '昆山', type: 'bar'},#}
+    {##}
+    {#                                                    {#}
+    {#                                                        name: '经费占比',#}
+    {#                                                        type: 'pie',#}
+    {#                                                        center: ['75%', '35%'],#}
+    {#                                                        radius: '28%',#}
+    {#                                                        z: 100#}
+    {#                                                    }#}
+    {#                                                ]#}
+    {#                                            },#}
+    {#                                            options: [#}
+    {#                                                {#}
+    {#                                                    title: {text: '2005经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2005']},#}
+    {#                                                        {data: dataMap.dataProvince['2005']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2005']},#}
+    {#                                                        {data: dataMap.dataKunshan['2005']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2005sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2005sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2005sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2005sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2006经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2006']},#}
+    {#                                                        {data: dataMap.dataProvince['2006']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2006']},#}
+    {#                                                        {data: dataMap.dataKunshan['2006']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2006sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2006sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2006sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2006sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2007经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2007']},#}
+    {#                                                        {data: dataMap.dataProvince['2007']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2007']},#}
+    {#                                                        {data: dataMap.dataKunshan['2007']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2007sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2007sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2007sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2007sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2008经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2008']},#}
+    {#                                                        {data: dataMap.dataProvince['2008']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2008']},#}
+    {#                                                        {data: dataMap.dataKunshan['2008']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2008sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2008sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2008sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2008sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2009经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2009']},#}
+    {#                                                        {data: dataMap.dataProvince['2009']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2009']},#}
+    {#                                                        {data: dataMap.dataKunshan['2009']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2009sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2009sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2009sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2009sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2010经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2010']},#}
+    {#                                                        {data: dataMap.dataProvince['2010']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2010']},#}
+    {#                                                        {data: dataMap.dataKunshan['2010']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2010sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2010sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2010sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2010sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2011经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2011']},#}
+    {#                                                        {data: dataMap.dataProvince['2011']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2011']},#}
+    {#                                                        {data: dataMap.dataKunshan['2011']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2011sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2011sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2011sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2011sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2012经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2012']},#}
+    {#                                                        {data: dataMap.dataProvince['2012']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2012']},#}
+    {#                                                        {data: dataMap.dataKunshan['2012']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2012sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2012sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2012sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2012sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2013经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2013']},#}
+    {#                                                        {data: dataMap.dataProvince['2013']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2013']},#}
+    {#                                                        {data: dataMap.dataKunshan['2013']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2013sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2013sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2013sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2013sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2014经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2014']},#}
+    {#                                                        {data: dataMap.dataProvince['2014']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2014']},#}
+    {#                                                        {data: dataMap.dataKunshan['2014']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2014sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2014sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2014sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2014sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2015经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2015']},#}
+    {#                                                        {data: dataMap.dataProvince['2015']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2015']},#}
+    {#                                                        {data: dataMap.dataKunshan['2015']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2015sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2015sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2015sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2015sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2016经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2016']},#}
+    {#                                                        {data: dataMap.dataProvince['2016']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2016']},#}
+    {#                                                        {data: dataMap.dataKunshan['2016']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2016sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2016sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2016sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2016sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                },#}
+    {#                                                {#}
+    {#                                                    title: {text: '2017经费指标'},#}
+    {#                                                    series: [#}
+    {#                                                        {data: dataMap.dataCountry['2017']},#}
+    {#                                                        {data: dataMap.dataProvince['2017']},#}
+    {#                                                        {data: dataMap.dataSuzhou['2017']},#}
+    {#                                                        {data: dataMap.dataKunshan['2017']},#}
+    {##}
+    {#                                                        {#}
+    {#                                                            data: [#}
+    {#                                                                {name: '国家级', value: dataMap.dataCountry['2017sum']},#}
+    {#                                                                {name: '省级', value: dataMap.dataProvince['2017sum']},#}
+    {#                                                                {name: '苏州', value: dataMap.dataSuzhou['2017sum']},#}
+    {#                                                                {name: '昆山', value: dataMap.dataKunshan['2017sum']}#}
+    {#                                                            ]#}
+    {#                                                        }#}
+    {#                                                    ]#}
+    {#                                                }#}
+    {#                                            ]#}
+    {#                                        };#}
+    {#                                        // 使用配置项和数据显示图表#}
+    {#                                        myChart.setOption(option);#}
+    {##}
+    {#                                </script>#}
+    {#                            </td>#}
+    {#                        </tr>#}
+    {#                    </tbody>#}
+    {#                </table>#}
+    {#			</div>#}
+    {#		</div>#}
+    {#	</div>#}
+</div>
+</body>
+</html>
+

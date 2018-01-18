@@ -46,7 +46,7 @@ def home():
 def logout():
     """Logout."""
     logout_user()
-    flash('You are logged out.', 'info')
+    flash('您已注销成功', 'info')
     return redirect(url_for('public.home'))
 
 

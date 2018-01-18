@@ -60,10 +60,10 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
+{#                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>#}
+{#                    </li>#}
                     <li class="divider"></li>
-                    <li><a href="{{ url_for('public.logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="{{ url_for('public.logout') }}"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -128,7 +128,7 @@
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">汇总表1</a>
+                                            <a href="/keshilist/3">统计图</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -141,6 +141,7 @@
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/tables/patent_1">立项名录</a>
+                                     <a href="/keshilist/2">统计图</a>
                                 </li>
                             </ul>
                         </li>
@@ -151,6 +152,7 @@
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/tables/law_1">立项项目累计情况</a>
+                                     <a href="/keshilist/4">统计图</a>
                                 </li>
                             </ul>
                         </li>
@@ -185,7 +187,7 @@
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">汇总表1</a>
+                                             <a href="/keshilist/1">统计图</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -326,7 +328,7 @@
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">汇总表1</a>
+                                             <a href="/keshilist/5">统计图</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -448,7 +450,7 @@
                                     <a>汇总表<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">汇总表1</a>
+                                             <a href="/keshilist/6">统计图</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -479,7 +481,7 @@
 ['核心数据历年比较','sums_18']] %}
                                  <a href={{ "/summary_tables/"~tmp[1] }}>{{ tmp[0] }}</a>
                                 {% endfor %}
-
+ <a href="/keshilist/7">统计图</a>
                             </li>
                         </ul>
                     </li>

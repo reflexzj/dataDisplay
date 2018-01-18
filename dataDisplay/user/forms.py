@@ -37,7 +37,7 @@ class RegisterForm(Form):
     password = PasswordField('密码',
                              validators=[DataRequired(), Length(min=6, max=40)])
     confirm = PasswordField('确认密码',
-                            [DataRequired(), EqualTo('password', message='Passwords must match')])
+                            [DataRequired(), EqualTo('password', message='两次输入不同')])
 
     town1 = BooleanField('周庄')
     town2 = BooleanField('锦溪')
@@ -64,7 +64,7 @@ class RegisterForm(Form):
             return False
         user = User.query.filter_by(username=self.username.data).first()
         if user:
-            self.username.errors.append('Username already registered')
+            self.username.errors.append('用户名已存在')
             return False
         # user = User.query.filter_by(email=self.email.data).first()
         # if user:

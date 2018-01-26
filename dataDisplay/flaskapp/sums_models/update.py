@@ -94,42 +94,42 @@ def insert_db(path, xls_name, ks_name):
     logs.write('------' + time + ' 新增数据导入 ------ \n')
 
     for sheet in sheet_names:
-        # try:
-        logs.write('对应sheet->' + sheet.encode('utf-8'))
-        datas = all_datas[sheet]
-        ref_name = ref_names[sheet].strip()
-        column = columns[ref_name][1]
+        try:
+            logs.write('对应sheet->' + sheet.encode('utf-8'))
+            datas = all_datas[sheet]
+            ref_name = ref_names[sheet].strip()
+            column = columns[ref_name][1]
 
-        if judge_table(ref_name, ks_name):
-            # 自动增量更新，去除数据首位的id属性（主键）
-            del column[0]
-            raw_data = []
-            for e in datas:
-                if (type(e[0]) == float) or (not e[0]):
-                    del e[0]
-                    raw_data.append(e)
+            if judge_table(ref_name, ks_name):
+                # 自动增量更新，去除数据首位的id属性（主键）
+                del column[0]
+                raw_data = []
+                for e in datas:
+                    if (type(e[0]) == float) or (not e[0]):
+                        del e[0]
+                        raw_data.append(e)
 
-            # 插入对应数据，并统计失败的项目，缩略记录到日志中
-            fail_lists, duplicate_data = insert(ref_name, raw_data, column)
-            fail_sums = len(fail_lists)
-            if fail_sums or duplicate_data:
-                logs.write('->有部分数据未能完成导入，内容为：\n')
-                logs.write('错误数据：\n')
-                logs.write('\n'.join(fail_lists))
-                logs.write('重复数据：\n')
-                logs.write('\n'.join(duplicate_data))
+                # 插入对应数据，并统计失败的项目，缩略记录到日志中
+                fail_lists, duplicate_data = insert(ref_name, raw_data, column)
+                fail_sums = len(fail_lists)
+                if fail_sums or duplicate_data:
+                    logs.write('->有部分数据未能完成导入，内容为：\n')
+                    logs.write('错误数据：\n')
+                    logs.write('\n'.join(fail_lists))
+                    logs.write('重复数据：\n')
+                    logs.write('\n'.join(duplicate_data))
+                else:
+                    logs.write('->所有数据导入完成！\n')
+                return fail_lists, duplicate_data
+
             else:
-                logs.write('->所有数据导入完成！\n')
+                logs.write('->当前表，本科室无权导入！\n')
+            logs.write('\n------ 所有表上传结束 ------\n')
+            logs.close()
+        except Exception:
+            fail_lists = ['操作失败，请检查模版']
+            duplicate_data = []
             return fail_lists, duplicate_data
-
-        else:
-            logs.write('->当前表，本科室无权导入！\n')
-        logs.write('\n------ 所有表上传结束 ------\n')
-        logs.close()
-        # except Exception:
-        #     fail_lists=['操作失败，请检查模版']
-        #     duplicate_data=[]
-        #     return fail_lists
 
 
 def update_sums(table_name, sums, columns):

@@ -215,7 +215,6 @@ def search_result_accurate():
         for i in info:
             s_data = {
                 'year': i.year,
-                'id': i.p_id,
                 'name': i.p_name,
                 'lev': i.lev,
                 'area': i.area,

@@ -269,7 +269,7 @@ def update_record(table_id, data_id):
     :return:
     """
     if table_id == 'User':
-        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.name != '管理员':
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.username != 'admin':
             abort(401)
         form = RegisterForm(request.form, csrf_enabled=False)
         department, permission, town = cal_permission(form)
@@ -312,7 +312,7 @@ def delete_record(table_id, data_id):
     if current_user.roles[0].permissions >> 3 % 2 == 0 or not is_allowed(current_user.department, table_id):
         abort(401)
     if table_id == 'User':
-        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.name != '管理员':
+        if current_user.roles[0].permissions >> 2 % 2 == 0 or current_user.username != 'admin':
             abort(401)
         Role.query.filter_by(user_id=data_id).delete()
         db.session.commit()

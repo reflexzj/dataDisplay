@@ -102,7 +102,7 @@ def insert_db(path, xls_name, ks_name):
 
         if judge_table(ref_name, ks_name):
             # 自动增量更新，去除数据首位的id属性（主键）
-            # del column[0]
+            del column[0]
             raw_data = []
             for e in datas:
                 if (type(e[0]) == float) or (not e[0]):

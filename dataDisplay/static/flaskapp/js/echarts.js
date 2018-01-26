@@ -2887,7 +2887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * @inner
 	     * @param {Array.<string>|string} types model types
-	     * @return {Object} key: {string} type, value: {Array.<Object>} models
+	     * @return {Object} key: {string} type, value: {Array.<Object>} upload_tamplate
 	     */
 	    function getComponentsByTypes(componentsMap, types) {
 	        if (!zrUtil.isArray(types)) {
@@ -3884,7 +3884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {Array.<Object>} The input.txt.
 	     */
 	    modelUtil.makeIdAndName = function (mapResult) {
-	        // We use this id to hash component models and view instances
+	        // We use this id to hash component upload_tamplate and view instances
 	        // in echarts. id can be specified by user, or auto generated.
 
 	        // The id generation rule ensures new view instance are able
@@ -53331,7 +53331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            axisId: axisModel.id,
 	            value: value,
 	            // Caustion: viewHelper.getValueLabel is actually on "view stage", which
-	            // depends that all models have been updated. So it should not be performed
+	            // depends that all upload_tamplate have been updated. So it should not be performed
 	            // here. Considering axisPointerModel used here is volatile, which is hard
 	            // to be retrieve in TooltipView, we prepare parameters here.
 	            valueLabelOpt: {

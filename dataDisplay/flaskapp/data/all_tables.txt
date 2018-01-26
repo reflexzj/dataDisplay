@@ -256,9 +256,6 @@ id,year,ks,sz,js,nation,local_opt_val,industry_opt_val,res_ipt,sz_rec_rate,sz_re
 sums_3
 序号,年份,国家火炬计划高新技术企业（家）,国家级创新型试点企业,高新技术企业（2008年以来新标准）- 认定（年度）,高新技术企业（2008年以来新标准） -有效（累计）,技术先进型服务企业（家）,省创新型企业（家）,民营科技企业（家）,科技型中小企业,国家重点新产品（个）,国家自主创新产品（个）,省高品（个）,省自主创新产品（个）,省重点新产品（个）,苏州高品（个）,软件企业（家）,软件产品（个）
 id,year,torch_com,creation_com,gxjs_identity,gxjs_effictive,advance_com,gov_creation_com,folk_com,tech_mic_com,con_imp_product,con_creation_product,gov_eff_product,gov_creation_product,gov_imp_product,sz_eff_product,soft_com,soft_product
-sums_9
-序号,年份,院士工作站-省级,院士工作站-苏州,研究生工作站（家）,国家“千人计划”-全部,国家“千人计划”-自主认定,国家万人计划,科技部人才推进计划,省创新团队-科技条线,省创新团队-全省认定数量,省创新团队-其他,省双创人才-科技条线,省双创人才-其他,姑苏人才-科技条线,姑苏人才-其他,姑苏团队,昆山双创团队（个）,昆山双创人才（位）,产学研联合项目,产学研联合体,人才贡献率,人才资源总量（万人）,每万劳动力中研发人员数,科技进步贡献率（%）,居民科学素质达标率（2年1次）
-id,year,ac_workstation_gov,ac_workstation_sz,master_ws,qianren_all,qianren_coustom,wanren,tec_plan,gov_in_team_tec,gov_in_team_all,gov_in_team_other,gov_in_person_tec,gov_in_person,gs_person_tec,gs_person_other,gs_team,ks_team,ks_person,union_project,union_base,rate_con_person,sum_person,person_research,rate_con_tec,rate_sta_civ
 sums_4
 序号,年份,工业总产值（亿元）,规模以上工业产值（亿元）,高新技术产值（亿元）,占规模以上工业总产值比重（%）,新兴产业产值（亿元）,占规模以上工业总产值比重（%）,相比上年比重（%）,高新技术产业投资（亿元）,工业投资（亿元）,高新技术产业投资占工业投资比重（%）
 id,year,industry_money,big_ind_money,high_tec_ind,big_ind_rate,new_ind_money,new_big_ind_rate,last_year_rate,high_tec_inp,industry_inp,high_tec_ind_rate
@@ -274,6 +271,9 @@ id,year,patent_apply,apl_pct,apl_creation,apl_use,apl_out,pat_num,pat_creation,p
 sums_8
 序号,时间,专利申请量,申请-PCT,申请-发明,申请-实用新型,申请-外观设计,专利授权量,授权-发明,授权-实用新型,授权-外观设计,万人发明专利拥有量,有效发明专利
 id,year,patent_apply,apl_pct,apl_creation,apl_use,apl_out,pat_num,pat_creation,pat_use,pat_out,pat_wr_num,eff_creation
+sums_9
+序号,年份,院士工作站-省级,院士工作站-苏州,研究生工作站（家）,国家“千人计划”-全部,国家“千人计划”-自主认定,国家万人计划,科技部人才推进计划,省创新团队-科技条线,省创新团队-全省认定数量,省创新团队-其他,省双创人才-科技条线,省双创人才-其他,姑苏人才-科技条线,姑苏人才-其他,姑苏团队,昆山双创团队（个）,昆山双创人才（位）,产学研联合项目,产学研联合体,人才贡献率,人才资源总量（万人）,每万劳动力中研发人员数,科技进步贡献率（%）,居民科学素质达标率（2年1次）
+id,year,ac_workstation_gov,ac_workstation_sz,master_ws,qianren_all,qianren_coustom,wanren,tec_plan,gov_in_team_tec,gov_in_team_all,gov_in_team_other,gov_in_person_tec,gov_in_person,gs_person_tec,gs_person_other,gs_team,ks_team,ks_person,union_project,union_base,rate_con_person,sum_person,person_research,rate_con_tec,rate_sta_civ
 sums_10
 序号,年份,研究生工作站（家）,院士工作站（家）-省级,院士工作站（家）-苏州,省工程技术研究中心（个）,省重点企业研发机构,省外资研发机构（家）,苏州工程技术研究中心（个）,苏州研发机构内外资（家）,苏州外资研发机构（家）,企业研究院（家）- 省级,企业研究院（家）- 苏州,重点实验室（家）- 省级,重点实验室（家）- 苏州,台资苏州外资研发机构（家）,昆山研发机构（家）,外资研发机构（家）,内资研发机构（家）
 id,year,res_ws,ac_ws_gov,ac_ws_sz,gov_res_center,gov_imp_ins,out_gov_res_ins,zs_eng_res_center,sz_res_all,sz_res_outsea,com_res_gov,com_res_sz,imp_res_gov,imp_res_sz,ins_taiwan,ks_res_ins,ins_outsea,ins_inland

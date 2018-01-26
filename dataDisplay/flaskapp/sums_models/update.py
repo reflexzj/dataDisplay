@@ -13,6 +13,7 @@ import datetime
 log_path = 'datadisplay/flaskapp/sums_models/source_logs.txt'
 log_path2 = 'datadisplay/flaskapp/sums_models/calculation/sums_logs.txt'
 
+
 def update_db(path, xls_name):
     '''
     增加、更新数据库，同时进行。
@@ -90,10 +91,11 @@ def insert_db(path, xls_name, ks_name):
 
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     logs = open(log_path, 'a')
-    logs.write('------'+time + ' 新增数据导入 ------ \n')
+    logs.write('------' + time + ' 新增数据导入 ------ \n')
 
     for sheet in sheet_names:
-        logs.write('对应sheet->' + sheet.encode('utf-8') )
+        # try:
+        logs.write('对应sheet->' + sheet.encode('utf-8'))
         datas = all_datas[sheet]
         ref_name = ref_names[sheet].strip()
         column = columns[ref_name][1]
@@ -103,15 +105,15 @@ def insert_db(path, xls_name, ks_name):
             del column[0]
             raw_data = []
             for e in datas:
-                if type(e[0]) == float:
+                if (type(e[0]) == float) or (not e[0]):
                     del e[0]
                     raw_data.append(e)
 
             # 插入对应数据，并统计失败的项目，缩略记录到日志中
             fail_lists, duplicate_data = insert(ref_name, raw_data, column)
-            fail_sums =len(fail_lists)
+            fail_sums = len(fail_lists)
             if fail_sums or duplicate_data:
-                logs.write('->有部分数据未能完成导入，内容为：\n' )
+                logs.write('->有部分数据未能完成导入，内容为：\n')
                 logs.write('错误数据：\n')
                 logs.write('\n'.join(fail_lists))
                 logs.write('重复数据：\n')
@@ -124,9 +126,10 @@ def insert_db(path, xls_name, ks_name):
             logs.write('->当前表，本科室无权导入！\n')
         logs.write('\n------ 所有表上传结束 ------\n')
         logs.close()
-
-
-
+        # except Exception:
+        #     fail_lists=['操作失败，请检查模版']
+        #     duplicate_data=[]
+        #     return fail_lists
 
 
 def update_sums(table_name, sums, columns):
@@ -146,7 +149,7 @@ def update_sums(table_name, sums, columns):
         # 定位可以更新的部分，部分属性是手工统计的, 部分结果为0，不予以更新
         update_lists = []
         for index in range(0, len(data)):
-            if  data[index] :
+            if data[index]:
                 update_lists.append(index)
 
         new_data, new_datas, new_column = [], [], []
@@ -156,8 +159,6 @@ def update_sums(table_name, sums, columns):
         new_datas.append(new_data)
 
         insert(table_name, new_datas, new_column)
-        update_data(table_name,  new_datas, new_column)
+        update_data(table_name, new_datas, new_column)
 
     logs.write('数据上传结束！\n')
-
-

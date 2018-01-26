@@ -209,7 +209,7 @@ def search_result_accurate():
         search_result = []
         year = var['year']
         area = var['area'].split(u'镇')[0]
-        lev = var['lev']
+        lev = var['lev'].split(u'级')[0]
         office = var['office']
         info = select(year, lev, area, office)
         for i in info:
@@ -220,7 +220,7 @@ def search_result_accurate():
                 'lev': i.lev,
                 'area': i.area,
                 'money': i.money,
-                'deadline': i.deadline,
+                'c_com': i.c_com,
                 'office': i.ks_name
             }
             search_result.append(s_data)
@@ -327,14 +327,19 @@ def download(category):
     文件下载
     :return:
     """
+    directory = Config.APP_DIR + '/static/flaskapp/tmp/'
     if category == 'accurate':
-        directory = Config.APP_DIR + '/static/flaskapp/tmp/'
         filename = current_user.username + '_search_result.xls'
     elif category == 'all':
-        directory = Config.APP_DIR + '/static/flaskapp/tmp/'
         filename = current_user.username + '_search_result_all.xls'
     return send_from_directory(directory, filename, as_attachment=True)
 
+
+@blueprint.route('/downloadTemplate')
+@login_required
+def download_template():
+    directory = Config.APP_DIR + '/static/flaskapp/upload_template/'
+    return send_from_directory(directory, 'template.zip', as_attachment=True)
 
 @csrf_protect.exempt
 @blueprint.route('/upload', methods=['GET', 'POST'])
@@ -346,7 +351,6 @@ def upload():
         pa = path.join(directory, f.filename)
         f.save(pa)
         department = current_user.department
-        # print department
         tmp = {'1': 'farm_socity', '2': 'patent', '4': 'law', '8': 'cop_ex',
                '16': 'high_new_tec', '32': 'result', }
         list1, list2 =insert_db(path=Config.APP_DIR + '/static/flaskapp/tmp', xls_name=f.filename,

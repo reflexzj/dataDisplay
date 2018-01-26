@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Data models"""
+"""Data upload_template"""
 
 from dataDisplay.database import db
 
@@ -17,7 +17,7 @@ def init_databse(self, columns, data):
         if str(data[index]).strip():
             value = data[index]
         else:
-            value = None
+            value = ''
         setattr(self, columns[index], value)
 
 

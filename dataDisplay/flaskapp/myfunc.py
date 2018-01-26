@@ -122,10 +122,10 @@ def cal_permission(form):
 
 
 def generate_excel(data):
-    title = ["年度", "项目编号", "项目名称", "级别", "区镇", "经费(万元)", "截止时间", "科室"]
+    title = ["年度", "项目编号", "项目名称", "级别", "区镇", "经费(万元)", "承办单位", "科室"]
     book = xlwt.Workbook(encoding='utf-8')  # 创建一个excel对象
     sheet = book.add_sheet('Sheet1', cell_overwrite_ok=True)  # 添加一个sheet页
-    key = ["year", "id", "name", "lev", "area", "money", "deadline", "office", ]
+    key = ["year", "id", "name", "lev", "area", "money", "c_com", "office", ]
     for i in range(len(title)):
         sheet.write(0, i, title[i])
     for i in range(0, len(data)):

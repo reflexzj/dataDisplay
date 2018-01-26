@@ -94,6 +94,18 @@
 .fileUploadContent .uploadBts>div .selectFileBt:hover{
     color: #DDDDDD;
 }
+.fileUploadContent .uploadBts>div .modelDownload{
+    border: none;
+    background-color: #0099FF;
+    color: #FFFFFF;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.fileUploadContent .uploadBts>div .modelDownload:hover{
+    color: #DDDDDD;
+}
 .fileUploadContent .uploadBts>div i{
     font-size: 35px;
     color: #0099FF;

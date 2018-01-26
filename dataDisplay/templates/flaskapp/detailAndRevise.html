@@ -15,10 +15,10 @@
                     {% for column in columns %}
                         <div style="margin-bottom: 0">
 
-                            <label style="padding: 7px 0 0 5px;float:left;width:160px;text-align: right">
+                            <label style="padding: 7px 0 0 5px;float:left;width:220px;text-align: right">
                                 {{ column[0].decode('utf-8') }}
                             </label>
-                            <div style="padding: 2px;margin-left: 180px">
+                            <div style="padding: 2px;margin-left: 240px">
                                 <input name="{{ column[1] }}" id="{{ column[1] }}" type="text" class="form-group" style="width: 300px;"
                                        value='{{ info[column[1]] }}'>
                             </div>
@@ -27,7 +27,7 @@
                 </form>
             </div>
             <span class="input-group-btn">
-                <p><input class="btn btn-default btn-submit" type="button" value="保存" id="data_update_btn"
+                <p><input style="margin-left: 200px" class="btn btn-default btn-submit" type="button" value="保存" id="data_update_btn"
                                 onclick="document.getElementById('data_form').submit();"></p>
 {#                <button class="btn btn-default" type="button" id="data_update_btn"#}
 {#                                onclick="document.getElementById('data_form').submit();">#}
